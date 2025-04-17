@@ -31,17 +31,17 @@ const withLayoutBasic = (Component: any) => {
         case '/property':
           title = 'Property Search';
           desc = 'We are glad to see you again!';
-          bgImage = '/img/banner/properties.png';
+          // bgImage = '/img/banner/jewelleries.jpg';
           break;
         case '/agent':
           title = 'Agents';
           desc = 'Home / For Rent';
-          bgImage = '/img/banner/agents.webp';
+          // bgImage = '/img/banner/agents.webp';
           break;
         case '/agent/detail':
           title = 'Agent Page';
           desc = 'Home / For Rent';
-          bgImage = '/img/banner/header2.svg';
+          // bgImage = '/img/banner/header2.svg';
           break;
         case '/mypage':
           title = 'my page';
@@ -51,22 +51,22 @@ const withLayoutBasic = (Component: any) => {
         case '/community':
           title = 'Community';
           desc = 'Home / For Rent';
-          bgImage = '/img/banner/header2.svg';
+          // bgImage = '/img/banner/header2.svg';
           break;
         case '/community/detail':
           title = 'Community Detail';
           desc = 'Home / For Rent';
-          bgImage = '/img/banner/header2.svg';
+          // bgImage = '/img/banner/header2.svg';
           break;
         case '/cs':
           title = 'CS';
           desc = 'We are glad to see you again!';
-          bgImage = '/img/banner/header2.svg';
+          // bgImage = '/img/banner/header2.svg';
           break;
         case '/account/join':
           title = 'Login/Signup';
           desc = 'Authentication Process';
-          bgImage = '/img/banner/header2.svg';
+          // bgImage = '/img/banner/header2.svg';
           setAuthHeader(true);
           break;
         case '/member':
@@ -93,8 +93,8 @@ const withLayoutBasic = (Component: any) => {
       return (
         <>
           <Head>
-            <title>Nestar</title>
-            <meta name={'title'} content={`Nestar`} />
+            <title>shoppe</title>
+            <meta name={'title'} content={`Shoppe`} />
           </Head>
           <Stack id="mobile-wrap">
             <Stack id={'top'}>
@@ -115,8 +115,8 @@ const withLayoutBasic = (Component: any) => {
       return (
         <>
           <Head>
-            <title>Nestar</title>
-            <meta name={'title'} content={`Nestar`} />
+            <title>shoppe</title>
+            <meta name={'title'} content={`Shoppe`} />
           </Head>
           <Stack id="pc-wrap">
             <Stack id={'top'}>

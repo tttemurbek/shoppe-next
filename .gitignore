@@ -34,7 +34,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# nestar specifiv
+# shoppe specifiv
 .vscode/
 /build
 /.idea
@@ -44,3 +44,5 @@ next-env.d.ts
 .env.development
 .env.local
 .env
+
+CHANGELOG.md
