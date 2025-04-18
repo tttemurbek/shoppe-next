@@ -8,7 +8,7 @@ import { Property } from '../../types/property/property';
 import { formatterStr } from '../../utils';
 import Moment from 'react-moment';
 import { useRouter } from 'next/router';
-import { PropertyStatus } from '../../enums/property.enum';
+import { JewelleryStatus } from '../../enums/jewellery.enum';
 
 interface PropertyCardProps {
   property: Property;
@@ -77,7 +77,7 @@ export const PropertyCard = (props: PropertyCardProps) => {
             </Typography>
           </Stack>
         </Stack>
-        {!memberPage && property.propertyStatus !== 'SOLD' && (
+        {!memberPage && property.propertyStatus !== 'RESERVED' && (
           <Menu
             anchorEl={anchorEl}
             open={open}
@@ -98,13 +98,13 @@ export const PropertyCard = (props: PropertyCardProps) => {
               },
             }}
           >
-            {property.propertyStatus === 'ACTIVE' && (
+            {property.propertyStatus === 'AVAILABLE' && (
               <>
                 <MenuItem
                   disableRipple
                   onClick={() => {
                     handleClose();
-                    updatePropertyHandler(PropertyStatus.SOLD, property?._id);
+                    updatePropertyHandler(JewelleryStatus.RESERVED, property?._id);
                   }}
                 >
                   Sold
@@ -117,7 +117,7 @@ export const PropertyCard = (props: PropertyCardProps) => {
         <Stack className="views-box">
           <Typography className="views">{property.propertyViews.toLocaleString()}</Typography>
         </Stack>
-        {!memberPage && property.propertyStatus === PropertyStatus.ACTIVE && (
+        {!memberPage && property.propertyStatus === JewelleryStatus.AVAILABLE && (
           <Stack className="action-box">
             <IconButton className="icon-button" onClick={() => pushEditProperty(property._id)}>
               <ModeIcon className="buttons" />

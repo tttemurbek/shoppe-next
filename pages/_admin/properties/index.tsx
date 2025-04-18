@@ -11,7 +11,7 @@ import TablePagination from '@mui/material/TablePagination';
 import { PropertyPanelList } from '../../../libs/components/admin/properties/PropertyList';
 import { AllPropertiesInquiry } from '../../../libs/types/property/property.input';
 import { Property } from '../../../libs/types/property/property';
-import { PropertyLocation, PropertyStatus } from '../../../libs/enums/property.enum';
+import { JewelleryLocation, JewelleryStatus } from '../../../libs/enums/jewellery.enum';
 import { sweetConfirmAlert, sweetErrorHandling } from '../../../libs/sweetAlert';
 import { PropertyUpdate } from '../../../libs/types/property/property.update';
 import { useMutation, useQuery } from '@apollo/client';
@@ -83,14 +83,14 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
     setPropertiesInquiry({ ...propertiesInquiry, page: 1, sort: 'createdAt' });
 
     switch (newValue) {
-      case 'ACTIVE':
-        setPropertiesInquiry({ ...propertiesInquiry, search: { propertyStatus: PropertyStatus.ACTIVE } });
+      case 'AVAILABLE':
+        setPropertiesInquiry({ ...propertiesInquiry, search: { propertyStatus: JewelleryStatus.AVAILABLE } });
         break;
-      case 'SOLD':
-        setPropertiesInquiry({ ...propertiesInquiry, search: { propertyStatus: PropertyStatus.SOLD } });
+      case 'RESERVED':
+        setPropertiesInquiry({ ...propertiesInquiry, search: { propertyStatus: JewelleryStatus.RESERVED } });
         break;
-      case 'DELETE':
-        setPropertiesInquiry({ ...propertiesInquiry, search: { propertyStatus: PropertyStatus.DELETE } });
+      case 'OUT_OF_STOCK':
+        setPropertiesInquiry({ ...propertiesInquiry, search: { propertyStatus: JewelleryStatus.OUT_OF_STOCK } });
         break;
       default:
         delete propertiesInquiry?.search?.propertyStatus;
@@ -127,7 +127,7 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
           sort: 'createdAt',
           search: {
             ...propertiesInquiry.search,
-            propertyLocationList: [newValue as PropertyLocation],
+            propertyLocationList: [newValue as JewelleryLocation],
           },
         });
       } else {
@@ -200,7 +200,7 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
                   <MenuItem value={'ALL'} onClick={() => searchTypeHandler('ALL')}>
                     ALL
                   </MenuItem>
-                  {Object.values(PropertyLocation).map((location: string) => (
+                  {Object.values(JewelleryLocation).map((location: string) => (
                     <MenuItem value={location} onClick={() => searchTypeHandler(location)} key={location}>
                       {location}
                     </MenuItem>

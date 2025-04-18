@@ -1,0 +1,20 @@
+export enum JewelleryType {
+  RING = 'RING',
+  NECKLACE = 'NECKLACE',
+  EARRING = 'EARRING',
+}
+
+export enum JewelleryStatus {
+  AVAILABLE = 'AVAILABLE',
+  OUT_OF_STOCK = 'OUT_OF_STOCK',
+  RESERVED = 'RESERVED',
+}
+
+export enum JewelleryLocation {
+  ONLINE_STORE = 'ONLINE_STORE',
+  BRANCH_SEOUL = 'BRANCH_SEOUL',
+  BRANCH_BUSAN = 'BRANCH_BUSAN',
+  BRANCH_DAEGU = 'BRANCH_DAEGU',
+  BRANCH_GWANGJU = 'BRANCH_GWANGJU',
+  BRANCH_JEJU = 'BRANCH_JEJU',
+}

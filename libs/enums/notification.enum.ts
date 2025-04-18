@@ -1,15 +1,15 @@
 export enum NotificationType {
-	LIKE = 'LIKE',
-	COMMENT = 'COMMENT',
+  LIKE = 'LIKE',
+  COMMENT = 'COMMENT',
 }
 
 export enum NotificationStatus {
-	WAIT = 'WAIT',
-	READ = 'READ',
+  WAIT = 'WAIT',
+  READ = 'READ',
 }
 
 export enum NotificationGroup {
-	MEMBER = 'MEMBER',
-	ARTICLE = 'ARTICLE',
-	PROPERTY = 'PROPERTY',
+  MEMBER = 'MEMBER',
+  ARTICLE = 'ARTICLE',
+  JEWELLERY = 'JEWELLERY',
 }
