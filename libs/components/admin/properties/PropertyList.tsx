@@ -86,7 +86,7 @@ const headCells: readonly HeadCell[] = [
 
 interface EnhancedTableProps {
   numSelected: number;
-  onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Data) => void;
+  onRequestSort: (event: React.MouseEvent<unknown>, jewellery: keyof Data) => void;
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
   order: Order;
   orderBy: string;
@@ -113,23 +113,23 @@ function EnhancedTableHead(props: EnhancedTableProps) {
   );
 }
 
-interface PropertyPanelListType {
+interface JewelleryPanelListType {
   properties: Jewellery[];
   anchorEl: any;
   menuIconClickHandler: any;
   menuIconCloseHandler: any;
-  updatePropertyHandler: any;
-  removePropertyHandler: any;
+  updateJewelleryHandler: any;
+  removeJewelleryHandler: any;
 }
 
-export const PropertyPanelList = (props: PropertyPanelListType) => {
+export const JewelleryPanelList = (props: JewelleryPanelListType) => {
   const {
     properties,
     anchorEl,
     menuIconClickHandler,
     menuIconCloseHandler,
-    updatePropertyHandler,
-    removePropertyHandler,
+    updateJewelleryHandler,
+    removeJewelleryHandler,
   } = props;
 
   return (
@@ -148,56 +148,56 @@ export const PropertyPanelList = (props: PropertyPanelListType) => {
             )}
 
             {properties.length !== 0 &&
-              properties.map((property: Jewellery, index: number) => {
-                const propertyImage = `${REACT_APP_API_URL}/${property?.jewelleryImages[0]}`;
+              properties.map((jewellery: Jewellery, index: number) => {
+                const jewelleryImage = `${REACT_APP_API_URL}/${jewellery?.jewelleryImages[0]}`;
 
                 return (
-                  <TableRow hover key={property?._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                    <TableCell align="left">{property._id}</TableCell>
+                  <TableRow hover key={jewellery?._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                    <TableCell align="left">{jewellery._id}</TableCell>
                     <TableCell align="left" className={'name'}>
-                      {property.jewelleryStatus === JewelleryStatus.AVAILABLE ? (
+                      {jewellery.jewelleryStatus === JewelleryStatus.AVAILABLE ? (
                         <Stack direction={'row'}>
-                          <Link href={`/property/detail?id=${property?._id}`}>
+                          <Link href={`/jewellery/detail?id=${jewellery?._id}`}>
                             <div>
-                              <Avatar alt="Remy Sharp" src={propertyImage} sx={{ ml: '2px', mr: '10px' }} />
+                              <Avatar alt="Remy Sharp" src={jewelleryImage} sx={{ ml: '2px', mr: '10px' }} />
                             </div>
                           </Link>
-                          <Link href={`/property/detail?id=${property?._id}`}>
-                            <div>{property.jewelleryTitle}</div>
+                          <Link href={`/jewellery/detail?id=${jewellery?._id}`}>
+                            <div>{jewellery.jewelleryTitle}</div>
                           </Link>
                         </Stack>
                       ) : (
                         <Stack direction={'row'}>
                           <div>
-                            <Avatar alt="Remy Sharp" src={propertyImage} sx={{ ml: '2px', mr: '10px' }} />
+                            <Avatar alt="Remy Sharp" src={jewelleryImage} sx={{ ml: '2px', mr: '10px' }} />
                           </div>
-                          <div style={{ marginTop: '10px' }}>{property.jewelleryTitle}</div>
+                          <div style={{ marginTop: '10px' }}>{jewellery.jewelleryTitle}</div>
                         </Stack>
                       )}
                     </TableCell>
-                    <TableCell align="center">{property.jewelleryPrice}</TableCell>
-                    <TableCell align="center">{property.memberData?.memberNick}</TableCell>
-                    <TableCell align="center">{property.jewelleryLocation}</TableCell>
-                    <TableCell align="center">{property.jewelleryType}</TableCell>
+                    <TableCell align="center">{jewellery.jewelleryPrice}</TableCell>
+                    <TableCell align="center">{jewellery.memberData?.memberNick}</TableCell>
+                    <TableCell align="center">{jewellery.jewelleryLocation}</TableCell>
+                    <TableCell align="center">{jewellery.jewelleryType}</TableCell>
                     <TableCell align="center">
-                      {property.jewelleryStatus === JewelleryStatus.OUT_OF_STOCK && (
+                      {jewellery.jewelleryStatus === JewelleryStatus.OUT_OF_STOCK && (
                         <Button
                           variant="outlined"
                           sx={{ p: '3px', border: 'none', ':hover': { border: '1px solid #000000' } }}
-                          onClick={() => removePropertyHandler(property._id)}
+                          onClick={() => removeJewelleryHandler(jewellery._id)}
                         >
                           <DeleteIcon fontSize="small" />
                         </Button>
                       )}
 
-                      {property.jewelleryStatus === JewelleryStatus.RESERVED && (
-                        <Button className={'badge warning'}>{property.jewelleryStatus}</Button>
+                      {jewellery.jewelleryStatus === JewelleryStatus.RESERVED && (
+                        <Button className={'badge warning'}>{jewellery.jewelleryStatus}</Button>
                       )}
 
-                      {property.jewelleryStatus === JewelleryStatus.AVAILABLE && (
+                      {jewellery.jewelleryStatus === JewelleryStatus.AVAILABLE && (
                         <>
                           <Button onClick={(e: any) => menuIconClickHandler(e, index)} className={'badge success'}>
-                            {property.jewelleryStatus}
+                            {jewellery.jewelleryStatus}
                           </Button>
 
                           <Menu
@@ -212,10 +212,12 @@ export const PropertyPanelList = (props: PropertyPanelListType) => {
                             sx={{ p: 1 }}
                           >
                             {Object.values(JewelleryStatus)
-                              .filter((ele) => ele !== property.jewelleryStatus)
+                              .filter((ele) => ele !== jewellery.jewelleryStatus)
                               .map((status: string) => (
                                 <MenuItem
-                                  onClick={() => updatePropertyHandler({ _id: property._id, jewelleryStatus: status })}
+                                  onClick={() =>
+                                    updateJewelleryHandler({ _id: jewellery._id, jewelleryStatus: status })
+                                  }
                                   key={status}
                                 >
                                   <Typography variant={'subtitle1'} component={'span'}>

@@ -11,14 +11,14 @@ import { useRouter } from 'next/router';
 import { JewelleryStatus } from '../../enums/jewellery.enum';
 
 interface PropertyCardProps {
-  property: Property;
+  jewellery: Property;
   deletePropertyHandler?: any;
   memberPage?: boolean;
   updatePropertyHandler?: any;
 }
 
-export const PropertyCard = (props: PropertyCardProps) => {
-  const { property, deletePropertyHandler, memberPage, updatePropertyHandler } = props;
+export const JewelleryCard = (props: PropertyCardProps) => {
+  const { jewellery, deletePropertyHandler, memberPage, updatePropertyHandler } = props;
   const device = useDeviceDetect();
   const router = useRouter();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -29,14 +29,14 @@ export const PropertyCard = (props: PropertyCardProps) => {
     console.log('+pushEditProperty: ', id);
     await router.push({
       pathname: '/mypage',
-      query: { category: 'addProperty', propertyId: id },
+      query: { category: 'addProperty', jewelleryId: id },
     });
   };
 
   const pushPropertyDetail = async (id: string) => {
     if (memberPage)
       await router.push({
-        pathname: '/property/detail',
+        pathname: '/jewellery/detail',
         query: { id: id },
       });
     else return;
@@ -54,30 +54,30 @@ export const PropertyCard = (props: PropertyCardProps) => {
     return <div>MOBILE PROPERTY CARD</div>;
   } else
     return (
-      <Stack className="property-card-box">
-        <Stack className="image-box" onClick={() => pushPropertyDetail(property?._id)}>
-          <img src={`${process.env.REACT_APP_API_URL}/${property.jewelleryImages[0]}`} alt="" />
+      <Stack className="jewellery-card-box">
+        <Stack className="image-box" onClick={() => pushPropertyDetail(jewellery?._id)}>
+          <img src={`${process.env.REACT_APP_API_URL}/${jewellery.jewelleryImages[0]}`} alt="" />
         </Stack>
-        <Stack className="information-box" onClick={() => pushPropertyDetail(property?._id)}>
-          <Typography className="name">{property.jewelleryTitle}</Typography>
-          <Typography className="address">{property.jewelleryAddress}</Typography>
+        <Stack className="information-box" onClick={() => pushPropertyDetail(jewellery?._id)}>
+          <Typography className="name">{jewellery.jewelleryTitle}</Typography>
+          <Typography className="address">{jewellery.jewelleryAddress}</Typography>
           <Typography className="price">
-            <strong>${formatterStr(property?.jewelleryPrice)}</strong>
+            <strong>${formatterStr(jewellery?.jewelleryPrice)}</strong>
           </Typography>
         </Stack>
         <Stack className="date-box">
           <Typography className="date">
-            <Moment format="DD MMMM, YYYY">{property.createdAt}</Moment>
+            <Moment format="DD MMMM, YYYY">{jewellery.createdAt}</Moment>
           </Typography>
         </Stack>
         <Stack className="status-box">
           <Stack className="coloured-box" sx={{ background: '#E5F0FD' }} onClick={handleClick}>
             <Typography className="status" sx={{ color: '#3554d1' }}>
-              {property.jewelleryStatus}
+              {jewellery.jewelleryStatus}
             </Typography>
           </Stack>
         </Stack>
-        {!memberPage && property.jewelleryStatus !== 'RESERVED' && (
+        {!memberPage && jewellery.jewelleryStatus !== 'RESERVED' && (
           <Menu
             anchorEl={anchorEl}
             open={open}
@@ -98,13 +98,13 @@ export const PropertyCard = (props: PropertyCardProps) => {
               },
             }}
           >
-            {property.jewelleryStatus === 'AVAILABLE' && (
+            {jewellery.jewelleryStatus === 'AVAILABLE' && (
               <>
                 <MenuItem
                   disableRipple
                   onClick={() => {
                     handleClose();
-                    updatePropertyHandler(JewelleryStatus.RESERVED, property?._id);
+                    updatePropertyHandler(JewelleryStatus.RESERVED, jewellery?._id);
                   }}
                 >
                   Sold
@@ -115,14 +115,14 @@ export const PropertyCard = (props: PropertyCardProps) => {
         )}
 
         <Stack className="views-box">
-          <Typography className="views">{property.jewelleryViews.toLocaleString()}</Typography>
+          <Typography className="views">{jewellery.jewelleryViews.toLocaleString()}</Typography>
         </Stack>
-        {!memberPage && property.jewelleryStatus === JewelleryStatus.AVAILABLE && (
+        {!memberPage && jewellery.jewelleryStatus === JewelleryStatus.AVAILABLE && (
           <Stack className="action-box">
-            <IconButton className="icon-button" onClick={() => pushEditProperty(property._id)}>
+            <IconButton className="icon-button" onClick={() => pushEditProperty(jewellery._id)}>
               <ModeIcon className="buttons" />
             </IconButton>
-            <IconButton className="icon-button" onClick={() => deletePropertyHandler(property._id)}>
+            <IconButton className="icon-button" onClick={() => deletePropertyHandler(jewellery._id)}>
               <DeleteIcon className="buttons" />
             </IconButton>
           </Stack>

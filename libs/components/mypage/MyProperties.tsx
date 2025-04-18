@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { NextPage } from 'next';
 import { Pagination, Stack, Typography } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import { PropertyCard } from './PropertyCard';
+import { JewelleryCard } from './JewelleryCard';
 import { Jewellery } from '../../types/jewellery/jewellery';
 import { AgentPropertiesInquiry } from '../../types/jewellery/jewellery.input';
 import { T } from '../../types/common';
@@ -134,9 +134,9 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
                 <p>No Property found!</p>
               </div>
             ) : (
-              agentProperties.map((property: Jewellery) => {
+              agentProperties.map((jewellery: Jewellery) => {
                 return (
-                  <PropertyCard
+                  <JewelleryCard
                     property={property}
                     deletePropertyHandler={deletePropertyHandler}
                     updatePropertyHandler={updatePropertyHandler}

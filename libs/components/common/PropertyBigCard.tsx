@@ -4,90 +4,90 @@ import IconButton from '@mui/material/IconButton';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Jewellery } from '../../types/jewellery/jewellery';
-import { REACT_APP_API_URL, topPropertyRank } from '../../config';
+import { REACT_APP_API_URL, topJewelleryRank } from '../../config';
 import { formatterStr } from '../../utils';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import { useRouter } from 'next/router';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 
-interface PropertyBigCardProps {
-  property: Jewellery;
-  likePropertyHandler?: any;
+interface JewelleryBigCardProps {
+  jewellery: Jewellery;
+  likeJewelleryHandler?: any;
 }
 
-const PropertyBigCard = (props: PropertyBigCardProps) => {
-  const { property, likePropertyHandler } = props;
+const JewelleryBigCard = (props: JewelleryBigCardProps) => {
+  const { jewellery, likeJewelleryHandler } = props;
   const device = useDeviceDetect();
   const user = useReactiveVar(userVar);
   const router = useRouter();
 
   /** HANDLERS **/
-  const goPropertyDetatilPage = (propertyId: string) => {
-    router.push(`/property/detail?id=${propertyId}`);
+  const goJewelleryDetatilPage = (jewelleryId: string) => {
+    router.push(`/jewellery/detail?id=${jewelleryId}`);
   };
 
   if (device === 'mobile') {
     return <div>APARTMEND BIG CARD</div>;
   } else {
     return (
-      <Stack className="property-big-card-box" onClick={() => goPropertyDetatilPage(property?._id)}>
+      <Stack className="property-big-card-box" onClick={() => goJewelleryDetatilPage(jewellery?._id)}>
         <Box
           component={'div'}
           className={'card-img'}
-          style={{ backgroundImage: `url(${REACT_APP_API_URL}/${property?.jewelleryImages?.[0]})` }}
+          style={{ backgroundImage: `url(${REACT_APP_API_URL}/${jewellery?.jewelleryImages?.[0]})` }}
         >
-          {property && property?.jewelleryRank >= topPropertyRank && (
+          {jewellery && jewellery?.jewelleryRank >= topJewelleryRank && (
             <div className={'status'}>
               <img src="/img/icons/electricity.svg" alt="" />
               <span>top</span>
             </div>
           )}
 
-          <div className={'price'}>${formatterStr(property?.jewelleryPrice)}</div>
+          <div className={'price'}>${formatterStr(jewellery?.jewelleryPrice)}</div>
         </Box>
         <Box component={'div'} className={'info'}>
-          <strong className={'title'}>{property?.jewelleryTitle}</strong>
-          <p className={'desc'}>{property?.jewelleryAddress}</p>
+          <strong className={'title'}>{jewellery?.jewelleryTitle}</strong>
+          <p className={'desc'}>{jewellery?.jewelleryAddress}</p>
           <div className={'options'}>
             <div>
               <img src="/img/icons/bed.svg" alt="" />
-              <span>{property?.propertyBeds} bed</span>
+              <span>{jewellery?.propertyBeds} bed</span>
             </div>
             <div>
               <img src="/img/icons/room.svg" alt="" />
-              <span>{property?.propertyRooms} rooms</span>
+              <span>{jewellery?.propertyRooms} rooms</span>
             </div>
             <div>
               <img src="/img/icons/expand.svg" alt="" />
-              <span>{property?.propertySquare} m2</span>
+              <span>{jewellery?.propertySquare} m2</span>
             </div>
           </div>
           <Divider sx={{ mt: '15px', mb: '17px' }} />
           <div className={'bott'}>
             <div>
-              {property?.jewelleryRent ? <p>Rent</p> : <span>Rent</span>}
-              {property?.jewelleryBarter ? <p>Barter</p> : <span>Barter</span>}
+              {jewellery?.jewelleryRent ? <p>Rent</p> : <span>Rent</span>}
+              {jewellery?.jewelleryBarter ? <p>Barter</p> : <span>Barter</span>}
             </div>
             <div className="buttons-box">
               <IconButton color={'default'}>
                 <RemoveRedEyeIcon />
               </IconButton>
-              <Typography className="view-cnt">{property?.jewelleryViews}</Typography>
+              <Typography className="view-cnt">{jewellery?.jewelleryViews}</Typography>
               <IconButton
                 color={'default'}
                 onClick={(e: any) => {
                   e.stopPropagation();
-                  likePropertyHandler(user, property?._id);
+                  likeJewelleryHandler(user, jewellery?._id);
                 }}
               >
-                {property?.meLiked && property?.meLiked[0]?.myFavorite ? (
+                {jewellery?.meLiked && jewellery?.meLiked[0]?.myFavorite ? (
                   <FavoriteIcon style={{ color: 'red' }} />
                 ) : (
                   <FavoriteIcon />
                 )}
               </IconButton>
-              <Typography className="view-cnt">{property?.jewelleryLikes}</Typography>
+              <Typography className="view-cnt">{jewellery?.jewelleryLikes}</Typography>
             </div>
           </div>
         </Box>
@@ -96,4 +96,4 @@ const PropertyBigCard = (props: PropertyBigCardProps) => {
   }
 };
 
-export default PropertyBigCard;
+export default JewelleryBigCard;

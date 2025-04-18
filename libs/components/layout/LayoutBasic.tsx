@@ -125,15 +125,17 @@ const withLayoutBasic = (Component: any) => {
 
             <Stack
               className={`header-basic ${authHeader && 'auth'}`}
-              style={{
-                backgroundImage: `url(${memoizedValues.bgImage})`,
-                backgroundSize: 'cover',
-                boxShadow: 'inset 10px 40px 150px 40px rgb(24 22 36)',
-              }}
+              style={
+                {
+                  //  backgroundImage: `url(${memoizedValues.bgImage})`,
+                  // backgroundSize: 'cover',
+                  // boxShadow: 'inset 10px 40px 150px 40px rgb(24 22 36)',
+                }
+              }
             >
-              <Stack className={'container'}>
-                <strong>{t(memoizedValues.title)}</strong>
-                <span>{t(memoizedValues.desc)}</span>
+              <Stack className={'container'} sx={'height: 20px' }>
+                {/* <strong>{t(memoizedValues.title)}</strong> */}
+                {/* <span>{t(memoizedValues.desc)}</span> */}
               </Stack>
             </Stack>
 

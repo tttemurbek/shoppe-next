@@ -6,7 +6,7 @@ import { Autoplay, Navigation, Pagination } from 'swiper';
 import WestIcon from '@mui/icons-material/West';
 import EastIcon from '@mui/icons-material/East';
 import PopularPropertyCard from './PopularPropertyCard';
-import { Property } from '../../types/jewellery/jewellery';
+import { Jewellery } from '../../types/jewellery/jewellery';
 import Link from 'next/link';
 import { PropertiesInquiry } from '../../types/jewellery/jewellery.input';
 import { GET_JEWELLERIES } from '../../../apollo/user/query';
@@ -20,7 +20,7 @@ interface PopularPropertiesProps {
 const PopularProperties = (props: PopularPropertiesProps) => {
   const { initialInput } = props;
   const device = useDeviceDetect();
-  const [popularProperties, setPopularProperties] = useState<Property[]>([]);
+  const [popularProperties, setPopularProperties] = useState<Jewellery[]>([]);
 
   /** APOLLO REQUESTS **/
 
@@ -50,16 +50,16 @@ const PopularProperties = (props: PopularPropertiesProps) => {
           </Stack>
           <Stack className={'card-box'}>
             <Swiper
-              className={'popular-property-swiper'}
+              className={'popular-jewellery-swiper'}
               slidesPerView={'auto'}
               centeredSlides={true}
               spaceBetween={25}
               modules={[Autoplay]}
             >
-              {popularProperties.map((property: Property) => {
+              {popularProperties.map((jewellery: Jewellery) => {
                 return (
-                  <SwiperSlide key={property._id} className={'popular-property-slide'}>
-                    <PopularPropertyCard property={property} />
+                  <SwiperSlide key={jewellery._id} className={'popular-jewellery-slide'}>
+                    <PopularPropertyCard jewellery={jewellery} />
                   </SwiperSlide>
                 );
               })}
@@ -79,7 +79,7 @@ const PopularProperties = (props: PopularPropertiesProps) => {
             </Box>
             <Box component={'div'} className={'right'}>
               <div className={'more-box'}>
-                <Link href={'/property'}>
+                <Link href={'/jewellery'}>
                   <span>See All Categories</span>
                 </Link>
                 <img src="/img/icons/rightup.svg" alt="" />
@@ -88,7 +88,7 @@ const PopularProperties = (props: PopularPropertiesProps) => {
           </Stack>
           <Stack className={'card-box'}>
             <Swiper
-              className={'popular-property-swiper'}
+              className={'popular-jewellery-swiper'}
               slidesPerView={'auto'}
               spaceBetween={25}
               modules={[Autoplay, Navigation, Pagination]}
@@ -100,10 +100,10 @@ const PopularProperties = (props: PopularPropertiesProps) => {
                 el: '.swiper-popular-pagination',
               }}
             >
-              {popularProperties.map((property: Property) => {
+              {popularProperties.map((jewellery: Jewellery) => {
                 return (
-                  <SwiperSlide key={property._id} className={'popular-property-slide'}>
-                    <PopularPropertyCard property={property} />
+                  <SwiperSlide key={jewellery._id} className={'popular-jewellery-slide'}>
+                    <PopularPropertyCard jewellery={jewellery} />
                   </SwiperSlide>
                 );
               })}

@@ -168,7 +168,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
     }
   };
 
-  const likePropertyHandler = async (user: any, id: string) => {
+  const likeJewelleryHandler = async (user: any, id: string) => {
     try {
       if (!id) return;
       if (!user._id) throw new Error(Messages.error2);
@@ -181,7 +181,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 
       await sweetTopSmallSuccessAlert('success', 800);
     } catch (err: any) {
-      console.log('ERROR, likePropertyHandler:', err.message);
+      console.log('ERROR, likeJewelleryHandler:', err.message);
       sweetMixinErrorAlert(err.message).then();
     }
   };
@@ -207,13 +207,13 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
           </Stack>
           <Stack className={'agent-home-list'}>
             <Stack className={'card-wrap'}>
-              {agentProperties.map((property: Property) => {
+              {agentProperties.map((jewellery: Property) => {
                 return (
                   <div className={'wrap-main'} key={property?._id}>
                     <PropertyBigCard
                       property={property}
                       key={property?._id}
-                      likePropertyHandler={likePropertyHandler}
+                      likeJewelleryHandler={likeJewelleryHandler}
                     />
                   </div>
                 );

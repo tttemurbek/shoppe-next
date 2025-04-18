@@ -3,7 +3,7 @@ import { Box, Button, CircularProgress, Stack, Typography } from '@mui/material'
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutFull from '../../libs/components/layout/LayoutFull';
 import { NextPage } from 'next';
-import Review from '../../libs/components/property/Review';
+import Review from '../../libs/components/jewellery/Review';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Autoplay, Navigation, Pagination } from 'swiper';
 import PropertyBigCard from '../../libs/components/common/PropertyBigCard';
@@ -145,12 +145,12 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 
   /** HANDLERS **/
 
-  const likePropertyHandler = async (user: T, id: string) => {
+  const likeJewelleryHandler = async (user: T, id: string) => {
     try {
       if (!id) return;
       if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
 
-      //execute likePropertyHandler
+      //execute likeJewelleryHandler
       await likeTargetProperty({ variables: { input: id } });
 
       // execute getPropertiesRefetch
@@ -171,7 +171,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 
       await sweetTopSmallSuccessAlert('success', 800);
     } catch (err: any) {
-      console.log('ERROR, likePropertyHandler:', err.message);
+      console.log('ERROR, likeJewelleryHandler:', err.message);
       sweetMixinErrorAlert(err.message).then();
     }
   };
@@ -288,7 +288,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
                         <FavoriteBorderIcon
                           fontSize={'medium'}
                           // @ts-ignore
-                          onClick={() => likePropertyHandler(user, property?._id)}
+                          onClick={() => likeJewelleryHandler(user, property?._id)}
                         />
                       )}
                       <Typography>{property?.jewelleryLikes}</Typography>
@@ -637,11 +637,11 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
                       el: '.swiper-similar-pagination',
                     }}
                   >
-                    {destinationProperties.map((property: Jewellery) => {
+                    {destinationProperties.map((jewellery: Jewellery) => {
                       return (
                         <SwiperSlide className={'similar-homes-slide'} key={property.jewelleryTitle}>
                           <PropertyBigCard
-                            likePropertyHandler={likePropertyHandler}
+                            likeJewelleryHandler={likeJewelleryHandler}
                             property={property}
                             key={property?._id}
                           />

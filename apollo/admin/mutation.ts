@@ -68,7 +68,7 @@ export const UPDATE_PROPERTY_BY_ADMIN = gql`
 
 export const REMOVE_PROPERTY_BY_ADMIN = gql`
   mutation RemovePropertyByAdmin($input: String!) {
-    removePropertyByAdmin(propertyId: $input) {
+    removePropertyByAdmin(jewelleryId: $input) {
       _id
       jewelleryType
       jewelleryStatus

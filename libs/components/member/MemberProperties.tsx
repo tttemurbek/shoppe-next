@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import { Pagination, Stack, Typography } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import { PropertyCard } from '../mypage/PropertyCard';
+import { JewelleryCard } from '../mypage/JewelleryCard';
 import { Property } from '../../types/jewellery/jewellery';
 import { PropertiesInquiry } from '../../types/jewellery/jewellery.input';
 import { T } from '../../types/common';
@@ -76,8 +76,8 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
                 <p>No Property found!</p>
               </div>
             )}
-            {agentProperties?.map((property: Property) => {
-              return <PropertyCard property={property} memberPage={true} key={property?._id} />;
+            {agentProperties?.map((jewellery: Property) => {
+              return <JewelleryCard jewellery={jewellery} memberPage={true} key={jewellery?._id} />;
             })}
 
             {agentProperties.length !== 0 && (
@@ -92,7 +92,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
                   />
                 </Stack>
                 <Stack className="total-result">
-                  <Typography>{total} property available</Typography>
+                  <Typography>{total} jewellery available</Typography>
                 </Stack>
               </Stack>
             )}

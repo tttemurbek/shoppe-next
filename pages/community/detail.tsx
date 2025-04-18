@@ -135,7 +135,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 
       await sweetTopSmallSuccessAlert('success', 800);
     } catch (err: any) {
-      console.log('ERROR, likePropertyHandler:', err.message);
+      console.log('ERROR, likeJewelleryHandler:', err.message);
       sweetMixinErrorAlert(err.message).then();
     } finally {
       setLikeLoading(false);

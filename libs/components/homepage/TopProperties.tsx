@@ -7,7 +7,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation, Pagination } from 'swiper';
 import TopPropertyCard from './TopPropertyCard';
 import { PropertiesInquiry } from '../../types/jewellery/jewellery.input';
-import { Property } from '../../types/jewellery/jewellery';
+import { Jewellery } from '../../types/jewellery/jewellery';
 import { GET_JEWELLERIES } from '../../../apollo/user/query';
 import { useMutation, useQuery } from '@apollo/client';
 import { T } from '../../types/common';
@@ -22,7 +22,7 @@ interface TopPropertiesProps {
 const TopProperties = (props: TopPropertiesProps) => {
   const { initialInput } = props;
   const device = useDeviceDetect();
-  const [topProperties, setTopProperties] = useState<Property[]>([]);
+  const [topProperties, setTopProperties] = useState<Jewellery[]>([]);
 
   /** APOLLO REQUESTS **/
   const [likeTargetProperty] = useMutation(LIKE_TARGET_JEWELLERY);
@@ -42,12 +42,12 @@ const TopProperties = (props: TopPropertiesProps) => {
   });
   /** HANDLERS **/
 
-  const likePropertyHandler = async (user: T, id: string) => {
+  const likeJewelleryHandler = async (user: T, id: string) => {
     try {
       if (!id) return;
       if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
 
-      //execute likePropertyHandler
+      //execute likeJewelleryHandler
       await likeTargetProperty({ variables: { input: id } });
 
       // execute getPropertiesRefetch
@@ -55,7 +55,7 @@ const TopProperties = (props: TopPropertiesProps) => {
 
       await sweetTopSmallSuccessAlert('success', 800);
     } catch (err: any) {
-      console.log('ERROR, likePropertyHandler:', err.message);
+      console.log('ERROR, likeJewelleryHandler:', err.message);
       sweetMixinErrorAlert(err.message).then();
     }
   };
@@ -69,16 +69,16 @@ const TopProperties = (props: TopPropertiesProps) => {
           </Stack>
           <Stack className={'card-box'}>
             <Swiper
-              className={'top-property-swiper'}
+              className={'top-jewellery-swiper'}
               slidesPerView={'auto'}
               centeredSlides={true}
               spaceBetween={15}
               modules={[Autoplay]}
             >
-              {topProperties.map((property: Property) => {
+              {topProperties.map((jewellery: Jewellery) => {
                 return (
-                  <SwiperSlide className={'top-property-slide'} key={property?._id}>
-                    <TopPropertyCard property={property} likePropertyHandler={likePropertyHandler} />
+                  <SwiperSlide className={'top-jewellery-slide'} key={jewellery?._id}>
+                    <TopPropertyCard jewellery={jewellery} likeJewelleryHandler={likeJewelleryHandler} />
                   </SwiperSlide>
                 );
               })}
@@ -106,7 +106,7 @@ const TopProperties = (props: TopPropertiesProps) => {
           </Stack>
           <Stack className={'card-box'}>
             <Swiper
-              className={'top-property-swiper'}
+              className={'top-jewellery-swiper'}
               slidesPerView={'auto'}
               spaceBetween={15}
               modules={[Autoplay, Navigation, Pagination]}
@@ -118,10 +118,10 @@ const TopProperties = (props: TopPropertiesProps) => {
                 el: '.swiper-top-pagination',
               }}
             >
-              {topProperties.map((property: Property) => {
+              {topProperties.map((jewellery: Jewellery) => {
                 return (
-                  <SwiperSlide className={'top-property-slide'} key={property?._id}>
-                    <TopPropertyCard property={property} likePropertyHandler={likePropertyHandler} />
+                  <SwiperSlide className={'top-jewellery-slide'} key={jewellery?._id}>
+                    <TopPropertyCard jewellery={jewellery} likeJewelleryHandler={likeJewelleryHandler} />
                   </SwiperSlide>
                 );
               })}

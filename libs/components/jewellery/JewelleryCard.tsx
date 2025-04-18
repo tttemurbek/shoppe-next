@@ -3,28 +3,28 @@ import { Stack, Typography, Box } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import { Property } from '../../types/jewellery/jewellery';
+import { Jewellery } from '../../types/jewellery/jewellery';
 import Link from 'next/link';
 import { formatterStr } from '../../utils';
-import { REACT_APP_API_URL, topPropertyRank } from '../../config';
+import { REACT_APP_API_URL, topJewelleryRank } from '../../config';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import IconButton from '@mui/material/IconButton';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 
-interface PropertyCardType {
-  property: Property;
-  likePropertyHandler?: any;
+interface JewelleryCardType {
+  jewellery: Jewellery;
+  likeJewelleryHandler?: any;
   myFavorites?: boolean;
   recentlyVisited?: boolean;
 }
 
-const PropertyCard = (props: PropertyCardType) => {
-  const { property, likePropertyHandler, myFavorites, recentlyVisited } = props;
+const JewelleryCard = (props: JewelleryCardType) => {
+  const { jewellery, likeJewelleryHandler, myFavorites, recentlyVisited } = props;
   const device = useDeviceDetect();
   const user = useReactiveVar(userVar);
-  const imagePath: string = property?.jewelleryImages[0]
-    ? `${REACT_APP_API_URL}/${property?.jewelleryImages[0]}`
+  const imagePath: string = jewellery?.jewelleryImages[0]
+    ? `${REACT_APP_API_URL}/${jewellery?.jewelleryImages[0]}`
     : '/img/banner/header1.svg';
 
   if (device === 'mobile') {
@@ -35,20 +35,20 @@ const PropertyCard = (props: PropertyCardType) => {
         <Stack className="top">
           <Link
             href={{
-              pathname: '/property/detail',
-              query: { id: property?._id },
+              pathname: '/jewellery/detail',
+              query: { id: jewellery?._id },
             }}
           >
             <img src={imagePath} alt="" />
           </Link>
-          {property && property?.jewelleryRank > topPropertyRank && (
+          {jewellery && jewellery?.jewelleryRank > topJewelleryRank && (
             <Box component={'div'} className={'top-badge'}>
               <img src="/img/icons/electricity.svg" alt="" />
               <Typography>TOP</Typography>
             </Box>
           )}
           <Box component={'div'} className={'price-box'}>
-            <Typography>${formatterStr(property?.jewelleryPrice)}</Typography>
+            <Typography>${formatterStr(jewellery?.jewelleryPrice)}</Typography>
           </Box>
         </Stack>
         <Stack className="bottom">
@@ -56,28 +56,28 @@ const PropertyCard = (props: PropertyCardType) => {
             <Stack className="name">
               <Link
                 href={{
-                  pathname: '/property/detail',
-                  query: { id: property?._id },
+                  pathname: '/jewellery/detail',
+                  query: { id: jewellery?._id },
                 }}
               >
-                <Typography>{property.jewelleryTitle}</Typography>
+                <Typography>{jewellery.jewelleryTitle}</Typography>
               </Link>
             </Stack>
             <Stack className="address">
               <Typography>
-                {property.jewelleryAddress}, {property.jewelleryLocation}
+                {jewellery.jewelleryAddress}, {jewellery.jewelleryLocation}
               </Typography>
             </Stack>
           </Stack>
           <Stack className="options">
             <Stack className="option">
-              <img src="/img/icons/bed.svg" alt="" /> <Typography>{property.propertyBeds} bed</Typography>
+              <img src="/img/icons/bed.svg" alt="" /> <Typography>{jewellery.propertyBeds} bed</Typography>
             </Stack>
             <Stack className="option">
-              <img src="/img/icons/room.svg" alt="" /> <Typography>{property.propertyRooms} room</Typography>
+              <img src="/img/icons/room.svg" alt="" /> <Typography>{jewellery.propertyRooms} room</Typography>
             </Stack>
             <Stack className="option">
-              <img src="/img/icons/expand.svg" alt="" /> <Typography>{property.propertySquare} m2</Typography>
+              <img src="/img/icons/expand.svg" alt="" /> <Typography>{jewellery.propertySquare} m2</Typography>
             </Stack>
           </Stack>
           <Stack className="divider"></Stack>
@@ -85,13 +85,13 @@ const PropertyCard = (props: PropertyCardType) => {
             <Stack className="type">
               <Typography
                 sx={{ fontWeight: 500, fontSize: '13px' }}
-                className={property.jewelleryRent ? '' : 'disabled-type'}
+                className={jewellery.jewelleryRent ? '' : 'disabled-type'}
               >
                 Rent
               </Typography>
               <Typography
                 sx={{ fontWeight: 500, fontSize: '13px' }}
-                className={property.jewelleryBarter ? '' : 'disabled-type'}
+                className={jewellery.jewelleryBarter ? '' : 'disabled-type'}
               >
                 Barter
               </Typography>
@@ -101,17 +101,17 @@ const PropertyCard = (props: PropertyCardType) => {
                 <IconButton color={'default'}>
                   <RemoveRedEyeIcon />
                 </IconButton>
-                <Typography className="view-cnt">{property?.jewelleryViews}</Typography>
-                <IconButton color={'default'} onClick={() => likePropertyHandler(user, property?._id)}>
+                <Typography className="view-cnt">{jewellery?.jewelleryViews}</Typography>
+                <IconButton color={'default'} onClick={() => likeJewelleryHandler(user, jewellery?._id)}>
                   {myFavorites ? (
                     <FavoriteIcon color="primary" />
-                  ) : property?.meLiked && property?.meLiked[0]?.myFavorite ? (
+                  ) : jewellery?.meLiked && jewellery?.meLiked[0]?.myFavorite ? (
                     <FavoriteIcon color="primary" />
                   ) : (
                     <FavoriteBorderIcon />
                   )}
                 </IconButton>
-                <Typography className="view-cnt">{property?.jewelleryLikes}</Typography>
+                <Typography className="view-cnt">{jewellery?.jewelleryLikes}</Typography>
               </Stack>
             )}
           </Stack>
@@ -121,4 +121,4 @@ const PropertyCard = (props: PropertyCardType) => {
   }
 };
 
-export default PropertyCard;
+export default JewelleryCard;

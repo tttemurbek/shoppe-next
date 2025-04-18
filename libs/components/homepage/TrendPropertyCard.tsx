@@ -11,21 +11,21 @@ import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 
 interface TrendPropertyCardProps {
-  property: Property;
-  likePropertyHandler: any;
+  jewellery: Property;
+  likeJewelleryHandler: any;
 }
 
 const TrendPropertyCard = (props: TrendPropertyCardProps) => {
-  const { property, likePropertyHandler } = props;
+  const { property, likeJewelleryHandler } = props;
   const device = useDeviceDetect();
   const router = useRouter();
   const user = useReactiveVar(userVar);
 
   /** HANDLERS **/
 
-  const pushDetailHandler = async (propertyId: string) => {
+  const pushDetailHandler = async (jewelleryId: string) => {
     console.log('ID:', propertyId);
-    await router.push({ pathname: '/property/detail', query: { id: propertyId } });
+    await router.push({ pathname: '/jewellery/detail', query: { id: propertyId } });
   };
 
   if (device === 'mobile') {
@@ -76,7 +76,7 @@ const TrendPropertyCard = (props: TrendPropertyCardProps) => {
                 <RemoveRedEyeIcon />
               </IconButton>
               <Typography className="view-cnt">{property?.jewelleryViews}</Typography>
-              <IconButton color={'default'} onClick={() => likePropertyHandler(user, property?._id)}>
+              <IconButton color={'default'} onClick={() => likeJewelleryHandler(user, property?._id)}>
                 {property?.meLiked && property?.meLiked[0]?.myFavorite ? (
                   <FavoriteIcon style={{ color: 'red' }} />
                 ) : (
@@ -137,7 +137,7 @@ const TrendPropertyCard = (props: TrendPropertyCardProps) => {
                 <RemoveRedEyeIcon />
               </IconButton>
               <Typography className="view-cnt">{property?.jewelleryViews}</Typography>
-              <IconButton color={'default'} onClick={() => likePropertyHandler(user, property?._id)}>
+              <IconButton color={'default'} onClick={() => likeJewelleryHandler(user, property?._id)}>
                 {property?.meLiked && property?.meLiked[0]?.myFavorite ? (
                   <FavoriteIcon style={{ color: 'red' }} />
                 ) : (

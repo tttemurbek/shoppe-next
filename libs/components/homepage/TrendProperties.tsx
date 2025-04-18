@@ -42,12 +42,12 @@ const TrendProperties = (props: TrendPropertiesProps) => {
   });
   /** HANDLERS **/
 
-  const likePropertyHandler = async (user: T, id: string) => {
+  const likeJewelleryHandler = async (user: T, id: string) => {
     try {
       if (!id) return;
       if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
 
-      //execute likePropertyHandler
+      //execute likeJewelleryHandler
       await likeTargetProperty({ variables: { input: id } });
 
       // execute getPropertiesRefetch
@@ -55,7 +55,7 @@ const TrendProperties = (props: TrendPropertiesProps) => {
 
       await sweetTopSmallSuccessAlert('success', 800);
     } catch (err: any) {
-      console.log('ERROR, likePropertyHandler:', err.message);
+      console.log('ERROR, likeJewelleryHandler:', err.message);
       sweetMixinErrorAlert(err.message).then();
     }
   };
@@ -83,10 +83,10 @@ const TrendProperties = (props: TrendPropertiesProps) => {
                 spaceBetween={15}
                 modules={[Autoplay]}
               >
-                {trendProperties.map((property: Property) => {
+                {trendProperties.map((jewellery: Property) => {
                   return (
                     <SwiperSlide key={property._id} className={'trend-property-slide'}>
-                      <TrendPropertyCard property={property} likePropertyHandler={likePropertyHandler} />
+                      <TrendPropertyCard property={property} likeJewelleryHandler={likeJewelleryHandler} />
                     </SwiperSlide>
                   );
                 })}
@@ -132,10 +132,10 @@ const TrendProperties = (props: TrendPropertiesProps) => {
                   el: '.swiper-trend-pagination',
                 }}
               >
-                {trendProperties.map((property: Property) => {
+                {trendProperties.map((jewellery: Property) => {
                   return (
                     <SwiperSlide key={property._id} className={'trend-property-slide'}>
-                      <TrendPropertyCard property={property} likePropertyHandler={likePropertyHandler} />
+                      <TrendPropertyCard property={property} likeJewelleryHandler={likeJewelleryHandler} />
                     </SwiperSlide>
                   );
                 })}

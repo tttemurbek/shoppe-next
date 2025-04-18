@@ -4,13 +4,13 @@
 
 @import '/scss/pc/homepage/homepage';
 
-@import '/scss/pc/property/property';
-@import '/scss/pc/property/detail.scss';
+@import '/scss/pc/jewellery/jewellery';
+@import '/scss/pc/jewellery/detail.scss';
 
 @import '/scss/pc/agent/agent';
 @import '/scss/pc/agent/detail.scss';
 @import '/scss/pc/mypage/mypage.scss';
-@import '/scss/pc/mypage/addNewProperty.scss';
+@import '/scss/pc/mypage/addNewJewellery.scss';
 @import '/scss/pc/mypage/myProperties.scss';
 @import '/scss/pc/mypage/myFavorites.scss';
 @import '/scss/pc/mypage/mySaved.scss';
@@ -78,7 +78,7 @@ body::-webkit-scrollbar {
             justify-content: space-between;
             div {
               position: relative;
-              color: #eeeeeeed;
+              color: #000000;
               font-family: $font;
               font-size: 15px;
               font-style: normal;
@@ -120,10 +120,10 @@ body::-webkit-scrollbar {
               align-items: center;
               justify-content: center;
               border-radius: 60px;
-              border: 1px solid #ffffff;
+              border: 1px solid #000000;
               cursor: pointer;
               svg {
-                color: #ffffff;
+                color: #000000;
                 margin-right: 10px;
               }
               span {
@@ -132,7 +132,7 @@ body::-webkit-scrollbar {
                 font-style: normal;
                 font-weight: 600;
                 line-height: normal;
-                color: #ffffff;
+                color: #000000;
               }
             }
             .login-user {
@@ -179,7 +179,7 @@ body::-webkit-scrollbar {
     background-size: cover;
     .container {
       position: relative;
-      margin-top: 20px;
+      margin-top: 200px;
       flex-direction: column;
       align-items: center;
       .search-box {
@@ -423,9 +423,9 @@ body::-webkit-scrollbar {
       height: 300px;
     }
     .container {
-      margin-top: 175px;
+      margin-top: 100px;
       strong {
-        color: #fff;
+        color: #000000;
         font-family: $font;
         font-size: 48px;
         font-style: normal;
@@ -435,7 +435,7 @@ body::-webkit-scrollbar {
         text-transform: capitalize;
       }
       span {
-        color: #fff;
+        color: #000000;
         font-family: $font;
         font-size: 24px;
         font-style: normal;
@@ -830,7 +830,7 @@ body::-webkit-scrollbar {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #f6f6f6;
+    background: #fff;
     cursor: pointer;
   }
   .top {

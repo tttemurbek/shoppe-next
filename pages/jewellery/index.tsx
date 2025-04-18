@@ -1,13 +1,13 @@
 import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import { Box, Button, Menu, MenuItem, Pagination, Stack, Typography } from '@mui/material';
-import PropertyCard from '../../libs/components/property/PropertyCard';
+import JewelleryCard from '../../libs/components/jewellery/JewelleryCard';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
-import Filter from '../../libs/components/property/Filter';
+import Filter from '../../libs/components/jewellery/Filter';
 import { useRouter } from 'next/router';
 import { PropertiesInquiry } from '../../libs/types/jewellery/jewellery.input';
-import { Property } from '../../libs/types/jewellery/jewellery';
+import { Jewellery } from '../../libs/types/jewellery/jewellery';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 import { Direction, Message } from '../../libs/enums/common.enum';
@@ -29,7 +29,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
   const [searchFilter, setSearchFilter] = useState<PropertiesInquiry>(
     router?.query?.input ? JSON.parse(router?.query?.input as string) : initialInput,
   );
-  const [properties, setProperties] = useState<Property[]>([]);
+  const [properties, setProperties] = useState<Jewellery[]>([]);
   const [total, setTotal] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -71,12 +71,12 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 
   /** HANDLERS **/
 
-  const likePropertyHandler = async (user: T, id: string) => {
+  const likeJewelleryHandler = async (user: T, id: string) => {
     try {
       if (!id) return;
       if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
 
-      //execute likePropertyHandler
+      //execute likeJewelleryHandler
       await likeTargetProperty({ variables: { input: id } });
 
       // execute getPropertiesRefetch
@@ -84,7 +84,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 
       await sweetTopSmallSuccessAlert('success', 800);
     } catch (err: any) {
-      console.log('ERROR, likePropertyHandler:', err.message);
+      console.log('ERROR, likeJewelleryHandler:', err.message);
       sweetMixinErrorAlert(err.message).then();
     }
   };
@@ -92,8 +92,8 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
   const handlePaginationChange = async (event: ChangeEvent<unknown>, value: number) => {
     searchFilter.page = value;
     await router.push(
-      `/property?input=${JSON.stringify(searchFilter)}`,
-      `/property?input=${JSON.stringify(searchFilter)}`,
+      `/jewellery?input=${JSON.stringify(searchFilter)}`,
+      `/jewellery?input=${JSON.stringify(searchFilter)}`,
       {
         scroll: false,
       },
@@ -182,9 +182,13 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
                     <p>No Properties found!</p>
                   </div>
                 ) : (
-                  properties.map((property: Property) => {
+                  properties.map((jewellery: Jewellery) => {
                     return (
-                      <PropertyCard property={property} likePropertyHandler={likePropertyHandler} key={property?._id} />
+                      <JewelleryCard
+                        jewellery={jewellery}
+                        likeJewelleryHandler={likeJewelleryHandler}
+                        key={jewellery?._id}
+                      />
                     );
                   })
                 )}
