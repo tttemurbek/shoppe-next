@@ -4,7 +4,7 @@ import useDeviceDetect from '../../hooks/useDeviceDetect';
 import IconButton from '@mui/material/IconButton';
 import ModeIcon from '@mui/icons-material/Mode';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Property } from '../../types/property/property';
+import { Property } from '../../types/jewellery/jewellery';
 import { formatterStr } from '../../utils';
 import Moment from 'react-moment';
 import { useRouter } from 'next/router';
@@ -56,13 +56,13 @@ export const PropertyCard = (props: PropertyCardProps) => {
     return (
       <Stack className="property-card-box">
         <Stack className="image-box" onClick={() => pushPropertyDetail(property?._id)}>
-          <img src={`${process.env.REACT_APP_API_URL}/${property.propertyImages[0]}`} alt="" />
+          <img src={`${process.env.REACT_APP_API_URL}/${property.jewelleryImages[0]}`} alt="" />
         </Stack>
         <Stack className="information-box" onClick={() => pushPropertyDetail(property?._id)}>
-          <Typography className="name">{property.propertyTitle}</Typography>
-          <Typography className="address">{property.propertyAddress}</Typography>
+          <Typography className="name">{property.jewelleryTitle}</Typography>
+          <Typography className="address">{property.jewelleryAddress}</Typography>
           <Typography className="price">
-            <strong>${formatterStr(property?.propertyPrice)}</strong>
+            <strong>${formatterStr(property?.jewelleryPrice)}</strong>
           </Typography>
         </Stack>
         <Stack className="date-box">
@@ -73,11 +73,11 @@ export const PropertyCard = (props: PropertyCardProps) => {
         <Stack className="status-box">
           <Stack className="coloured-box" sx={{ background: '#E5F0FD' }} onClick={handleClick}>
             <Typography className="status" sx={{ color: '#3554d1' }}>
-              {property.propertyStatus}
+              {property.jewelleryStatus}
             </Typography>
           </Stack>
         </Stack>
-        {!memberPage && property.propertyStatus !== 'RESERVED' && (
+        {!memberPage && property.jewelleryStatus !== 'RESERVED' && (
           <Menu
             anchorEl={anchorEl}
             open={open}
@@ -98,7 +98,7 @@ export const PropertyCard = (props: PropertyCardProps) => {
               },
             }}
           >
-            {property.propertyStatus === 'AVAILABLE' && (
+            {property.jewelleryStatus === 'AVAILABLE' && (
               <>
                 <MenuItem
                   disableRipple
@@ -115,9 +115,9 @@ export const PropertyCard = (props: PropertyCardProps) => {
         )}
 
         <Stack className="views-box">
-          <Typography className="views">{property.propertyViews.toLocaleString()}</Typography>
+          <Typography className="views">{property.jewelleryViews.toLocaleString()}</Typography>
         </Stack>
-        {!memberPage && property.propertyStatus === JewelleryStatus.AVAILABLE && (
+        {!memberPage && property.jewelleryStatus === JewelleryStatus.AVAILABLE && (
           <Stack className="action-box">
             <IconButton className="icon-button" onClick={() => pushEditProperty(property._id)}>
               <ModeIcon className="buttons" />

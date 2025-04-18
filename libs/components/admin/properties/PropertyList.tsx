@@ -14,7 +14,7 @@ import {
 } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import { Stack } from '@mui/material';
-import { Property } from '../../../types/property/property';
+import { Jewellery } from '../../../types/jewellery/jewellery';
 import { REACT_APP_API_URL } from '../../../config';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Typography from '@mui/material/Typography';
@@ -114,7 +114,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 }
 
 interface PropertyPanelListType {
-  properties: Property[];
+  properties: Jewellery[];
   anchorEl: any;
   menuIconClickHandler: any;
   menuIconCloseHandler: any;
@@ -148,14 +148,14 @@ export const PropertyPanelList = (props: PropertyPanelListType) => {
             )}
 
             {properties.length !== 0 &&
-              properties.map((property: Property, index: number) => {
-                const propertyImage = `${REACT_APP_API_URL}/${property?.propertyImages[0]}`;
+              properties.map((property: Jewellery, index: number) => {
+                const propertyImage = `${REACT_APP_API_URL}/${property?.jewelleryImages[0]}`;
 
                 return (
                   <TableRow hover key={property?._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                     <TableCell align="left">{property._id}</TableCell>
                     <TableCell align="left" className={'name'}>
-                      {property.propertyStatus === JewelleryStatus.AVAILABLE ? (
+                      {property.jewelleryStatus === JewelleryStatus.AVAILABLE ? (
                         <Stack direction={'row'}>
                           <Link href={`/property/detail?id=${property?._id}`}>
                             <div>
@@ -163,7 +163,7 @@ export const PropertyPanelList = (props: PropertyPanelListType) => {
                             </div>
                           </Link>
                           <Link href={`/property/detail?id=${property?._id}`}>
-                            <div>{property.propertyTitle}</div>
+                            <div>{property.jewelleryTitle}</div>
                           </Link>
                         </Stack>
                       ) : (
@@ -171,16 +171,16 @@ export const PropertyPanelList = (props: PropertyPanelListType) => {
                           <div>
                             <Avatar alt="Remy Sharp" src={propertyImage} sx={{ ml: '2px', mr: '10px' }} />
                           </div>
-                          <div style={{ marginTop: '10px' }}>{property.propertyTitle}</div>
+                          <div style={{ marginTop: '10px' }}>{property.jewelleryTitle}</div>
                         </Stack>
                       )}
                     </TableCell>
-                    <TableCell align="center">{property.propertyPrice}</TableCell>
+                    <TableCell align="center">{property.jewelleryPrice}</TableCell>
                     <TableCell align="center">{property.memberData?.memberNick}</TableCell>
-                    <TableCell align="center">{property.propertyLocation}</TableCell>
-                    <TableCell align="center">{property.propertyType}</TableCell>
+                    <TableCell align="center">{property.jewelleryLocation}</TableCell>
+                    <TableCell align="center">{property.jewelleryType}</TableCell>
                     <TableCell align="center">
-                      {property.propertyStatus === JewelleryStatus.OUT_OF_STOCK && (
+                      {property.jewelleryStatus === JewelleryStatus.OUT_OF_STOCK && (
                         <Button
                           variant="outlined"
                           sx={{ p: '3px', border: 'none', ':hover': { border: '1px solid #000000' } }}
@@ -190,14 +190,14 @@ export const PropertyPanelList = (props: PropertyPanelListType) => {
                         </Button>
                       )}
 
-                      {property.propertyStatus === JewelleryStatus.RESERVED && (
-                        <Button className={'badge warning'}>{property.propertyStatus}</Button>
+                      {property.jewelleryStatus === JewelleryStatus.RESERVED && (
+                        <Button className={'badge warning'}>{property.jewelleryStatus}</Button>
                       )}
 
-                      {property.propertyStatus === JewelleryStatus.AVAILABLE && (
+                      {property.jewelleryStatus === JewelleryStatus.AVAILABLE && (
                         <>
                           <Button onClick={(e: any) => menuIconClickHandler(e, index)} className={'badge success'}>
-                            {property.propertyStatus}
+                            {property.jewelleryStatus}
                           </Button>
 
                           <Menu
@@ -212,10 +212,10 @@ export const PropertyPanelList = (props: PropertyPanelListType) => {
                             sx={{ p: 1 }}
                           >
                             {Object.values(JewelleryStatus)
-                              .filter((ele) => ele !== property.propertyStatus)
+                              .filter((ele) => ele !== property.jewelleryStatus)
                               .map((status: string) => (
                                 <MenuItem
-                                  onClick={() => updatePropertyHandler({ _id: property._id, propertyStatus: status })}
+                                  onClick={() => updatePropertyHandler({ _id: property._id, jewelleryStatus: status })}
                                   key={status}
                                 >
                                   <Typography variant={'subtitle1'} component={'span'}>

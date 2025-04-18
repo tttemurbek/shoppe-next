@@ -8,10 +8,10 @@ import { Box, Button, Pagination, Stack, Typography } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { useRouter } from 'next/router';
-import { Property } from '../../libs/types/property/property';
+import { Property } from '../../libs/types/jewellery/jewellery';
 import { Member } from '../../libs/types/member/member';
 import { userVar } from '../../apollo/store';
-import { PropertiesInquiry } from '../../libs/types/property/property.input';
+import { PropertiesInquiry } from '../../libs/types/jewellery/jewellery.input';
 import { CommentInput, CommentsInquiry } from '../../libs/types/comment/comment.input';
 import { Comment } from '../../libs/types/comment/comment';
 import { CommentGroup } from '../../libs/enums/comment.enum';
@@ -92,8 +92,8 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
     skip: !searchFilter.search.memberId,
     notifyOnNetworkStatusChange: true,
     onCompleted: (data: T) => {
-      setAgentProperties(data?.getProperties?.list);
-      setPropertyTotal(data?.getProperties?.metaCounter[0]?.total ?? 0);
+      setAgentProperties(data?.getJewelleries?.list);
+      setPropertyTotal(data?.getJewelleries?.metaCounter[0]?.total ?? 0);
     },
   });
 

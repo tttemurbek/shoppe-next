@@ -1,19 +1,19 @@
 import { JewelleryLocation, JewelleryStatus, JewelleryType } from '../../enums/jewellery.enum';
 import { Direction } from '../../enums/common.enum';
 
-export interface PropertyInput {
-  propertyType: JewelleryType;
-  propertyLocation: JewelleryLocation;
-  propertyAddress: string;
-  propertyTitle: string;
-  propertyPrice: number;
-  propertySquare: number;
-  propertyBeds: number;
-  propertyRooms: number;
-  propertyImages: string[];
-  propertyDesc?: string;
-  propertyBarter?: boolean;
-  propertyRent?: boolean;
+export interface JewelleryInput {
+  jewelleryType: JewelleryType;
+  jewelleryLocation: JewelleryLocation;
+  jewelleryAddress: string;
+  jewelleryTitle: string;
+  jewelleryPrice: number;
+  jewellerySquare: number;
+  jewelleryBeds: number;
+  jewelleryRooms: number;
+  jewelleryImages: string[];
+  jewelleryDesc?: string;
+  jewelleryBarter?: boolean;
+  jewelleryRent?: boolean;
   memberId?: string;
   constructedAt?: Date;
 }
@@ -40,7 +40,7 @@ export interface PropertiesInquiry {
 }
 
 interface APISearch {
-  propertyStatus?: JewelleryStatus;
+  jewelleryStatus?: JewelleryStatus;
 }
 
 export interface AgentPropertiesInquiry {
@@ -52,11 +52,11 @@ export interface AgentPropertiesInquiry {
 }
 
 interface ALPISearch {
-  propertyStatus?: JewelleryStatus;
-  propertyLocationList?: JewelleryLocation[];
+  jewelleryStatus?: JewelleryStatus;
+  jewelleryLocationList?: JewelleryLocation[];
 }
 
-export interface AllPropertiesInquiry {
+export interface AllJewelleriesInquiry {
   page: number;
   limit: number;
   sort?: string;

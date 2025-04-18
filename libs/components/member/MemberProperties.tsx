@@ -3,8 +3,8 @@ import { NextPage } from 'next';
 import { Pagination, Stack, Typography } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { PropertyCard } from '../mypage/PropertyCard';
-import { Property } from '../../types/property/property';
-import { PropertiesInquiry } from '../../types/property/property.input';
+import { Property } from '../../types/jewellery/jewellery';
+import { PropertiesInquiry } from '../../types/jewellery/jewellery.input';
 import { T } from '../../types/common';
 import { useRouter } from 'next/router';
 import { useQuery } from '@apollo/client';
@@ -30,8 +30,8 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
     skip: !searchFilter?.search?.memberId,
     notifyOnNetworkStatusChange: true,
     onCompleted: (data: T) => {
-      setAgentProperties(data?.getProperties?.list);
-      setTotal(data?.getProperties?.metaCounter[0]?.total ?? 0);
+      setAgentProperties(data?.getJewelleries?.list);
+      setTotal(data?.getJewelleries?.metaCounter[0]?.total ?? 0);
     },
   });
 

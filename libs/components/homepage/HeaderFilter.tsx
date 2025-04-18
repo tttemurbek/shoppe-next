@@ -8,7 +8,7 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { propertySquare, propertyYears } from '../../config';
 import { JewelleryLocation, JewelleryType } from '../../enums/jewellery.enum';
-import { PropertiesInquiry } from '../../types/property/property.input';
+import { PropertiesInquiry } from '../../types/jewellery/jewellery.input';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
@@ -51,8 +51,8 @@ const HeaderFilter = (props: HeaderFilterProps) => {
   const [openLocation, setOpenLocation] = useState(false);
   const [openType, setOpenType] = useState(false);
   const [openRooms, setOpenRooms] = useState(false);
-  const [propertyLocation, setPropertyLocation] = useState<JewelleryLocation[]>(Object.values(JewelleryLocation));
-  const [propertyType, setPropertyType] = useState<JewelleryType[]>(Object.values(JewelleryType));
+  const [jewelleryLocation, setPropertyLocation] = useState<JewelleryLocation[]>(Object.values(JewelleryLocation));
+  const [jewelleryType, setPropertyType] = useState<JewelleryType[]>(Object.values(JewelleryType));
   const [yearCheck, setYearCheck] = useState({ start: 1970, end: thisYear });
   const [optionCheck, setOptionCheck] = useState('all');
 
@@ -348,7 +348,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 
           {/*MENU */}
           <div className={`filter-location ${openLocation ? 'on' : ''}`} ref={locationRef}>
-            {propertyLocation.map((location: string) => {
+            {jewelleryLocation.map((location: string) => {
               return (
                 <div onClick={() => propertyLocationSelectHandler(location)} key={location}>
                   <img src={`img/banner/cities/${location}.webp`} alt="" />
@@ -359,7 +359,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
           </div>
 
           <div className={`filter-type ${openType ? 'on' : ''}`} ref={typeRef}>
-            {propertyType.map((type: string) => {
+            {jewelleryType.map((type: string) => {
               return (
                 <div
                   style={{ backgroundImage: `url(/img/banner/types/${type.toLowerCase()}.webp)` }}
@@ -447,8 +447,8 @@ const HeaderFilter = (props: HeaderFilterProps) => {
                           inputProps={{ 'aria-label': 'Without label' }}
                         >
                           <MenuItem value={'all'}>All Options</MenuItem>
-                          <MenuItem value={'propertyBarter'}>Barter</MenuItem>
-                          <MenuItem value={'propertyRent'}>Rent</MenuItem>
+                          <MenuItem value={'jewelleryBarter'}>Barter</MenuItem>
+                          <MenuItem value={'jewelleryRent'}>Rent</MenuItem>
                         </Select>
                       </FormControl>
                     </div>

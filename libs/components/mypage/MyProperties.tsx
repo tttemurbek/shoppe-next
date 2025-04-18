@@ -3,8 +3,8 @@ import { NextPage } from 'next';
 import { Pagination, Stack, Typography } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { PropertyCard } from './PropertyCard';
-import { Property } from '../../types/property/property';
-import { AgentPropertiesInquiry } from '../../types/property/property.input';
+import { Property } from '../../types/jewellery/jewellery';
+import { AgentPropertiesInquiry } from '../../types/jewellery/jewellery.input';
 import { T } from '../../types/common';
 import { JewelleryStatus } from '../../enums/jewellery.enum';
 import { userVar } from '../../../apollo/store';
@@ -46,7 +46,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
   };
 
   const changeStatusHandler = (value: JewelleryStatus) => {
-    setSearchFilter({ ...searchFilter, search: { propertyStatus: value } });
+    setSearchFilter({ ...searchFilter, search: { jewelleryStatus: value } });
   };
 
   const deletePropertyHandler = async (id: string) => {
@@ -56,7 +56,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
           variables: {
             input: {
               _id: id,
-              propertyStatus: 'DELETE',
+              jewelleryStatus: 'DELETE',
             },
           },
         });
@@ -75,7 +75,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
           variables: {
             input: {
               _id: id,
-              propertyStatus: status,
+              jewelleryStatus: status,
             },
           },
         });
@@ -106,13 +106,13 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
           <Stack className="tab-name-box">
             <Typography
               onClick={() => changeStatusHandler(JewelleryStatus.AVAILABLE)}
-              className={searchFilter.search.propertyStatus === 'AVAILABLE' ? 'active-tab-name' : 'tab-name'}
+              className={searchFilter.search.jewelleryStatus === 'AVAILABLE' ? 'active-tab-name' : 'tab-name'}
             >
               On Sale
             </Typography>
             <Typography
               onClick={() => changeStatusHandler(JewelleryStatus.RESERVED)}
-              className={searchFilter.search.propertyStatus === 'RESERVED' ? 'active-tab-name' : 'tab-name'}
+              className={searchFilter.search.jewelleryStatus === 'RESERVED' ? 'active-tab-name' : 'tab-name'}
             >
               On Sold
             </Typography>
@@ -123,7 +123,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
               <Typography className="title-text">Date Published</Typography>
               <Typography className="title-text">Status</Typography>
               <Typography className="title-text">View</Typography>
-              {searchFilter.search.propertyStatus === 'AVAILABLE' && (
+              {searchFilter.search.jewelleryStatus === 'AVAILABLE' && (
                 <Typography className="title-text">Action</Typography>
               )}
             </Stack>
@@ -174,7 +174,7 @@ MyProperties.defaultProps = {
     limit: 5,
     sort: 'createdAt',
     search: {
-      propertyStatus: 'ACTIVE',
+      jewelleryStatus: 'ACTIVE',
     },
   },
 };

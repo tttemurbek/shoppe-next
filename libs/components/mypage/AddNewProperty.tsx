@@ -4,7 +4,7 @@ import { Button, Stack, Typography } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { JewelleryLocation, JewelleryType } from '../../enums/jewellery.enum';
 import { REACT_APP_API_URL, propertySquare } from '../../config';
-import { PropertyInput } from '../../types/property/property.input';
+import { JewelleryInput } from '../../types/jewellery/jewellery.input';
 import axios from 'axios';
 import { getJwtToken } from '../../auth';
 import { userVar } from '../../../apollo/store';
@@ -17,9 +17,9 @@ const AddProperty = ({ initialValues, ...props }: any) => {
   const device = useDeviceDetect();
   const router = useRouter();
   const inputRef = useRef<any>(null);
-  const [insertPropertyData, setInsertPropertyData] = useState<PropertyInput>(initialValues);
-  const [propertyType, setPropertyType] = useState<JewelleryType[]>(Object.values(JewelleryType));
-  const [propertyLocation, setPropertyLocation] = useState<JewelleryLocation[]>(Object.values(JewelleryLocation));
+  const [insertPropertyData, setInsertPropertyData] = useState<JewelleryInput>(initialValues);
+  const [jewelleryType, setPropertyType] = useState<JewelleryType[]>(Object.values(JewelleryType));
+  const [jewelleryLocation, setPropertyLocation] = useState<JewelleryLocation[]>(Object.values(JewelleryLocation));
   const token = getJwtToken();
   const user = useReactiveVar(userVar);
 
@@ -43,18 +43,18 @@ const AddProperty = ({ initialValues, ...props }: any) => {
   useEffect(() => {
     setInsertPropertyData({
       ...insertPropertyData,
-      propertyTitle: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyTitle : '',
-      propertyPrice: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyPrice : 0,
-      propertyType: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyType : '',
-      propertyLocation: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyLocation : '',
-      propertyAddress: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyAddress : '',
-      propertyBarter: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyBarter : false,
-      propertyRent: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyRent : false,
-      propertyRooms: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyRooms : 0,
-      propertyBeds: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyBeds : 0,
-      propertySquare: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertySquare : 0,
-      propertyDesc: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyDesc : '',
-      propertyImages: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyImages : [],
+      jewelleryTitle: getPropertyData?.getJewellery ? getPropertyData?.getJewellery?.jewelleryTitle : '',
+      jewelleryPrice: getPropertyData?.getJewellery ? getPropertyData?.getJewellery?.jewelleryPrice : 0,
+      jewelleryType: getPropertyData?.getJewellery ? getPropertyData?.getJewellery?.jewelleryType : '',
+      jewelleryLocation: getPropertyData?.getJewellery ? getPropertyData?.getJewellery?.jewelleryLocation : '',
+      jewelleryAddress: getPropertyData?.getJewellery ? getPropertyData?.getJewellery?.jewelleryAddress : '',
+      jewelleryBarter: getPropertyData?.getJewellery ? getPropertyData?.getJewellery?.jewelleryBarter : false,
+      jewelleryRent: getPropertyData?.getJewellery ? getPropertyData?.getJewellery?.jewelleryRent : false,
+      propertyRooms: getPropertyData?.getJewellery ? getPropertyData?.getJewellery?.propertyRooms : 0,
+      propertyBeds: getPropertyData?.getJewellery ? getPropertyData?.getJewellery?.propertyBeds : 0,
+      propertySquare: getPropertyData?.getJewellery ? getPropertyData?.getJewellery?.propertySquare : 0,
+      jewelleryDesc: getPropertyData?.getJewellery ? getPropertyData?.getJewellery?.jewelleryDesc : '',
+      jewelleryImages: getPropertyData?.getJewellery ? getPropertyData?.getJewellery?.jewelleryImages : [],
     });
   }, [getPropertyLoading, getPropertyData]);
 
@@ -104,7 +104,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
       const responseImages = response.data.data.imagesUploader;
 
       console.log('+responseImages: ', responseImages);
-      setInsertPropertyData({ ...insertPropertyData, propertyImages: responseImages });
+      setInsertPropertyData({ ...insertPropertyData, jewelleryImages: responseImages });
     } catch (err: any) {
       console.log('err: ', err.message);
       await sweetMixinErrorAlert(err.message);
@@ -113,18 +113,18 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 
   const doDisabledCheck = () => {
     if (
-      insertPropertyData.propertyTitle === '' ||
-      insertPropertyData.propertyPrice === 0 || // @ts-ignore
-      insertPropertyData.propertyType === '' || // @ts-ignore
-      insertPropertyData.propertyLocation === '' || // @ts-ignore
-      insertPropertyData.propertyAddress === '' || // @ts-ignore
-      insertPropertyData.propertyBarter === '' || // @ts-ignore
-      insertPropertyData.propertyRent === '' ||
+      insertPropertyData.jewelleryTitle === '' ||
+      insertPropertyData.jewelleryPrice === 0 || // @ts-ignore
+      insertPropertyData.jewelleryType === '' || // @ts-ignore
+      insertPropertyData.jewelleryLocation === '' || // @ts-ignore
+      insertPropertyData.jewelleryAddress === '' || // @ts-ignore
+      insertPropertyData.jewelleryBarter === '' || // @ts-ignore
+      insertPropertyData.jewelleryRent === '' ||
       insertPropertyData.propertyRooms === 0 ||
       insertPropertyData.propertyBeds === 0 ||
       insertPropertyData.propertySquare === 0 ||
-      insertPropertyData.propertyDesc === '' ||
-      insertPropertyData.propertyImages.length === 0
+      insertPropertyData.jewelleryDesc === '' ||
+      insertPropertyData.jewelleryImages.length === 0
     ) {
       return true;
     }
@@ -153,7 +153,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
   const updatePropertyHandler = useCallback(async () => {
     try {
       //@ts-ignore
-      insertPropertyData._id = getPropertyData?.getProperty?._id;
+      insertPropertyData._id = getPropertyData?.getJewellery?._id;
       const result = await updateProperty({
         variables: {
           input: insertPropertyData,
@@ -197,9 +197,9 @@ const AddProperty = ({ initialValues, ...props }: any) => {
                   type="text"
                   className="description-input"
                   placeholder={'Title'}
-                  value={insertPropertyData.propertyTitle}
+                  value={insertPropertyData.jewelleryTitle}
                   onChange={({ target: { value } }) =>
-                    setInsertPropertyData({ ...insertPropertyData, propertyTitle: value })
+                    setInsertPropertyData({ ...insertPropertyData, jewelleryTitle: value })
                   }
                 />
               </Stack>
@@ -211,9 +211,9 @@ const AddProperty = ({ initialValues, ...props }: any) => {
                     type="text"
                     className="description-input"
                     placeholder={'Price'}
-                    value={insertPropertyData.propertyPrice}
+                    value={insertPropertyData.jewelleryPrice}
                     onChange={({ target: { value } }) =>
-                      setInsertPropertyData({ ...insertPropertyData, propertyPrice: parseInt(value) })
+                      setInsertPropertyData({ ...insertPropertyData, jewelleryPrice: parseInt(value) })
                     }
                   />
                 </Stack>
@@ -221,18 +221,18 @@ const AddProperty = ({ initialValues, ...props }: any) => {
                   <Typography className="title">Select Type</Typography>
                   <select
                     className={'select-description'}
-                    defaultValue={insertPropertyData.propertyType || 'select'}
-                    value={insertPropertyData.propertyType || 'select'}
+                    defaultValue={insertPropertyData.jewelleryType || 'select'}
+                    value={insertPropertyData.jewelleryType || 'select'}
                     onChange={({ target: { value } }) =>
                       // @ts-ignore
-                      setInsertPropertyData({ ...insertPropertyData, propertyType: value })
+                      setInsertPropertyData({ ...insertPropertyData, jewelleryType: value })
                     }
                   >
                     <>
                       <option selected={true} disabled={true} value={'select'}>
                         Select
                       </option>
-                      {propertyType.map((type: any) => (
+                      {jewelleryType.map((type: any) => (
                         <option value={`${type}`} key={type}>
                           {type}
                         </option>
@@ -249,18 +249,18 @@ const AddProperty = ({ initialValues, ...props }: any) => {
                   <Typography className="title">Select Location</Typography>
                   <select
                     className={'select-description'}
-                    defaultValue={insertPropertyData.propertyLocation || 'select'}
-                    value={insertPropertyData.propertyLocation || 'select'}
+                    defaultValue={insertPropertyData.jewelleryLocation || 'select'}
+                    value={insertPropertyData.jewelleryLocation || 'select'}
                     onChange={({ target: { value } }) =>
                       // @ts-ignore
-                      setInsertPropertyData({ ...insertPropertyData, propertyLocation: value })
+                      setInsertPropertyData({ ...insertPropertyData, jewelleryLocation: value })
                     }
                   >
                     <>
                       <option selected={true} disabled={true} value={'select'}>
                         Select
                       </option>
-                      {propertyLocation.map((location: any) => (
+                      {jewelleryLocation.map((location: any) => (
                         <option value={`${location}`} key={location}>
                           {location}
                         </option>
@@ -276,9 +276,9 @@ const AddProperty = ({ initialValues, ...props }: any) => {
                     type="text"
                     className="description-input"
                     placeholder={'Address'}
-                    value={insertPropertyData.propertyAddress}
+                    value={insertPropertyData.jewelleryAddress}
                     onChange={({ target: { value } }) =>
-                      setInsertPropertyData({ ...insertPropertyData, propertyAddress: value })
+                      setInsertPropertyData({ ...insertPropertyData, jewelleryAddress: value })
                     }
                   />
                 </Stack>
@@ -289,10 +289,10 @@ const AddProperty = ({ initialValues, ...props }: any) => {
                   <Typography className="title">Barter</Typography>
                   <select
                     className={'select-description'}
-                    value={insertPropertyData.propertyBarter ? 'yes' : 'no'}
-                    defaultValue={insertPropertyData.propertyBarter ? 'yes' : 'no'}
+                    value={insertPropertyData.jewelleryBarter ? 'yes' : 'no'}
+                    defaultValue={insertPropertyData.jewelleryBarter ? 'yes' : 'no'}
                     onChange={({ target: { value } }) =>
-                      setInsertPropertyData({ ...insertPropertyData, propertyBarter: value === 'yes' })
+                      setInsertPropertyData({ ...insertPropertyData, jewelleryBarter: value === 'yes' })
                     }
                   >
                     <option disabled={true} selected={true}>
@@ -308,10 +308,10 @@ const AddProperty = ({ initialValues, ...props }: any) => {
                   <Typography className="title">Rent</Typography>
                   <select
                     className={'select-description'}
-                    value={insertPropertyData.propertyRent ? 'yes' : 'no'}
-                    defaultValue={insertPropertyData.propertyRent ? 'yes' : 'no'}
+                    value={insertPropertyData.jewelleryRent ? 'yes' : 'no'}
+                    defaultValue={insertPropertyData.jewelleryRent ? 'yes' : 'no'}
                     onChange={({ target: { value } }) =>
-                      setInsertPropertyData({ ...insertPropertyData, propertyRent: value === 'yes' })
+                      setInsertPropertyData({ ...insertPropertyData, jewelleryRent: value === 'yes' })
                     }
                   >
                     <option disabled={true} selected={true}>
@@ -397,9 +397,9 @@ const AddProperty = ({ initialValues, ...props }: any) => {
                   name=""
                   id=""
                   className="description-text"
-                  value={insertPropertyData.propertyDesc}
+                  value={insertPropertyData.jewelleryDesc}
                   onChange={({ target: { value } }) =>
-                    setInsertPropertyData({ ...insertPropertyData, propertyDesc: value })
+                    setInsertPropertyData({ ...insertPropertyData, jewelleryDesc: value })
                   }
                 ></textarea>
               </Stack>
@@ -484,7 +484,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
                 </Button>
               </Stack>
               <Stack className="gallery-box">
-                {insertPropertyData?.propertyImages.map((image: string) => {
+                {insertPropertyData?.jewelleryImages.map((image: string) => {
                   const imagePath: string = `${REACT_APP_API_URL}/${image}`;
                   return (
                     <Stack className="image-box">
@@ -515,18 +515,18 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 
 AddProperty.defaultProps = {
   initialValues: {
-    propertyTitle: '',
-    propertyPrice: 0,
-    propertyType: '',
-    propertyLocation: '',
-    propertyAddress: '',
-    propertyBarter: false,
-    propertyRent: false,
+    jewelleryTitle: '',
+    jewelleryPrice: 0,
+    jewelleryType: '',
+    jewelleryLocation: '',
+    jewelleryAddress: '',
+    jewelleryBarter: false,
+    jewelleryRent: false,
     propertyRooms: 0,
     propertyBeds: 0,
     propertySquare: 0,
-    propertyDesc: '',
-    propertyImages: [],
+    jewelleryDesc: '',
+    jewelleryImages: [],
   },
 };
 

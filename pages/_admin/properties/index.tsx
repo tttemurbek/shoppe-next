@@ -9,11 +9,11 @@ import MenuItem from '@mui/material/MenuItem';
 import { TabContext } from '@mui/lab';
 import TablePagination from '@mui/material/TablePagination';
 import { PropertyPanelList } from '../../../libs/components/admin/properties/PropertyList';
-import { AllPropertiesInquiry } from '../../../libs/types/property/property.input';
-import { Property } from '../../../libs/types/property/property';
+import { AllJewelleriesInquiry } from '../../../libs/types/jewellery/jewellery.input';
+import { Jewellery } from '../../../libs/types/jewellery/jewellery';
 import { JewelleryLocation, JewelleryStatus } from '../../../libs/enums/jewellery.enum';
 import { sweetConfirmAlert, sweetErrorHandling } from '../../../libs/sweetAlert';
-import { PropertyUpdate } from '../../../libs/types/property/property.update';
+import { JewelleryUpdate } from '../../../libs/types/jewellery/jewellery.update';
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_ALL_PROPERTIES_BY_ADMIN } from '../../../apollo/admin/query';
 import { REMOVE_PROPERTY_BY_ADMIN, UPDATE_PROPERTY_BY_ADMIN } from '../../../apollo/admin/mutation';
@@ -21,11 +21,11 @@ import { T } from '../../../libs/types/common';
 
 const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
   const [anchorEl, setAnchorEl] = useState<[] | HTMLElement[]>([]);
-  const [propertiesInquiry, setPropertiesInquiry] = useState<AllPropertiesInquiry>(initialInquiry);
-  const [properties, setProperties] = useState<Property[]>([]);
+  const [propertiesInquiry, setPropertiesInquiry] = useState<AllJewelleriesInquiry>(initialInquiry);
+  const [properties, setProperties] = useState<Jewellery[]>([]);
   const [propertiesTotal, setPropertiesTotal] = useState<number>(0);
   const [value, setValue] = useState(
-    propertiesInquiry?.search?.propertyStatus ? propertiesInquiry?.search?.propertyStatus : 'ALL',
+    propertiesInquiry?.search?.jewelleryStatus ? propertiesInquiry?.search?.jewelleryStatus : 'ALL',
   );
   const [searchType, setSearchType] = useState('ALL');
 
@@ -84,16 +84,16 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 
     switch (newValue) {
       case 'AVAILABLE':
-        setPropertiesInquiry({ ...propertiesInquiry, search: { propertyStatus: JewelleryStatus.AVAILABLE } });
+        setPropertiesInquiry({ ...propertiesInquiry, search: { jewelleryStatus: JewelleryStatus.AVAILABLE } });
         break;
       case 'RESERVED':
-        setPropertiesInquiry({ ...propertiesInquiry, search: { propertyStatus: JewelleryStatus.RESERVED } });
+        setPropertiesInquiry({ ...propertiesInquiry, search: { jewelleryStatus: JewelleryStatus.RESERVED } });
         break;
       case 'OUT_OF_STOCK':
-        setPropertiesInquiry({ ...propertiesInquiry, search: { propertyStatus: JewelleryStatus.OUT_OF_STOCK } });
+        setPropertiesInquiry({ ...propertiesInquiry, search: { jewelleryStatus: JewelleryStatus.OUT_OF_STOCK } });
         break;
       default:
-        delete propertiesInquiry?.search?.propertyStatus;
+        delete propertiesInquiry?.search?.jewelleryStatus;
         setPropertiesInquiry({ ...propertiesInquiry });
         break;
     }
@@ -127,11 +127,11 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
           sort: 'createdAt',
           search: {
             ...propertiesInquiry.search,
-            propertyLocationList: [newValue as JewelleryLocation],
+            jewelleryLocationList: [newValue as JewelleryLocation],
           },
         });
       } else {
-        delete propertiesInquiry?.search?.propertyLocationList;
+        delete propertiesInquiry?.search?.jewelleryLocationList;
         setPropertiesInquiry({ ...propertiesInquiry });
       }
     } catch (err: any) {
@@ -139,7 +139,7 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
     }
   };
 
-  const updatePropertyHandler = async (updateData: PropertyUpdate) => {
+  const updatePropertyHandler = async (updateData: JewelleryUpdate) => {
     try {
       console.log('+updateData: ', updateData);
       await updatePropertyByAdmin({
@@ -158,7 +158,7 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
   return (
     <Box component={'div'} className={'content'}>
       <Typography variant={'h2'} className={'tit'} sx={{ mb: '24px' }}>
-        Property List
+        Jewellery List
       </Typography>
       <Box component={'div'} className={'table-wrap'}>
         <Box component={'div'} sx={{ width: '100%', typography: 'body1' }}>

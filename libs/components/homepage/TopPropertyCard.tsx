@@ -3,7 +3,7 @@ import { Stack, Box, Divider, Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { Property } from '../../types/property/property';
+import { Property } from '../../types/jewellery/jewellery';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { REACT_APP_API_URL } from '../../config';
 import { useRouter } from 'next/router';
@@ -34,12 +34,12 @@ const TopPropertyCard = (props: TopPropertyCardProps) => {
         <Box
           component={'div'}
           className={'card-img'}
-          style={{ backgroundImage: `url(${REACT_APP_API_URL}/${property?.propertyImages[0]})` }}
+          style={{ backgroundImage: `url(${REACT_APP_API_URL}/${property?.jewelleryImages[0]})` }}
           onClick={() => {
             pushDetailHandler(property._id);
           }}
         >
-          <div>${property?.propertyPrice}</div>
+          <div>${property?.jewelleryPrice}</div>
         </Box>
         <Box component={'div'} className={'info'}>
           <strong
@@ -48,9 +48,9 @@ const TopPropertyCard = (props: TopPropertyCardProps) => {
               pushDetailHandler(property._id);
             }}
           >
-            {property?.propertyTitle}
+            {property?.jewelleryTitle}
           </strong>
-          <p className={'desc'}>{property?.propertyAddress}</p>
+          <p className={'desc'}>{property?.jewelleryAddress}</p>
           <div className={'options'}>
             <div>
               <img src="/img/icons/bed.svg" alt="" />
@@ -69,14 +69,14 @@ const TopPropertyCard = (props: TopPropertyCardProps) => {
           <div className={'bott'}>
             <p>
               {' '}
-              {property.propertyRent ? 'Rent' : ''} {property.propertyRent && property.propertyBarter && '/'}{' '}
-              {property.propertyBarter ? 'Barter' : ''}
+              {property.jewelleryRent ? 'Rent' : ''} {property.jewelleryRent && property.jewelleryBarter && '/'}{' '}
+              {property.jewelleryBarter ? 'Barter' : ''}
             </p>
             <div className="view-like-box">
               <IconButton color={'default'}>
                 <RemoveRedEyeIcon />
               </IconButton>
-              <Typography className="view-cnt">{property?.propertyViews}</Typography>
+              <Typography className="view-cnt">{property?.jewelleryViews}</Typography>
               <IconButton color={'default'} onClick={() => likePropertyHandler(user, property?._id)}>
                 {property?.meLiked && property?.meLiked[0]?.myFavorite ? (
                   <FavoriteIcon style={{ color: 'red' }} />
@@ -84,7 +84,7 @@ const TopPropertyCard = (props: TopPropertyCardProps) => {
                   <FavoriteIcon />
                 )}
               </IconButton>
-              <Typography className="view-cnt">{property?.propertyLikes}</Typography>
+              <Typography className="view-cnt">{property?.jewelleryLikes}</Typography>
             </div>
           </div>
         </Box>
@@ -96,12 +96,12 @@ const TopPropertyCard = (props: TopPropertyCardProps) => {
         <Box
           component={'div'}
           className={'card-img'}
-          style={{ backgroundImage: `url(${REACT_APP_API_URL}/${property?.propertyImages[0]})` }}
+          style={{ backgroundImage: `url(${REACT_APP_API_URL}/${property?.jewelleryImages[0]})` }}
           onClick={() => {
             pushDetailHandler(property._id);
           }}
         >
-          <div>${property?.propertyPrice}</div>
+          <div>${property?.jewelleryPrice}</div>
         </Box>
         <Box component={'div'} className={'info'}>
           <strong
@@ -110,9 +110,9 @@ const TopPropertyCard = (props: TopPropertyCardProps) => {
               pushDetailHandler(property._id);
             }}
           >
-            {property?.propertyTitle}
+            {property?.jewelleryTitle}
           </strong>
-          <p className={'desc'}>{property?.propertyAddress}</p>
+          <p className={'desc'}>{property?.jewelleryAddress}</p>
           <div className={'options'}>
             <div>
               <img src="/img/icons/bed.svg" alt="" />
@@ -131,14 +131,14 @@ const TopPropertyCard = (props: TopPropertyCardProps) => {
           <div className={'bott'}>
             <p>
               {' '}
-              {property.propertyRent ? 'Rent' : ''} {property.propertyRent && property.propertyBarter && '/'}{' '}
-              {property.propertyBarter ? 'Barter' : ''}
+              {property.jewelleryRent ? 'Rent' : ''} {property.jewelleryRent && property.jewelleryBarter && '/'}{' '}
+              {property.jewelleryBarter ? 'Barter' : ''}
             </p>
             <div className="view-like-box">
               <IconButton color={'default'}>
                 <RemoveRedEyeIcon />
               </IconButton>
-              <Typography className="view-cnt">{property?.propertyViews}</Typography>
+              <Typography className="view-cnt">{property?.jewelleryViews}</Typography>
               <IconButton color={'default'} onClick={() => likePropertyHandler(user, property?._id)}>
                 {property?.meLiked && property?.meLiked[0]?.myFavorite ? (
                   <FavoriteIcon style={{ color: 'red' }} />
@@ -146,7 +146,7 @@ const TopPropertyCard = (props: TopPropertyCardProps) => {
                   <FavoriteIcon />
                 )}
               </IconButton>
-              <Typography className="view-cnt">{property?.propertyLikes}</Typography>
+              <Typography className="view-cnt">{property?.jewelleryLikes}</Typography>
             </div>
           </div>
         </Box>

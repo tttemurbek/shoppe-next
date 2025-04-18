@@ -14,7 +14,7 @@ import {
 } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { JewelleryLocation, JewelleryType } from '../../enums/jewellery.enum';
-import { PropertiesInquiry } from '../../types/property/property.input';
+import { PropertiesInquiry } from '../../types/jewellery/jewellery.input';
 import { useRouter } from 'next/router';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import { propertySquare } from '../../config';
@@ -38,8 +38,8 @@ const Filter = (props: FilterType) => {
   const { searchFilter, setSearchFilter, initialInput } = props;
   const device = useDeviceDetect();
   const router = useRouter();
-  const [propertyLocation, setPropertyLocation] = useState<JewelleryLocation[]>(Object.values(JewelleryLocation));
-  const [propertyType, setPropertyType] = useState<JewelleryType[]>(Object.values(JewelleryType));
+  const [jewelleryLocation, setPropertyLocation] = useState<JewelleryLocation[]>(Object.values(JewelleryLocation));
+  const [jewelleryType, setPropertyType] = useState<JewelleryType[]>(Object.values(JewelleryType));
   const [searchText, setSearchText] = useState<string>('');
   const [showMore, setShowMore] = useState<boolean>(false);
 
@@ -583,7 +583,7 @@ const Filter = (props: FilterType) => {
               }
             }}
           >
-            {propertyLocation.map((location: string) => {
+            {jewelleryLocation.map((location: string) => {
               return (
                 <Stack className={'input-box'} key={location}>
                   <Checkbox
@@ -605,7 +605,7 @@ const Filter = (props: FilterType) => {
         </Stack>
         <Stack className={'find-your-home'} mb={'30px'}>
           <Typography className={'title'}>Property Type</Typography>
-          {propertyType.map((type: string) => (
+          {jewelleryType.map((type: string) => (
             <Stack className={'input-box'} key={type}>
               <Checkbox
                 id={type}
@@ -759,8 +759,8 @@ const Filter = (props: FilterType) => {
               className="property-checkbox"
               color="default"
               size="small"
-              value={'propertyBarter'}
-              checked={(searchFilter?.search?.options || []).includes('propertyBarter')}
+              value={'jewelleryBarter'}
+              checked={(searchFilter?.search?.options || []).includes('jewelleryBarter')}
               onChange={propertyOptionSelectHandler}
             />
             <label htmlFor={'Barter'} style={{ cursor: 'pointer' }}>
@@ -773,8 +773,8 @@ const Filter = (props: FilterType) => {
               className="property-checkbox"
               color="default"
               size="small"
-              value={'propertyRent'}
-              checked={(searchFilter?.search?.options || []).includes('propertyRent')}
+              value={'jewelleryRent'}
+              checked={(searchFilter?.search?.options || []).includes('jewelleryRent')}
               onChange={propertyOptionSelectHandler}
             />
             <label htmlFor={'Rent'} style={{ cursor: 'pointer' }}>
