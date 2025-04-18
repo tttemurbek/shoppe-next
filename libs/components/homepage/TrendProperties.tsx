@@ -9,9 +9,9 @@ import { Property } from '../../types/jewellery/jewellery';
 import { PropertiesInquiry } from '../../types/jewellery/jewellery.input';
 import TrendPropertyCard from './TrendPropertyCard';
 import { useMutation, useQuery } from '@apollo/client';
-import { GET_PROPERTIES } from '../../../apollo/user/query';
+import { GET_JEWELLERIES } from '../../../apollo/user/query';
 import { T } from '../../types/common';
-import { LIKE_TARGET_PROPERTY } from '../../../apollo/user/mutation';
+import { LIKE_TARGET_JEWELLERY } from '../../../apollo/user/mutation';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
 import { Message } from '../../enums/common.enum';
 
@@ -25,14 +25,14 @@ const TrendProperties = (props: TrendPropertiesProps) => {
   const [trendProperties, setTrendProperties] = useState<Property[]>([]);
 
   /** APOLLO REQUESTS **/
-  const [likeTargetProperty] = useMutation(LIKE_TARGET_PROPERTY);
+  const [likeTargetProperty] = useMutation(LIKE_TARGET_JEWELLERY);
 
   const {
     loading: getPropertiesLoading,
     data: getPropertiesData,
     error: getPropertiesError,
     refetch: getPropertiesRefetch,
-  } = useQuery(GET_PROPERTIES, {
+  } = useQuery(GET_JEWELLERIES, {
     fetchPolicy: 'cache-and-network',
     variables: { input: initialInput },
     notifyOnNetworkStatusChange: true,

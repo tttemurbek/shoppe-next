@@ -9,7 +9,7 @@ import PopularPropertyCard from './PopularPropertyCard';
 import { Property } from '../../types/jewellery/jewellery';
 import Link from 'next/link';
 import { PropertiesInquiry } from '../../types/jewellery/jewellery.input';
-import { GET_PROPERTIES } from '../../../apollo/user/query';
+import { GET_JEWELLERIES } from '../../../apollo/user/query';
 import { useQuery } from '@apollo/client';
 import { T } from '../../types/common';
 
@@ -29,7 +29,7 @@ const PopularProperties = (props: PopularPropertiesProps) => {
     data: getPropertiesData,
     error: getPropertiesError,
     refetch: getPropertiesRefetch,
-  } = useQuery(GET_PROPERTIES, {
+  } = useQuery(GET_JEWELLERIES, {
     fetchPolicy: 'cache-and-network',
     variables: { input: initialInput },
     notifyOnNetworkStatusChange: true,

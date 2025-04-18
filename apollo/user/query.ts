@@ -79,12 +79,12 @@ query GetMember($input: String!) {
 `);
 
 /**************************
- *        PROPERTY        *
+ *        JEWELLERY        *
  *************************/
 
-export const GET_PROPERTY = gql`
-  query GetProperty($input: String!) {
-    getJewellery(propertyId: $input) {
+export const GET_JEWELLERY = gql`
+  query GetJewellery($input: String!) {
+    getJewellery(jewelleryId: $input) {
       _id
       jewelleryType
       jewelleryStatus
@@ -92,9 +92,7 @@ export const GET_PROPERTY = gql`
       jewelleryAddress
       jewelleryTitle
       jewelleryPrice
-      propertySquare
-      propertyBeds
-      propertyRooms
+      jewelleryGram
       jewelleryViews
       jewelleryLikes
       jewelleryImages
@@ -105,8 +103,6 @@ export const GET_PROPERTY = gql`
       soldAt
       deletedAt
       constructedAt
-      createdAt
-      updatedAt
       memberData {
         _id
         memberType
@@ -118,27 +114,32 @@ export const GET_PROPERTY = gql`
         memberImage
         memberAddress
         memberDesc
-        memberWarnings
-        memberBlocks
+        memberJewelleries
+        memberArticles
+        memberFollowers
+        memberFollowings
         memberPoints
         memberLikes
         memberViews
+        memberComments
+        memberWarnings
+        memberBlocks
         deletedAt
         createdAt
         updatedAt
         accessToken
-      }
-      meLiked {
-        memberId
-        likeRefId
-        myFavorite
+        meLiked {
+          memberId
+          likeRefId
+          myFavorite
+        }
       }
     }
   }
 `;
 
-export const GET_PROPERTIES = gql`
-  query GetProperties($input: PropertiesInquiry!) {
+export const GET_JEWELLERIES = gql`
+  query GetJewelleries($input: JewelleriesInquiry!) {
     getJewelleries(input: $input) {
       list {
         _id
@@ -148,11 +149,10 @@ export const GET_PROPERTIES = gql`
         jewelleryAddress
         jewelleryTitle
         jewelleryPrice
-        propertySquare
-        propertyBeds
-        propertyRooms
+        jewelleryGram
         jewelleryViews
         jewelleryLikes
+        jewelleryComments
         jewelleryRank
         jewelleryImages
         jewelleryDesc
@@ -164,6 +164,11 @@ export const GET_PROPERTIES = gql`
         constructedAt
         createdAt
         updatedAt
+        meLiked {
+          memberId
+          likeRefId
+          myFavorite
+        }
         memberData {
           _id
           memberType
@@ -175,21 +180,21 @@ export const GET_PROPERTIES = gql`
           memberImage
           memberAddress
           memberDesc
-          memberWarnings
-          memberBlocks
           memberJewelleries
-          memberRank
+          memberArticles
+          memberFollowers
+          memberFollowings
           memberPoints
           memberLikes
           memberViews
+          memberComments
+          memberRank
+          memberWarnings
+          memberBlocks
           deletedAt
           createdAt
           updatedAt
-        }
-        meLiked {
-          memberId
-          likeRefId
-          myFavorite
+          accessToken
         }
       }
       metaCounter {
@@ -199,9 +204,9 @@ export const GET_PROPERTIES = gql`
   }
 `;
 
-export const GET_AGENT_PROPERTIES = gql`
-  query GetAgentProperties($input: AgentPropertiesInquiry!) {
-    getAgentProperties(input: $input) {
+export const GET_AGENT_JEWELLERIES = gql`
+  query GetAgentJewelleries($input: AgentJewelleriesInquiry!) {
+    getAgentJewelleries(input: $input) {
       list {
         _id
         jewelleryType
@@ -210,11 +215,11 @@ export const GET_AGENT_PROPERTIES = gql`
         jewelleryAddress
         jewelleryTitle
         jewelleryPrice
-        propertySquare
-        propertyBeds
-        propertyRooms
+        jewelleryGram
         jewelleryViews
         jewelleryLikes
+        jewelleryComments
+        jewelleryRank
         jewelleryImages
         jewelleryDesc
         jewelleryBarter
@@ -225,6 +230,11 @@ export const GET_AGENT_PROPERTIES = gql`
         constructedAt
         createdAt
         updatedAt
+        meLiked {
+          memberId
+          likeRefId
+          myFavorite
+        }
       }
       metaCounter {
         total
@@ -244,12 +254,10 @@ export const GET_FAVORITES = gql`
         jewelleryAddress
         jewelleryTitle
         jewelleryPrice
-        propertySquare
-        propertyBeds
-        propertyRooms
+        jewelleryGram
         jewelleryViews
         jewelleryLikes
-        propertyComments
+        jewelleryComments
         jewelleryRank
         jewelleryImages
         jewelleryDesc
@@ -274,12 +282,12 @@ export const GET_FAVORITES = gql`
           memberDesc
           memberJewelleries
           memberArticles
+          memberFollowers
+          memberFollowings
           memberPoints
           memberLikes
           memberViews
           memberComments
-          memberFollowings
-          memberFollowers
           memberRank
           memberWarnings
           memberBlocks
@@ -307,12 +315,10 @@ export const GET_VISITED = gql`
         jewelleryAddress
         jewelleryTitle
         jewelleryPrice
-        propertySquare
-        propertyBeds
-        propertyRooms
+        jewelleryGram
         jewelleryViews
         jewelleryLikes
-        propertyComments
+        jewelleryComments
         jewelleryRank
         jewelleryImages
         jewelleryDesc
@@ -337,12 +343,12 @@ export const GET_VISITED = gql`
           memberDesc
           memberJewelleries
           memberArticles
+          memberFollowers
+          memberFollowings
           memberPoints
           memberLikes
           memberViews
           memberComments
-          memberFollowings
-          memberFollowers
           memberRank
           memberWarnings
           memberBlocks

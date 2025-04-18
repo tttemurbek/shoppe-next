@@ -17,14 +17,17 @@ export const SIGN_UP = gql`
       memberImage
       memberAddress
       memberDesc
-      memberWarnings
-      memberBlocks
       memberJewelleries
-      memberRank
       memberArticles
+      memberFollowers
+      memberFollowings
       memberPoints
       memberLikes
       memberViews
+      memberComments
+      memberRank
+      memberWarnings
+      memberBlocks
       deletedAt
       createdAt
       updatedAt
@@ -46,13 +49,17 @@ export const LOGIN = gql`
       memberImage
       memberAddress
       memberDesc
-      memberWarnings
-      memberBlocks
       memberJewelleries
-      memberRank
+      memberArticles
+      memberFollowers
+      memberFollowings
       memberPoints
       memberLikes
       memberViews
+      memberComments
+      memberRank
+      memberWarnings
+      memberBlocks
       deletedAt
       createdAt
       updatedAt
@@ -75,11 +82,14 @@ export const UPDATE_MEMBER = gql`
       memberAddress
       memberDesc
       memberJewelleries
-      memberRank
       memberArticles
+      memberFollowers
+      memberFollowings
       memberPoints
       memberLikes
       memberViews
+      memberComments
+      memberRank
       memberWarnings
       memberBlocks
       deletedAt
@@ -103,13 +113,17 @@ export const LIKE_TARGET_MEMBER = gql`
       memberImage
       memberAddress
       memberDesc
-      memberWarnings
-      memberBlocks
       memberJewelleries
-      memberRank
+      memberArticles
+      memberFollowers
+      memberFollowings
       memberPoints
       memberLikes
       memberViews
+      memberComments
+      memberRank
+      memberWarnings
+      memberBlocks
       deletedAt
       createdAt
       updatedAt
@@ -119,12 +133,12 @@ export const LIKE_TARGET_MEMBER = gql`
 `;
 
 /**************************
- *        PROPERTY        *
+ *        JEWELLERY        *
  *************************/
 
-export const CREATE_PROPERTY = gql`
-  mutation CreateProperty($input: JewelleryInput!) {
-    createProperty(input: $input) {
+export const CREATE_JEWELLERY = gql`
+  mutation CreateJewellery($input: JewelleryInput!) {
+    createJewellery(input: $input) {
       _id
       jewelleryType
       jewelleryStatus
@@ -132,11 +146,11 @@ export const CREATE_PROPERTY = gql`
       jewelleryAddress
       jewelleryTitle
       jewelleryPrice
-      propertySquare
-      propertyBeds
-      propertyRooms
+      jewelleryGram
       jewelleryViews
       jewelleryLikes
+      jewelleryComments
+      jewelleryRank
       jewelleryImages
       jewelleryDesc
       jewelleryBarter
@@ -151,9 +165,9 @@ export const CREATE_PROPERTY = gql`
   }
 `;
 
-export const UPDATE_PROPERTY = gql`
-  mutation UpdateProperty($input: JewelleryUpdate!) {
-    updateProperty(input: $input) {
+export const UPDATE_JEWELLERY = gql`
+  mutation UpdateJewellery($input: JewelleryUpdate!) {
+    updateJewellery(input: $input) {
       _id
       jewelleryType
       jewelleryStatus
@@ -161,11 +175,11 @@ export const UPDATE_PROPERTY = gql`
       jewelleryAddress
       jewelleryTitle
       jewelleryPrice
-      propertySquare
-      propertyBeds
-      propertyRooms
+      jewelleryGram
       jewelleryViews
       jewelleryLikes
+      jewelleryComments
+      jewelleryRank
       jewelleryImages
       jewelleryDesc
       jewelleryBarter
@@ -180,9 +194,9 @@ export const UPDATE_PROPERTY = gql`
   }
 `;
 
-export const LIKE_TARGET_PROPERTY = gql`
-  mutation LikeTargetProperty($input: String!) {
-    likeTargetProperty(propertyId: $input) {
+export const LIKE_TARGET_JEWELLERY = gql`
+  mutation LikeTargetJewellery($input: String!) {
+    likeTargetJewellery(jewelleryId: $input) {
       _id
       jewelleryType
       jewelleryStatus
@@ -190,11 +204,11 @@ export const LIKE_TARGET_PROPERTY = gql`
       jewelleryAddress
       jewelleryTitle
       jewelleryPrice
-      propertySquare
-      propertyBeds
-      propertyRooms
+      jewelleryGram
       jewelleryViews
       jewelleryLikes
+      jewelleryComments
+      jewelleryRank
       jewelleryImages
       jewelleryDesc
       jewelleryBarter
@@ -224,6 +238,7 @@ export const CREATE_BOARD_ARTICLE = gql`
       articleImage
       articleViews
       articleLikes
+      articleComments
       memberId
       createdAt
       updatedAt
@@ -242,6 +257,7 @@ export const UPDATE_BOARD_ARTICLE = gql`
       articleImage
       articleViews
       articleLikes
+      articleComments
       memberId
       createdAt
       updatedAt

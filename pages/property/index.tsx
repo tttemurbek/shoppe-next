@@ -11,10 +11,10 @@ import { Property } from '../../libs/types/jewellery/jewellery';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 import { Direction, Message } from '../../libs/enums/common.enum';
-import { GET_PROPERTIES } from '../../apollo/user/query';
+import { GET_JEWELLERIES } from '../../apollo/user/query';
 import { T } from '../../libs/types/common';
 import { useMutation, useQuery } from '@apollo/client';
-import { LIKE_TARGET_PROPERTY } from '../../apollo/user/mutation';
+import { LIKE_TARGET_JEWELLERY } from '../../apollo/user/mutation';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 
 export const getStaticProps = async ({ locale }: any) => ({
@@ -37,14 +37,14 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
   const [filterSortName, setFilterSortName] = useState('New');
 
   /** APOLLO REQUESTS **/
-  const [likeTargetProperty] = useMutation(LIKE_TARGET_PROPERTY);
+  const [likeTargetProperty] = useMutation(LIKE_TARGET_JEWELLERY);
 
   const {
     loading: getPropertiesLoading,
     data: getPropertiesData,
     error: getPropertiesError,
     refetch: getPropertiesRefetch,
-  } = useQuery(GET_PROPERTIES, {
+  } = useQuery(GET_JEWELLERIES, {
     fetchPolicy: 'network-only',
     variables: { input: searchFilter },
     notifyOnNetworkStatusChange: true,

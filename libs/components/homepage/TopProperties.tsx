@@ -8,10 +8,10 @@ import { Autoplay, Navigation, Pagination } from 'swiper';
 import TopPropertyCard from './TopPropertyCard';
 import { PropertiesInquiry } from '../../types/jewellery/jewellery.input';
 import { Property } from '../../types/jewellery/jewellery';
-import { GET_PROPERTIES } from '../../../apollo/user/query';
+import { GET_JEWELLERIES } from '../../../apollo/user/query';
 import { useMutation, useQuery } from '@apollo/client';
 import { T } from '../../types/common';
-import { LIKE_TARGET_PROPERTY } from '../../../apollo/user/mutation';
+import { LIKE_TARGET_JEWELLERY } from '../../../apollo/user/mutation';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
 import { Message } from '../../enums/common.enum';
 
@@ -25,14 +25,14 @@ const TopProperties = (props: TopPropertiesProps) => {
   const [topProperties, setTopProperties] = useState<Property[]>([]);
 
   /** APOLLO REQUESTS **/
-  const [likeTargetProperty] = useMutation(LIKE_TARGET_PROPERTY);
+  const [likeTargetProperty] = useMutation(LIKE_TARGET_JEWELLERY);
 
   const {
     loading: getPropertiesLoading,
     data: getPropertiesData,
     error: getPropertiesError,
     refetch: getPropertiesRefetch,
-  } = useQuery(GET_PROPERTIES, {
+  } = useQuery(GET_JEWELLERIES, {
     fetchPolicy: 'cache-and-network',
     variables: { input: initialInput },
     notifyOnNetworkStatusChange: true,

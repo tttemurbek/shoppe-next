@@ -9,8 +9,8 @@ import axios from 'axios';
 import { getJwtToken } from '../../auth';
 import { userVar } from '../../../apollo/store';
 import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
-import { CREATE_PROPERTY, UPDATE_PROPERTY } from '../../../apollo/user/mutation';
-import { GET_PROPERTY } from '../../../apollo/user/query';
+import { CREATE_JEWELLERY, UPDATE_JEWELLERY } from '../../../apollo/user/mutation';
+import { GET_JEWELLERY } from '../../../apollo/user/query';
 import { sweetErrorHandling, sweetMixinErrorAlert, sweetMixinSuccessAlert } from '../../sweetAlert';
 
 const AddProperty = ({ initialValues, ...props }: any) => {
@@ -24,15 +24,15 @@ const AddProperty = ({ initialValues, ...props }: any) => {
   const user = useReactiveVar(userVar);
 
   /** APOLLO REQUESTS **/
-  const [createProperty] = useMutation(CREATE_PROPERTY);
-  const [updateProperty] = useMutation(UPDATE_PROPERTY);
+  const [createProperty] = useMutation(CREATE_JEWELLERY);
+  const [updateProperty] = useMutation(UPDATE_JEWELLERY);
 
   const {
     loading: getPropertyLoading,
     data: getPropertyData,
     error: getPropertyError,
     refetch: getPropertyRefetch,
-  } = useQuery(GET_PROPERTY, {
+  } = useQuery(GET_JEWELLERY, {
     fetchPolicy: 'network-only',
     variables: {
       input: router.query.propertyId,

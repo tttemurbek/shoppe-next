@@ -3,34 +3,34 @@ import { NextPage } from 'next';
 import { Pagination, Stack, Typography } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { PropertyCard } from './PropertyCard';
-import { Property } from '../../types/jewellery/jewellery';
+import { Jewellery } from '../../types/jewellery/jewellery';
 import { AgentPropertiesInquiry } from '../../types/jewellery/jewellery.input';
 import { T } from '../../types/common';
 import { JewelleryStatus } from '../../enums/jewellery.enum';
 import { userVar } from '../../../apollo/store';
 import { useRouter } from 'next/router';
 import { useQuery, useMutation, useReactiveVar } from '@apollo/client';
-import { UPDATE_PROPERTY } from '../../../apollo/user/mutation';
-import { GET_AGENT_PROPERTIES } from '../../../apollo/user/query';
+import { UPDATE_JEWELLERY } from '../../../apollo/user/mutation';
+import { GET_AGENT_JEWELLERIES } from '../../../apollo/user/query';
 import { sweetConfirmAlert, sweetErrorHandling } from '../../sweetAlert';
 
 const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
   const device = useDeviceDetect();
   const [searchFilter, setSearchFilter] = useState<AgentPropertiesInquiry>(initialInput);
-  const [agentProperties, setAgentProperties] = useState<Property[]>([]);
+  const [agentProperties, setAgentProperties] = useState<Jewellery[]>([]);
   const [total, setTotal] = useState<number>(0);
   const user = useReactiveVar(userVar);
   const router = useRouter();
 
   /** APOLLO REQUESTS **/
-  const [updateProperty] = useMutation(UPDATE_PROPERTY);
+  const [updateProperty] = useMutation(UPDATE_JEWELLERY);
 
   const {
     loading: getAgentPropertiesLoading,
     data: getAgentPropertiesData,
     error: getAgentPropertiesError,
     refetch: getAgentPropertiesRefetch,
-  } = useQuery(GET_AGENT_PROPERTIES, {
+  } = useQuery(GET_AGENT_JEWELLERIES, {
     fetchPolicy: 'network-only',
     variables: { input: searchFilter },
     notifyOnNetworkStatusChange: true,
@@ -134,7 +134,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
                 <p>No Property found!</p>
               </div>
             ) : (
-              agentProperties.map((property: Property) => {
+              agentProperties.map((property: Jewellery) => {
                 return (
                   <PropertyCard
                     property={property}
