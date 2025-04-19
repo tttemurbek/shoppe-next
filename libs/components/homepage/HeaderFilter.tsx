@@ -11,6 +11,7 @@ import { JewelleryLocation, JewelleryType } from '../../enums/jewellery.enum';
 import { PropertiesInquiry } from '../../types/jewellery/jewellery.input';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
+import SearchIcon from '@mui/icons-material/Search';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -329,12 +330,12 @@ const HeaderFilter = (props: HeaderFilterProps) => {
               <span> {searchFilter?.search?.typeList ? searchFilter?.search?.typeList[0] : t('Property type')} </span>
               <ExpandMoreIcon />
             </Box>
-            <Box className={`box ${openRooms ? 'on' : ''}`} onClick={roomStateChangeHandler}>
+            {/* <Box className={`box ${openRooms ? 'on' : ''}`} onClick={roomStateChangeHandler}>
               <span>
                 {searchFilter?.search?.roomsList ? `${searchFilter?.search?.roomsList[0]} rooms}` : t('Rooms')}
               </span>
               <ExpandMoreIcon />
-            </Box>
+            </Box> */}
           </Stack>
           <Stack className={'search-box-other'}>
             <Box className={'advanced-filter'} onClick={() => advancedFilterHandler(true)}>
@@ -362,7 +363,10 @@ const HeaderFilter = (props: HeaderFilterProps) => {
             {jewelleryType.map((type: string) => {
               return (
                 <div
-                  style={{ backgroundImage: `url(/img/banner/types/${type.toLowerCase()}.webp)` }}
+                  style={{
+                    backgroundImage: `url(/img/banner/types/${type.toLowerCase()}.webp)`,
+                    backgroundSize: 'cover',
+                  }}
                   onClick={() => propertyTypeSelectHandler(type)}
                   key={type}
                 >
@@ -372,7 +376,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
             })}
           </div>
 
-          <div className={`filter-rooms ${openRooms ? 'on' : ''}`} ref={roomsRef}>
+          {/* <div className={`filter-rooms ${openRooms ? 'on' : ''}`} ref={roomsRef}>
             {[1, 2, 3, 4, 5].map((room: number) => {
               return (
                 <span onClick={() => propertyRoomSelectHandler(room)} key={room}>
@@ -380,7 +384,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
                 </span>
               );
             })}
-          </div>
+          </div> */}
         </Stack>
 
         {/* ADVANCED FILTER MODAL */}
