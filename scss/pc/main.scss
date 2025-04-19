@@ -185,9 +185,9 @@ body::-webkit-scrollbar {
       align-items: center;
       .search-box {
         position: relative;
-        margin-top: 310px;
+        margin-top: 200px;
         padding: 16px 29px;
-        width: 750px;
+        width: 620px;
         height: 96px;
         display: flex;
         flex-direction: row;
@@ -272,8 +272,8 @@ body::-webkit-scrollbar {
         }
         .filter-location {
           position: absolute;
-          padding: 40px 60px;
-          width: 1094px;
+          padding: 5px;
+          width: 620px;
           min-height: 120px;
           height: auto;
           top: 96px;
@@ -281,7 +281,7 @@ body::-webkit-scrollbar {
           display: flex;
           flex-direction: row;
           flex-wrap: wrap;
-          gap: 40px;
+          gap: 10px;
           visibility: hidden;
           border-radius: 12px;
           background: #ffffff;
@@ -294,26 +294,26 @@ body::-webkit-scrollbar {
             background: #fffdfd;
           }
           div {
-            width: 295px;
+            width: 190px;
             display: flex;
             flex-direction: row;
             align-items: center;
             img {
-              width: 122px;
-              height: 85px;
+              width: 75px;
+              height: 75px;
               border-radius: 15px;
               cursor: pointer;
             }
             span {
-              margin-left: 22px;
+              margin-left: 5px;
               color: #181a20;
               font-family: $font;
-              font-size: 20px;
+              font-size: 14px;
               font-style: normal;
-              font-weight: 400;
+              font-weight: 500;
               line-height: 26px;
               cursor: pointer;
-              text-transform: capitalize;
+              text-transform: lowercase;
             }
             label {
               line-height: 13px;
@@ -322,13 +322,14 @@ body::-webkit-scrollbar {
         }
         .filter-type {
           position: absolute;
-          padding: 50px;
-          width: 1094px;
+          padding: 10px 40px;
+          width: 620px;
           min-height: 120px;
           height: auto;
           top: 96px;
           right: 0px;
           display: flex;
+          gap: 20px;
           flex-direction: row;
           justify-content: space-between;
           visibility: hidden;
@@ -344,11 +345,12 @@ body::-webkit-scrollbar {
           }
           div {
             position: relative;
-            width: 272px;
-            height: 100px;
+            width: 200px;
+            height: 160px;
             border-radius: 15px;
             cursor: pointer;
             background-size: cover;
+            z-index: 10000;
             span {
               position: absolute;
               top: 13px;
@@ -361,8 +363,8 @@ body::-webkit-scrollbar {
               font-weight: 700;
               line-height: 26px;
               background: linear-gradient(180deg, #fff 0%, rgba(255, 255, 255, 0) 100%);
-              -webkit-background-clip: text;
-              -webkit-text-fill-color: transparent;
+              // -webkit-background-clip: text;
+              // -webkit-text-fill-color: transparent;
               text-transform: capitalize;
             }
           }

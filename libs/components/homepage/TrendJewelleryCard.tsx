@@ -112,7 +112,7 @@ const TrendJewelleryCard = (props: TrendJewelleryCardProps) => {
             {jewellery.jewelleryTitle}
           </strong>
           <p className={'desc'}>{jewellery.jewelleryDesc ?? 'no description'}</p>
-          <div className={'options'}>
+          {/* <div className={'options'}>
             <div>
               <img src="/img/icons/bed.svg" alt="" />
               <span>{jewellery.propertyBeds} bed</span>
@@ -125,7 +125,7 @@ const TrendJewelleryCard = (props: TrendJewelleryCardProps) => {
               <img src="/img/icons/expand.svg" alt="" />
               <span>{jewellery.propertySquare} m2</span>
             </div>
-          </div>
+          </div> */}
           <Divider sx={{ mt: '15px', mb: '17px' }} />
           <div className={'bott'}>
             <p>

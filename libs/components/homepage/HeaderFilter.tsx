@@ -338,10 +338,10 @@ const HeaderFilter = (props: HeaderFilterProps) => {
             </Box> */}
           </Stack>
           <Stack className={'search-box-other'}>
-            <Box className={'advanced-filter'} onClick={() => advancedFilterHandler(true)}>
+            {/* <Box className={'advanced-filter'} onClick={() => advancedFilterHandler(true)}>
               <img src="/img/icons/tune.svg" alt="" />
               <span>{t('Advanced')}</span>
-            </Box>
+            </Box> */}
             <Box className={'search-btn'} onClick={pushSearchHandler}>
               <img src="/img/icons/search_white.svg" alt="" />
             </Box>
@@ -366,6 +366,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
                   style={{
                     backgroundImage: `url(/img/banner/types/${type.toLowerCase()}.webp)`,
                     backgroundSize: 'cover',
+                    backgroundRepeat: 'no-repeat',
                   }}
                   onClick={() => propertyTypeSelectHandler(type)}
                   key={type}
