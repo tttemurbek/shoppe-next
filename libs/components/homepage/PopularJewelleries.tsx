@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation, Pagination } from 'swiper';
 import WestIcon from '@mui/icons-material/West';
 import EastIcon from '@mui/icons-material/East';
-import PopularPropertyCard from './PopularPropertyCard';
+import PopularPropertyCard from './PopularJewelleryCard';
 import { Jewellery } from '../../types/jewellery/jewellery';
 import Link from 'next/link';
 import { PropertiesInquiry } from '../../types/jewellery/jewellery.input';

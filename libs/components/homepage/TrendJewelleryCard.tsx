@@ -3,20 +3,20 @@ import { Stack, Box, Divider, Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { Property } from '../../types/jewellery/jewellery';
+import { Jewellery } from '../../types/jewellery/jewellery';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { REACT_APP_API_URL } from '../../config';
 import { useRouter } from 'next/router';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 
-interface TopPropertyCardProps {
-  jewellery: Property;
+interface TrendJewelleryCardProps {
+  jewellery: Jewellery;
   likeJewelleryHandler: any;
 }
 
-const TopPropertyCard = (props: TopPropertyCardProps) => {
-  const { property, likeJewelleryHandler } = props;
+const TrendJewelleryCard = (props: TrendJewelleryCardProps) => {
+  const { jewellery, likeJewelleryHandler } = props;
   const device = useDeviceDetect();
   const router = useRouter();
   const user = useReactiveVar(userVar);
@@ -24,67 +24,66 @@ const TopPropertyCard = (props: TopPropertyCardProps) => {
   /** HANDLERS **/
 
   const pushDetailHandler = async (jewelleryId: string) => {
-    console.log('ID:', propertyId);
-    await router.push({ pathname: '/jewellery/detail', query: { id: propertyId } });
+    console.log('ID:', jewelleryId);
+    await router.push({ pathname: '/jewellery/detail', query: { id: jewelleryId } });
   };
 
   if (device === 'mobile') {
     return (
-      <Stack className="top-card-box">
+      <Stack className="trend-card-box" key={jewellery._id}>
         <Box
           component={'div'}
           className={'card-img'}
-          style={{ backgroundImage: `url(${REACT_APP_API_URL}/${property?.jewelleryImages[0]})` }}
+          style={{ backgroundImage: `url(${REACT_APP_API_URL}/${jewellery?.jewelleryImages[0]})` }}
           onClick={() => {
-            pushDetailHandler(property._id);
+            pushDetailHandler(jewellery._id);
           }}
         >
-          <div>${property?.jewelleryPrice}</div>
+          <div>${jewellery.jewelleryPrice}</div>
         </Box>
         <Box component={'div'} className={'info'}>
           <strong
             className={'title'}
             onClick={() => {
-              pushDetailHandler(property._id);
+              pushDetailHandler(jewellery._id);
             }}
           >
-            {property?.jewelleryTitle}
+            {jewellery.jewelleryTitle}
           </strong>
-          <p className={'desc'}>{property?.jewelleryAddress}</p>
+          <p className={'desc'}>{jewellery.jewelleryDesc ?? 'no description'}</p>
           <div className={'options'}>
             <div>
               <img src="/img/icons/bed.svg" alt="" />
-              <span>{property?.propertyBeds} bed</span>
+              <span>{jewellery.propertyBeds} bed</span>
             </div>
             <div>
               <img src="/img/icons/room.svg" alt="" />
-              <span>{property?.propertyRooms} rooms</span>
+              <span>{jewellery.propertyRooms} rooms</span>
             </div>
             <div>
               <img src="/img/icons/expand.svg" alt="" />
-              <span>{property?.propertySquare} m2</span>
+              <span>{jewellery.propertySquare} m2</span>
             </div>
           </div>
           <Divider sx={{ mt: '15px', mb: '17px' }} />
           <div className={'bott'}>
             <p>
-              {' '}
-              {property.jewelleryRent ? 'Rent' : ''} {property.jewelleryRent && property.jewelleryBarter && '/'}{' '}
-              {property.jewelleryBarter ? 'Barter' : ''}
+              {jewellery.jewelleryRent ? 'Rent' : ''} {jewellery.jewelleryRent && jewellery.jewelleryBarter && '/'}{' '}
+              {jewellery.jewelleryBarter ? 'Barter' : ''}
             </p>
             <div className="view-like-box">
               <IconButton color={'default'}>
                 <RemoveRedEyeIcon />
               </IconButton>
-              <Typography className="view-cnt">{property?.jewelleryViews}</Typography>
-              <IconButton color={'default'} onClick={() => likeJewelleryHandler(user, property?._id)}>
-                {property?.meLiked && property?.meLiked[0]?.myFavorite ? (
+              <Typography className="view-cnt">{jewellery?.jewelleryViews}</Typography>
+              <IconButton color={'default'} onClick={() => likeJewelleryHandler(user, jewellery?._id)}>
+                {jewellery?.meLiked && jewellery?.meLiked[0]?.myFavorite ? (
                   <FavoriteIcon style={{ color: 'red' }} />
                 ) : (
                   <FavoriteIcon />
                 )}
               </IconButton>
-              <Typography className="view-cnt">{property?.jewelleryLikes}</Typography>
+              <Typography className="view-cnt">{jewellery?.jewelleryLikes}</Typography>
             </div>
           </div>
         </Box>
@@ -92,61 +91,60 @@ const TopPropertyCard = (props: TopPropertyCardProps) => {
     );
   } else {
     return (
-      <Stack className="top-card-box">
+      <Stack className="trend-card-box" key={jewellery._id}>
         <Box
           component={'div'}
           className={'card-img'}
-          style={{ backgroundImage: `url(${REACT_APP_API_URL}/${property?.jewelleryImages[0]})` }}
+          style={{ backgroundImage: `url(${REACT_APP_API_URL}/${jewellery?.jewelleryImages[0]})` }}
           onClick={() => {
-            pushDetailHandler(property._id);
+            pushDetailHandler(jewellery._id);
           }}
         >
-          <div>${property?.jewelleryPrice}</div>
+          <div>${jewellery.jewelleryPrice}</div>
         </Box>
         <Box component={'div'} className={'info'}>
           <strong
             className={'title'}
             onClick={() => {
-              pushDetailHandler(property._id);
+              pushDetailHandler(jewellery._id);
             }}
           >
-            {property?.jewelleryTitle}
+            {jewellery.jewelleryTitle}
           </strong>
-          <p className={'desc'}>{property?.jewelleryAddress}</p>
+          <p className={'desc'}>{jewellery.jewelleryDesc ?? 'no description'}</p>
           <div className={'options'}>
             <div>
               <img src="/img/icons/bed.svg" alt="" />
-              <span>{property?.propertyBeds} bed</span>
+              <span>{jewellery.propertyBeds} bed</span>
             </div>
             <div>
               <img src="/img/icons/room.svg" alt="" />
-              <span>{property?.propertyRooms} rooms</span>
+              <span>{jewellery.propertyRooms} rooms</span>
             </div>
             <div>
               <img src="/img/icons/expand.svg" alt="" />
-              <span>{property?.propertySquare} m2</span>
+              <span>{jewellery.propertySquare} m2</span>
             </div>
           </div>
           <Divider sx={{ mt: '15px', mb: '17px' }} />
           <div className={'bott'}>
             <p>
-              {' '}
-              {property.jewelleryRent ? 'Rent' : ''} {property.jewelleryRent && property.jewelleryBarter && '/'}{' '}
-              {property.jewelleryBarter ? 'Barter' : ''}
+              {jewellery.jewelleryRent ? 'Rent' : ''} {jewellery.jewelleryRent && jewellery.jewelleryBarter && '/'}{' '}
+              {jewellery.jewelleryBarter ? 'Barter' : ''}
             </p>
             <div className="view-like-box">
               <IconButton color={'default'}>
                 <RemoveRedEyeIcon />
               </IconButton>
-              <Typography className="view-cnt">{property?.jewelleryViews}</Typography>
-              <IconButton color={'default'} onClick={() => likeJewelleryHandler(user, property?._id)}>
-                {property?.meLiked && property?.meLiked[0]?.myFavorite ? (
+              <Typography className="view-cnt">{jewellery?.jewelleryViews}</Typography>
+              <IconButton color={'default'} onClick={() => likeJewelleryHandler(user, jewellery?._id)}>
+                {jewellery?.meLiked && jewellery?.meLiked[0]?.myFavorite ? (
                   <FavoriteIcon style={{ color: 'red' }} />
                 ) : (
                   <FavoriteIcon />
                 )}
               </IconButton>
-              <Typography className="view-cnt">{property?.jewelleryLikes}</Typography>
+              <Typography className="view-cnt">{jewellery?.jewelleryLikes}</Typography>
             </div>
           </div>
         </Box>
@@ -155,4 +153,4 @@ const TopPropertyCard = (props: TopPropertyCardProps) => {
   }
 };
 
-export default TopPropertyCard;
+export default TrendJewelleryCard;

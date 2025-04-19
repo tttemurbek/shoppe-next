@@ -5,7 +5,7 @@ import WestIcon from '@mui/icons-material/West';
 import EastIcon from '@mui/icons-material/East';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation, Pagination } from 'swiper';
-import TopPropertyCard from './TopPropertyCard';
+import TopJewelleryCard from './TopJewelleryCard';
 import { PropertiesInquiry } from '../../types/jewellery/jewellery.input';
 import { Jewellery } from '../../types/jewellery/jewellery';
 import { GET_JEWELLERIES } from '../../../apollo/user/query';
@@ -78,7 +78,7 @@ const TopProperties = (props: TopPropertiesProps) => {
               {topProperties.map((jewellery: Jewellery) => {
                 return (
                   <SwiperSlide className={'top-jewellery-slide'} key={jewellery?._id}>
-                    <TopPropertyCard jewellery={jewellery} likeJewelleryHandler={likeJewelleryHandler} />
+                    <TopJewelleryCard jewellery={jewellery} likeJewelleryHandler={likeJewelleryHandler} />
                   </SwiperSlide>
                 );
               })}
@@ -121,7 +121,7 @@ const TopProperties = (props: TopPropertiesProps) => {
               {topProperties.map((jewellery: Jewellery) => {
                 return (
                   <SwiperSlide className={'top-jewellery-slide'} key={jewellery?._id}>
-                    <TopPropertyCard jewellery={jewellery} likeJewelleryHandler={likeJewelleryHandler} />
+                    <TopJewelleryCard jewellery={jewellery} likeJewelleryHandler={likeJewelleryHandler} />
                   </SwiperSlide>
                 );
               })}

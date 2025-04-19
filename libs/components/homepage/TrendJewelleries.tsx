@@ -5,9 +5,9 @@ import WestIcon from '@mui/icons-material/West';
 import EastIcon from '@mui/icons-material/East';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation, Pagination } from 'swiper';
-import { Property } from '../../types/jewellery/jewellery';
+import { Jewellery } from '../../types/jewellery/jewellery';
 import { PropertiesInquiry } from '../../types/jewellery/jewellery.input';
-import TrendPropertyCard from './TrendPropertyCard';
+import TrendPropertyCard from './TrendJewelleryCard';
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_JEWELLERIES } from '../../../apollo/user/query';
 import { T } from '../../types/common';
@@ -22,7 +22,7 @@ interface TrendPropertiesProps {
 const TrendProperties = (props: TrendPropertiesProps) => {
   const { initialInput } = props;
   const device = useDeviceDetect();
-  const [trendProperties, setTrendProperties] = useState<Property[]>([]);
+  const [trendProperties, setTrendProperties] = useState<Jewellery[]>([]);
 
   /** APOLLO REQUESTS **/
   const [likeTargetProperty] = useMutation(LIKE_TARGET_JEWELLERY);
@@ -83,10 +83,10 @@ const TrendProperties = (props: TrendPropertiesProps) => {
                 spaceBetween={15}
                 modules={[Autoplay]}
               >
-                {trendProperties.map((jewellery: Property) => {
+                {trendProperties.map((jewellery: Jewellery) => {
                   return (
-                    <SwiperSlide key={property._id} className={'trend-property-slide'}>
-                      <TrendPropertyCard property={property} likeJewelleryHandler={likeJewelleryHandler} />
+                    <SwiperSlide key={jewellery._id} className={'trend-property-slide'}>
+                      <TrendPropertyCard jewellery={jewellery} likeJewelleryHandler={likeJewelleryHandler} />
                     </SwiperSlide>
                   );
                 })}
@@ -132,10 +132,10 @@ const TrendProperties = (props: TrendPropertiesProps) => {
                   el: '.swiper-trend-pagination',
                 }}
               >
-                {trendProperties.map((jewellery: Property) => {
+                {trendProperties.map((jewellery: Jewellery) => {
                   return (
-                    <SwiperSlide key={property._id} className={'trend-property-slide'}>
-                      <TrendPropertyCard property={property} likeJewelleryHandler={likeJewelleryHandler} />
+                    <SwiperSlide key={jewellery._id} className={'trend-property-slide'}>
+                      <TrendPropertyCard jewellery={jewellery} likeJewelleryHandler={likeJewelleryHandler} />
                     </SwiperSlide>
                   );
                 })}
