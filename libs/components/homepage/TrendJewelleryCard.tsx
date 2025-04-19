@@ -113,6 +113,7 @@ const TrendJewelleryCard = (props: TrendJewelleryCardProps) => {
             {jewellery.jewelleryTitle}
           </strong>
           <p className={'desc'}>{jewellery.jewelleryDesc ?? 'no description'}</p>
+          <p className="grams">{jewellery.jewelleryGram} grams</p>
           {/* <div className={'options'}>
             <div>
               <img src="/img/icons/bed.svg" alt="" />

@@ -213,6 +213,18 @@
                 text-overflow: ellipsis;
                 white-space: nowrap;
               }
+              .grams {
+                margin-top: 5px;
+                overflow: hidden;
+                color: #3b0a0a;
+                font-family: $font;
+                font-size: 13px;
+                font-style: normal;
+                font-weight: 500;
+                line-height: normal;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+              }
               .options {
                 margin-top: 15px;
                 display: flex;

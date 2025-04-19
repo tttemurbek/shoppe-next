@@ -30,6 +30,7 @@ export interface Jewellery {
   jewelleryDesc?: string;
   jewelleryBarter: boolean;
   jewelleryRent: boolean;
+  jewelleryGram: number;
   memberId: string;
   soldAt?: Date;
   deletedAt?: Date;
