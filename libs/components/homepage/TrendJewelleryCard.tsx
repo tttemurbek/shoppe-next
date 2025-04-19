@@ -9,6 +9,7 @@ import { REACT_APP_API_URL } from '../../config';
 import { useRouter } from 'next/router';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 interface TrendJewelleryCardProps {
   jewellery: Jewellery;
@@ -135,16 +136,20 @@ const TrendJewelleryCard = (props: TrendJewelleryCardProps) => {
             <div className="view-like-box">
               <IconButton color={'default'}>
                 <RemoveRedEyeIcon />
+                <Typography className="view-cnt">{jewellery?.jewelleryViews}</Typography>
               </IconButton>
-              <Typography className="view-cnt">{jewellery?.jewelleryViews}</Typography>
               <IconButton color={'default'} onClick={() => likeJewelleryHandler(user, jewellery?._id)}>
                 {jewellery?.meLiked && jewellery?.meLiked[0]?.myFavorite ? (
                   <FavoriteIcon style={{ color: 'red' }} />
                 ) : (
                   <FavoriteIcon />
                 )}
+                <Typography className="view-cnt">{jewellery?.jewelleryLikes}</Typography>
               </IconButton>
-              <Typography className="view-cnt">{jewellery?.jewelleryLikes}</Typography>
+              <IconButton color={'default'} onClick={() => likeJewelleryHandler(user, jewellery?._id)}>
+                <AddShoppingCartIcon />
+                <Typography className="view-cnt">{jewellery?.jewelleryLikes}</Typography>
+              </IconButton>
             </div>
           </div>
         </Box>

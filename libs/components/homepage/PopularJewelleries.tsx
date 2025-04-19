@@ -50,7 +50,7 @@ const PopularProperties = (props: PopularPropertiesProps) => {
           </Stack>
           <Stack className={'card-box'}>
             <Swiper
-              className={'popular-jewellery-swiper'}
+              className={'popular-property-swiper'}
               slidesPerView={'auto'}
               centeredSlides={true}
               spaceBetween={25}
@@ -58,7 +58,7 @@ const PopularProperties = (props: PopularPropertiesProps) => {
             >
               {popularProperties.map((jewellery: Jewellery) => {
                 return (
-                  <SwiperSlide key={jewellery._id} className={'popular-jewellery-slide'}>
+                  <SwiperSlide key={jewellery._id} className={'popular-property-slide'}>
                     <PopularPropertyCard jewellery={jewellery} />
                   </SwiperSlide>
                 );
@@ -88,7 +88,7 @@ const PopularProperties = (props: PopularPropertiesProps) => {
           </Stack>
           <Stack className={'card-box'}>
             <Swiper
-              className={'popular-jewellery-swiper'}
+              className={'popular-property-swiper'}
               slidesPerView={'auto'}
               spaceBetween={25}
               modules={[Autoplay, Navigation, Pagination]}
@@ -102,7 +102,7 @@ const PopularProperties = (props: PopularPropertiesProps) => {
             >
               {popularProperties.map((jewellery: Jewellery) => {
                 return (
-                  <SwiperSlide key={jewellery._id} className={'popular-jewellery-slide'}>
+                  <SwiperSlide key={jewellery._id} className={'popular-property-slide'}>
                     <PopularPropertyCard jewellery={jewellery} />
                   </SwiperSlide>
                 );
