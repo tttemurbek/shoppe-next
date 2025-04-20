@@ -19,6 +19,7 @@ const CommunityBoards = () => {
   const [newsArticles, setNewsArticles] = useState<BoardArticle[]>([]);
   const [freeArticles, setFreeArticles] = useState<BoardArticle[]>([]);
   const [recommendArticles, setRecommendArticles] = useState<BoardArticle[]>([]);
+  const [humorArticles, setHumorArticles] = useState<BoardArticle[]>([]);
 
   /** APOLLO REQUESTS **/
   const {
@@ -63,6 +64,20 @@ const CommunityBoards = () => {
     },
   });
 
+  const {
+    loading: getHumorArticlesLoading,
+    data: getHumorArticlesData,
+    error: getHumorArticlesError,
+    refetch: getHumorArticlesRefetch,
+  } = useQuery(GET_BOARD_ARTICLES, {
+    fetchPolicy: 'network-only',
+    variables: { input: { ...searchCommunity, limit: 3, search: { articleCategory: BoardArticleCategory.HUMOR } } },
+    notifyOnNetworkStatusChange: true,
+    onCompleted: (data: T) => {
+      setHumorArticles(data?.getBoardArticles?.list);
+    },
+  });
+
   if (device === 'mobile') {
     return <div>COMMUNITY BOARDS (MOBILE)</div>;
   } else {
@@ -102,7 +117,7 @@ const CommunityBoards = () => {
                 ))}
               </Stack>
             </Stack>
-            <Stack className={'community-bottom'}>
+            <Stack className={'community-bottom-left'}>
               <Stack className={'content-top'}>
                 <Link href={'/community?articleCategory=RECOMMEND'}>
                   <span>Recommended</span>
@@ -111,6 +126,19 @@ const CommunityBoards = () => {
               </Stack>
               <Stack className={'card-wrap vertical'}>
                 {recommendArticles.map((article, index) => (
+                  <CommunityCard vertical={true} article={article} index={index} key={article?._id} />
+                ))}
+              </Stack>
+            </Stack>
+            <Stack className={'community-bottom-right'}>
+              <Stack className={'content-top'}>
+                <Link href={'/community?articleCategory=HUMOR'}>
+                  <span>Recommended</span>
+                </Link>
+                <img src="/img/icons/arrowBig.svg" alt="View all recommendations" />
+              </Stack>
+              <Stack className={'card-wrap vertical'}>
+                {humorArticles.map((article, index) => (
                   <CommunityCard vertical={true} article={article} index={index} key={article?._id} />
                 ))}
               </Stack>
