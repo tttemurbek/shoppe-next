@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import { Stack, Typography } from '@mui/material';
+import { Stack, Typography, Grid, Box, Container } from '@mui/material';
 import CommunityCard from './CommunityCard';
 import { BoardArticle } from '../../types/board-article/board-article';
 import { useQuery } from '@apollo/client';
@@ -78,76 +78,106 @@ const CommunityBoards = () => {
     },
   });
 
+  const SectionHeader = ({ title, link, icon = '/img/icons/arrowBig.svg', alt = 'View all' }) => (
+    <Stack className="content-top">
+      <Link href={link}>
+        <span>{title}</span>
+      </Link>
+      <img src={icon} alt={alt} />
+    </Stack>
+  );
+
   if (device === 'mobile') {
-    return <div>COMMUNITY BOARDS (MOBILE)</div>;
-  } else {
     return (
-      <Stack className={'community-board'}>
-        <Stack className={'container'}>
-          <Stack className="section-header">
-            <Typography variant={'h1'}>Community Highlights</Typography>
-            <Typography variant="subtitle1" className="section-subtitle">
-              Discover the latest updates and discussions
-            </Typography>
-          </Stack>
-          <Stack className="community-main">
-            <Stack className={'community-left'}>
-              <Stack className={'content-top'}>
-                <Link href={'/community?articleCategory=NEWS'}>
-                  <span>News & Updates</span>
-                </Link>
-                <img src="/img/icons/arrowBig.svg" alt="View all news" />
-              </Stack>
-              <Stack className={'card-wrap'}>
-                {newsArticles.map((article, index) => (
-                  <CommunityCard vertical={true} article={article} index={index} key={article?._id} />
-                ))}
-              </Stack>
-            </Stack>
-            <Stack className={'community-right'}>
-              <Stack className={'content-top'}>
-                <Link href={'/community?articleCategory=FREE'}>
-                  <span>Free Discussions</span>
-                </Link>
-                <img src="/img/icons/arrowBig.svg" alt="View all discussions" />
-              </Stack>
-              <Stack className={'card-wrap vertical'}>
+      <Stack className="community-board-mobile">
+        <Container>
+          <Typography variant="h2" className="mobile-title">
+            Community Highlights
+          </Typography>
+          <Box sx={{ mt: 3 }}>
+            <SectionHeader title="News & Updates" link="/community?articleCategory=NEWS" />
+            <Grid container spacing={2}>
+              {newsArticles.slice(0, 4).map((article, index) => (
+                <Grid item xs={6} key={article?._id}>
+                  <CommunityCard vertical={true} article={article} index={index} />
+                </Grid>
+              ))}
+            </Grid>
+
+            <Box sx={{ mt: 4 }}>
+              <SectionHeader title="Free Discussions" link="/community?articleCategory=FREE" />
+              <Stack spacing={2}>
                 {freeArticles.map((article, index) => (
                   <CommunityCard vertical={false} article={article} index={index} key={article?._id} />
                 ))}
               </Stack>
-            </Stack>
-            <Stack className={'community-bottom-left'}>
-              <Stack className={'content-top'}>
-                <Link href={'/community?articleCategory=RECOMMEND'}>
-                  <span>Recommended</span>
-                </Link>
-                <img src="/img/icons/arrowBig.svg" alt="View all recommendations" />
-              </Stack>
-              <Stack className={'card-wrap vertical'}>
-                {recommendArticles.map((article, index) => (
-                  <CommunityCard vertical={true} article={article} index={index} key={article?._id} />
-                ))}
-              </Stack>
-            </Stack>
-            <Stack className={'community-bottom-right'}>
-              <Stack className={'content-top'}>
-                <Link href={'/community?articleCategory=HUMOR'}>
-                  <span>Recommended</span>
-                </Link>
-                <img src="/img/icons/arrowBig.svg" alt="View all recommendations" />
-              </Stack>
-              <Stack className={'card-wrap vertical'}>
-                {humorArticles.map((article, index) => (
-                  <CommunityCard vertical={true} article={article} index={index} key={article?._id} />
-                ))}
-              </Stack>
-            </Stack>
-          </Stack>
-        </Stack>
+            </Box>
+          </Box>
+        </Container>
       </Stack>
     );
   }
+
+  return (
+    <Stack className="community-board">
+      <Container className="container">
+        <Stack className="section-header">
+          <Typography variant="h1">Community Highlights</Typography>
+          <Typography variant="subtitle1" className="section-subtitle">
+            Discover the latest updates and discussions
+          </Typography>
+        </Stack>
+
+        <Grid container spacing={4} className="community-main">
+          {/* News Section - Left Column */}
+          <Grid item xs={12} md={6} className="community-section">
+            <SectionHeader title="News & Updates" link="/community?articleCategory=NEWS" />
+            <Grid container spacing={3} className="card-grid">
+              {newsArticles.map((article, index) => (
+                <Grid item xs={6} sm={4} key={article?._id}>
+                  <CommunityCard vertical={true} article={article} index={index} />
+                </Grid>
+              ))}
+            </Grid>
+          </Grid>
+
+          {/* Free Discussions - Right Column */}
+          <Grid item xs={12} md={6} className="community-section">
+            <SectionHeader title="Free Discussions" link="/community?articleCategory=FREE" />
+            <Stack className="vertical-list" spacing={2.5}>
+              {freeArticles.map((article, index) => (
+                <CommunityCard vertical={false} article={article} index={index} key={article?._id} />
+              ))}
+            </Stack>
+          </Grid>
+
+          {/* Recommended Section */}
+          <Grid item xs={12} md={6} className="community-section">
+            <SectionHeader title="Recommended" link="/community?articleCategory=RECOMMEND" />
+            <Grid container spacing={3} className="card-grid">
+              {recommendArticles.map((article, index) => (
+                <Grid item xs={6} sm={4} key={article?._id}>
+                  <CommunityCard vertical={true} article={article} index={index} />
+                </Grid>
+              ))}
+            </Grid>
+          </Grid>
+
+          {/* Humor Section */}
+          <Grid item xs={12} md={6} className="community-section">
+            <SectionHeader title="Humor" link="/community?articleCategory=HUMOR" />
+            <Grid container spacing={3} className="card-grid">
+              {humorArticles.map((article, index) => (
+                <Grid item xs={6} sm={4} key={article?._id}>
+                  <CommunityCard vertical={true} article={article} index={index} />
+                </Grid>
+              ))}
+            </Grid>
+          </Grid>
+        </Grid>
+      </Container>
+    </Stack>
+  );
 };
 
 export default CommunityBoards;

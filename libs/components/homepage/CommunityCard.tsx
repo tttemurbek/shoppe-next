@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import { Box } from '@mui/material';
+import { Box, Typography, Badge } from '@mui/material';
 import Moment from 'react-moment';
 import { BoardArticle } from '../../types/board-article/board-article';
 
@@ -18,41 +18,95 @@ const CommunityCard = (props: CommunityCardProps) => {
     ? `${process.env.REACT_APP_API_URL}/${article?.articleImage}`
     : '/img/event.svg';
 
-  if (device === 'mobile') {
-    return <div>COMMUNITY CARD (MOBILE)</div>;
-  } else {
-    if (vertical) {
-      return (
-        <Link href={`/community/detail?articleCategory=${article?.articleCategory}&id=${article?._id}`}>
-          <Box component={'div'} className={'vertical-card'}>
-            <div className={'community-img'} style={{ backgroundImage: `url(${articleImage})` }}>
-              <div className="index-badge">{index + 1}</div>
-            </div>
-            <div className="card-content">
-              <strong>{article?.articleTitle}</strong>
-              <span className="category-tag">Free Board</span>
-            </div>
-          </Box>
-        </Link>
-      );
-    } else {
-      return (
-        <Link href={`/community/detail?articleCategory=${article?.articleCategory}&id=${article?._id}`}>
-          <Box component={'div'} className="horizontal-card">
-            <div className="image-container">
-              <img src={articleImage} alt={article.articleTitle} />
-            </div>
-            <div className="card-content">
-              <strong>{article.articleTitle}</strong>
-              <span className="date-tag">
-                <Moment format="DD.MM.YY">{article?.createdAt}</Moment>
-              </span>
-            </div>
-          </Box>
-        </Link>
-      );
+  const getCategoryLabel = (category: string) => {
+    switch (category) {
+      case 'NEWS':
+        return 'News';
+      case 'FREE':
+        return 'Free Board';
+      case 'RECOMMEND':
+        return 'Recommended';
+      case 'HUMOR':
+        return 'Humor';
+      default:
+        return 'Discussion';
     }
+  };
+
+  if (device === 'mobile') {
+    return (
+      <Link href={`/community/detail?articleCategory=${article?.articleCategory}&id=${article?._id}`}>
+        <Box className={vertical ? 'mobile-vertical-card' : 'mobile-horizontal-card'}>
+          <Box
+            className="card-image"
+            sx={{
+              backgroundImage: `url(${articleImage})`,
+              position: 'relative',
+              height: vertical ? '120px' : '80px',
+              borderRadius: '8px',
+              overflow: 'hidden',
+            }}
+          >
+            {vertical && <Box className="index-badge">{index + 1}</Box>}
+          </Box>
+          <Box className="card-content">
+            <Typography variant="body1" className="card-title">
+              {article?.articleTitle}
+            </Typography>
+            <Box className="card-meta">
+              {vertical ? (
+                <Typography variant="caption" className="category-tag">
+                  {getCategoryLabel(article?.articleCategory)}
+                </Typography>
+              ) : (
+                <Typography variant="caption" className="date-tag">
+                  <Moment format="DD.MM.YY">{article?.createdAt}</Moment>
+                </Typography>
+              )}
+            </Box>
+          </Box>
+        </Box>
+      </Link>
+    );
   }
+
+  if (vertical) {
+    return (
+      <Link href={`/community/detail?articleCategory=${article?.articleCategory}&id=${article?._id}`}>
+        <Box className="vertical-card">
+          <Box className="community-img" style={{ backgroundImage: `url(${articleImage})` }}>
+            <Box className="index-badge">{index + 1}</Box>
+          </Box>
+          <Box className="card-content">
+            <Typography variant="body1" component="strong">
+              {article?.articleTitle}
+            </Typography>
+            <Typography variant="caption" className="category-tag">
+              {getCategoryLabel(article?.articleCategory)}
+            </Typography>
+          </Box>
+        </Box>
+      </Link>
+    );
+  }
+
+  return (
+    <Link href={`/community/detail?articleCategory=${article?.articleCategory}&id=${article?._id}`}>
+      <Box className="horizontal-card">
+        <Box className="image-container">
+          <img src={articleImage} alt={article.articleTitle} />
+        </Box>
+        <Box className="card-content">
+          <Typography variant="body1" component="strong">
+            {article.articleTitle}
+          </Typography>
+          <Typography variant="caption" className="date-tag">
+            <Moment format="DD.MM.YY">{article?.createdAt}</Moment>
+          </Typography>
+        </Box>
+      </Box>
+    </Link>
+  );
 };
 
 export default CommunityCard;
