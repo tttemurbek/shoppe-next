@@ -78,7 +78,7 @@ const CommunityBoards = () => {
     },
   });
 
-  const SectionHeader = ({ title, link, icon = '/img/icons/arrowBig.svg', alt = 'View all' }) => (
+  const SectionHeader: React.FC<{ title: string; link: string; icon?: string; alt?: string }> = ({ title, link, icon = '/img/icons/arrowBig.svg', alt = 'View all' }) => (
     <Stack className="content-top">
       <Link href={link}>
         <span>{title}</span>
