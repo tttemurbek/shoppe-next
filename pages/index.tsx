@@ -4,7 +4,7 @@ import withLayoutMain from '../libs/components/layout/LayoutHome';
 import CommunityBoards from '../libs/components/homepage/CommunityBoards';
 import PopularProperties from '../libs/components/homepage/PopularJewelleries';
 import TopAgents from '../libs/components/homepage/TopAgents';
-import Events from '../libs/components/homepage/Events';
+import Events from '../libs/components/homepage/History';
 import TrendProperties from '../libs/components/homepage/TrendJewelleries';
 import TopProperties from '../libs/components/homepage/TopJewelleries';
 import { Stack } from '@mui/material';
