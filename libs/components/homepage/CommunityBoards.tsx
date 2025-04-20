@@ -18,6 +18,7 @@ const CommunityBoards = () => {
   });
   const [newsArticles, setNewsArticles] = useState<BoardArticle[]>([]);
   const [freeArticles, setFreeArticles] = useState<BoardArticle[]>([]);
+  const [recommendArticles, setRecommendArticles] = useState<BoardArticle[]>([]);
 
   /** APOLLO REQUESTS **/
   const {
@@ -48,40 +49,70 @@ const CommunityBoards = () => {
     },
   });
 
+  const {
+    loading: getRecommendArticlesLoading,
+    data: getRecommendArticlesData,
+    error: getRecommendArticlesError,
+    refetch: getRecommendArticlesRefetch,
+  } = useQuery(GET_BOARD_ARTICLES, {
+    fetchPolicy: 'network-only',
+    variables: { input: { ...searchCommunity, limit: 3, search: { articleCategory: BoardArticleCategory.RECOMMEND } } },
+    notifyOnNetworkStatusChange: true,
+    onCompleted: (data: T) => {
+      setRecommendArticles(data?.getBoardArticles?.list);
+    },
+  });
+
   if (device === 'mobile') {
     return <div>COMMUNITY BOARDS (MOBILE)</div>;
   } else {
     return (
       <Stack className={'community-board'}>
         <Stack className={'container'}>
-          <Stack>
-            <Typography variant={'h1'}>COMMUNITY BOARD HIGHLIGHTS</Typography>
+          <Stack className="section-header">
+            <Typography variant={'h1'}>Community Highlights</Typography>
+            <Typography variant="subtitle1" className="section-subtitle">
+              Discover the latest updates and discussions
+            </Typography>
           </Stack>
           <Stack className="community-main">
             <Stack className={'community-left'}>
               <Stack className={'content-top'}>
                 <Link href={'/community?articleCategory=NEWS'}>
-                  <span>News</span>
+                  <span>News & Updates</span>
                 </Link>
-                <img src="/img/icons/arrowBig.svg" alt="" />
+                <img src="/img/icons/arrowBig.svg" alt="View all news" />
               </Stack>
               <Stack className={'card-wrap'}>
-                {newsArticles.map((article, index) => {
-                  return <CommunityCard vertical={true} article={article} index={index} key={article?._id} />;
-                })}
+                {newsArticles.map((article, index) => (
+                  <CommunityCard vertical={true} article={article} index={index} key={article?._id} />
+                ))}
               </Stack>
             </Stack>
             <Stack className={'community-right'}>
               <Stack className={'content-top'}>
                 <Link href={'/community?articleCategory=FREE'}>
-                  <span>Free</span>
+                  <span>Free Discussions</span>
                 </Link>
-                <img src="/img/icons/arrowBig.svg" alt="" />
+                <img src="/img/icons/arrowBig.svg" alt="View all discussions" />
               </Stack>
               <Stack className={'card-wrap vertical'}>
-                {freeArticles.map((article, index) => {
-                  return <CommunityCard vertical={false} article={article} index={index} key={article?._id} />;
-                })}
+                {freeArticles.map((article, index) => (
+                  <CommunityCard vertical={false} article={article} index={index} key={article?._id} />
+                ))}
+              </Stack>
+            </Stack>
+            <Stack className={'community-bottom'}>
+              <Stack className={'content-top'}>
+                <Link href={'/community?articleCategory=RECOMMEND'}>
+                  <span>Recommended</span>
+                </Link>
+                <img src="/img/icons/arrowBig.svg" alt="View all recommendations" />
+              </Stack>
+              <Stack className={'card-wrap vertical'}>
+                {recommendArticles.map((article, index) => (
+                  <CommunityCard vertical={true} article={article} index={index} key={article?._id} />
+                ))}
               </Stack>
             </Stack>
           </Stack>
