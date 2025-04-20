@@ -1,17 +1,6 @@
 import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 import { NextPage } from 'next';
-import {
-  Box,
-  Button,
-  Menu,
-  MenuItem,
-  Pagination,
-  Stack,
-  Typography,
-  Container,
-  Grid,
-  CircularProgress,
-} from '@mui/material';
+import { Box, Button, Menu, MenuItem, Pagination, Stack, Typography } from '@mui/material';
 import JewelleryCard from '../../libs/components/jewellery/JewelleryCard';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
@@ -21,7 +10,6 @@ import { PropertiesInquiry } from '../../libs/types/jewellery/jewellery.input';
 import { Jewellery } from '../../libs/types/jewellery/jewellery';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
-import TuneIcon from '@mui/icons-material/Tune';
 import { Direction, Message } from '../../libs/enums/common.enum';
 import { GET_JEWELLERIES } from '../../apollo/user/query';
 import { T } from '../../libs/types/common';
@@ -47,7 +35,6 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [sortingOpen, setSortingOpen] = useState(false);
   const [filterSortName, setFilterSortName] = useState('New');
-  const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
 
   /** APOLLO REQUESTS **/
   const [likeTargetProperty] = useMutation(LIKE_TARGET_JEWELLERY);
@@ -78,38 +65,40 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
   }, [router]);
 
   useEffect(() => {
-    getPropertiesRefetch({ input: searchFilter }).then();
-  }, [searchFilter, getPropertiesRefetch]);
+    console.log('searchFilter):', searchFilter);
+    // getPropertiesRefetch({ input: searchFilter }).then();
+  }, [searchFilter]);
 
   /** HANDLERS **/
+
   const likeJewelleryHandler = async (user: T, id: string) => {
     try {
       if (!id) return;
       if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
 
-      // Execute likeJewelleryHandler
+      //execute likeJewelleryHandler
       await likeTargetProperty({ variables: { input: id } });
 
-      // Execute getPropertiesRefetch
-      await getPropertiesRefetch({ input: searchFilter });
+      // execute getPropertiesRefetch
+      await getPropertiesRefetch({ input: initialInput });
 
       await sweetTopSmallSuccessAlert('success', 800);
     } catch (err: any) {
+      console.log('ERROR, likeJewelleryHandler:', err.message);
       sweetMixinErrorAlert(err.message).then();
     }
   };
 
   const handlePaginationChange = async (event: ChangeEvent<unknown>, value: number) => {
-    const updatedFilter = { ...searchFilter, page: value };
+    searchFilter.page = value;
     await router.push(
-      `/jewellery?input=${JSON.stringify(updatedFilter)}`,
-      `/jewellery?input=${JSON.stringify(updatedFilter)}`,
+      `/jewellery?input=${JSON.stringify(searchFilter)}`,
+      `/jewellery?input=${JSON.stringify(searchFilter)}`,
       {
-        scroll: true,
+        scroll: false,
       },
     );
     setCurrentPage(value);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const sortingClickHandler = (e: MouseEvent<HTMLElement>) => {
@@ -123,214 +112,111 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
   };
 
   const sortingHandler = (e: React.MouseEvent<HTMLLIElement>) => {
-    let updatedFilter = { ...searchFilter };
-
     switch (e.currentTarget.id) {
       case 'new':
-        updatedFilter = { ...updatedFilter, sort: 'createdAt', direction: Direction.DESC };
+        setSearchFilter({ ...searchFilter, sort: 'createdAt', direction: Direction.ASC });
         setFilterSortName('New');
         break;
       case 'lowest':
-        updatedFilter = { ...updatedFilter, sort: 'jewelleryPrice', direction: Direction.ASC };
+        setSearchFilter({ ...searchFilter, sort: 'jewelleryPrice', direction: Direction.ASC });
         setFilterSortName('Lowest Price');
         break;
       case 'highest':
-        updatedFilter = { ...updatedFilter, sort: 'jewelleryPrice', direction: Direction.DESC };
+        setSearchFilter({ ...searchFilter, sort: 'jewelleryPrice', direction: Direction.DESC });
         setFilterSortName('Highest Price');
-        break;
     }
-
-    router.push(
-      `/jewellery?input=${JSON.stringify(updatedFilter)}`,
-      `/jewellery?input=${JSON.stringify(updatedFilter)}`,
-      { scroll: false },
-    );
-
-    setSearchFilter(updatedFilter);
     setSortingOpen(false);
     setAnchorEl(null);
   };
 
-  const toggleMobileFilter = () => {
-    setMobileFilterOpen(!mobileFilterOpen);
-  };
-
   if (device === 'mobile') {
-    return (
-      <div className="jewellery-listing-mobile">
-        <Container>
-          <Typography variant="h4" className="page-title">
-            Luxury Jewellery
-          </Typography>
-
-          <Box className="mobile-filter-sort">
-            <Button variant="outlined" startIcon={<TuneIcon />} onClick={toggleMobileFilter} className="filter-button">
-              Filter
-            </Button>
-
-            <Button
-              variant="outlined"
-              endIcon={<KeyboardArrowDownRoundedIcon />}
-              onClick={sortingClickHandler}
-              className="sort-button"
-            >
-              {filterSortName}
-            </Button>
-
-            <Menu anchorEl={anchorEl} open={sortingOpen} onClose={sortingCloseHandler} className="sort-menu">
-              <MenuItem onClick={sortingHandler} id="new">
-                New
-              </MenuItem>
-              <MenuItem onClick={sortingHandler} id="lowest">
-                Lowest Price
-              </MenuItem>
-              <MenuItem onClick={sortingHandler} id="highest">
-                Highest Price
-              </MenuItem>
-            </Menu>
-          </Box>
-
-          <Box className={`mobile-filter-drawer ${mobileFilterOpen ? 'open' : ''}`}>
-            <Box className="filter-header">
-              <Typography variant="h6">Filters</Typography>
-              <Button onClick={toggleMobileFilter}>Close</Button>
-            </Box>
-            <Filter searchFilter={searchFilter} setSearchFilter={setSearchFilter} initialInput={initialInput} />
-          </Box>
-
-          {getPropertiesLoading ? (
-            <Box className="loading-container">
-              <CircularProgress />
-              <Typography>Loading jewellery collection...</Typography>
-            </Box>
-          ) : (
-            <>
-              {properties?.length === 0 ? (
-                <Box className="no-results">
-                  <img src="/img/icons/icoAlert.svg" alt="No results" />
-                  <Typography>No jewellery items found!</Typography>
-                  <Typography variant="body2">Try adjusting your filters</Typography>
-                </Box>
-              ) : (
-                <Box className="jewellery-grid">
-                  {properties.map((jewellery: Jewellery) => (
-                    <JewelleryCard
-                      jewellery={jewellery}
-                      likeJewelleryHandler={likeJewelleryHandler}
-                      key={jewellery?._id}
-                    />
-                  ))}
-                </Box>
-              )}
-
-              {properties.length > 0 && (
-                <Box className="pagination-container">
-                  <Pagination
-                    page={currentPage}
-                    count={Math.ceil(total / searchFilter.limit)}
-                    onChange={handlePaginationChange}
-                    shape="rounded"
-                    color="primary"
-                    size="medium"
-                  />
-                  <Typography variant="body2" className="results-count">
-                    Total {total} item{total !== 1 ? 's' : ''} found
-                  </Typography>
-                </Box>
-              )}
-            </>
-          )}
-        </Container>
-      </div>
-    );
+    return <h1>PROPERTIES MOBILE</h1>;
   } else {
     return (
-      <div id="jewellery-listing">
-        <Container maxWidth="xl">
-          <Box component="header" className="page-header">
-            <Typography variant="h4" className="page-title">
-              Luxury Jewellery Collection
-            </Typography>
-            <Box className="sort-controls">
-              <Typography variant="body1" className="sort-label">
-                Sort by
-              </Typography>
-              <Button onClick={sortingClickHandler} endIcon={<KeyboardArrowDownRoundedIcon />} className="sort-button">
+      <div id="property-list-page" style={{ position: 'relative' }}>
+        <div className="container">
+          <Box component={'div'} className={'right'}>
+            <span>Sort by</span>
+            <div>
+              <Button onClick={sortingClickHandler} endIcon={<KeyboardArrowDownRoundedIcon />}>
                 {filterSortName}
               </Button>
-              <Menu
-                anchorEl={anchorEl}
-                open={sortingOpen}
-                onClose={sortingCloseHandler}
-                elevation={2}
-                className="sort-menu"
-              >
-                <MenuItem onClick={sortingHandler} id="new" className="sort-menu-item">
+              <Menu anchorEl={anchorEl} open={sortingOpen} onClose={sortingCloseHandler} sx={{ paddingTop: '5px' }}>
+                <MenuItem
+                  onClick={sortingHandler}
+                  id={'new'}
+                  disableRipple
+                  sx={{ boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px' }}
+                >
                   New
                 </MenuItem>
-                <MenuItem onClick={sortingHandler} id="lowest" className="sort-menu-item">
+                <MenuItem
+                  onClick={sortingHandler}
+                  id={'lowest'}
+                  disableRipple
+                  sx={{ boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px' }}
+                >
                   Lowest Price
                 </MenuItem>
-                <MenuItem onClick={sortingHandler} id="highest" className="sort-menu-item">
+                <MenuItem
+                  onClick={sortingHandler}
+                  id={'highest'}
+                  disableRipple
+                  sx={{ boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px' }}
+                >
                   Highest Price
                 </MenuItem>
               </Menu>
-            </Box>
+            </div>
           </Box>
-
-          <Grid container spacing={3} className="main-content">
-            <Grid item xs={12} md={3} className="filter-column">
+          <Stack className={'property-page'}>
+            <Stack className={'filter-config'}>
+              {/* @ts-ignore */}
               <Filter searchFilter={searchFilter} setSearchFilter={setSearchFilter} initialInput={initialInput} />
-            </Grid>
-
-            <Grid item xs={12} md={9} className="jewellery-column">
-              {getPropertiesLoading ? (
-                <Box className="loading-container">
-                  <CircularProgress />
-                  <Typography>Loading fine jewellery collection...</Typography>
-                </Box>
-              ) : (
-                <>
-                  {properties?.length === 0 ? (
-                    <Box className="no-results">
-                      <img src="/img/icons/icoAlert.svg" alt="No results" className="no-results-icon" />
-                      <Typography variant="h6">No jewellery items found</Typography>
-                      <Typography variant="body2">Try adjusting your filters to see more products</Typography>
-                    </Box>
-                  ) : (
-                    <Box className="jewellery-grid">
-                      {properties.map((jewellery: Jewellery) => (
-                        <JewelleryCard
-                          jewellery={jewellery}
-                          likeJewelleryHandler={likeJewelleryHandler}
-                          key={jewellery?._id}
-                        />
-                      ))}
-                    </Box>
-                  )}
-
-                  {properties.length > 0 && (
-                    <Box className="pagination-container">
-                      <Pagination
-                        page={currentPage}
-                        count={Math.ceil(total / searchFilter.limit)}
-                        onChange={handlePaginationChange}
-                        size="large"
-                        shape="rounded"
-                        color="primary"
-                        showFirstButton
-                        showLastButton
+            </Stack>
+            <Stack className="main-config" mb={'76px'}>
+              <Stack className={'list-config'}>
+                {properties?.length === 0 ? (
+                  <div className={'no-data'}>
+                    <img src="/img/icons/icoAlert.svg" alt="" />
+                    <p>No Properties found!</p>
+                  </div>
+                ) : (
+                  properties.map((jewellery: Jewellery) => {
+                    return (
+                      <JewelleryCard
+                        jewellery={jewellery}
+                        likeJewelleryHandler={likeJewelleryHandler}
+                        key={jewellery?._id}
                       />
-                      <Typography variant="body1" className="results-count">
-                        Showing {properties.length} of {total} item{total !== 1 ? 's' : ''}
-                      </Typography>
-                    </Box>
-                  )}
-                </>
-              )}
-            </Grid>
-          </Grid>
-        </Container>
+                    );
+                  })
+                )}
+              </Stack>
+              <Stack className="pagination-config">
+                {properties.length !== 0 && (
+                  <Stack className="pagination-box">
+                    <Pagination
+                      page={currentPage}
+                      count={Math.ceil(total / searchFilter.limit)}
+                      onChange={handlePaginationChange}
+                      shape="circular"
+                      color="primary"
+                    />
+                  </Stack>
+                )}
+
+                {properties.length !== 0 && (
+                  <Stack className="total-result">
+                    <Typography>
+                      Total {total} propert{total > 1 ? 'ies' : 'y'} available
+                    </Typography>
+                  </Stack>
+                )}
+              </Stack>
+            </Stack>
+          </Stack>
+        </div>
       </div>
     );
   }
@@ -339,7 +225,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 PropertyList.defaultProps = {
   initialInput: {
     page: 1,
-    limit: 12,
+    limit: 9,
     sort: 'createdAt',
     direction: 'DESC',
     search: {
