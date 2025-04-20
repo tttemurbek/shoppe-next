@@ -65,11 +65,11 @@ const TopProperties = (props: TopPropertiesProps) => {
       <Stack className={'top-properties'}>
         <Stack className={'container'}>
           <Stack className={'info-box'}>
-            <span>Top properties</span>
+            <span>Top jewelleries</span>
           </Stack>
           <Stack className={'card-box'}>
             <Swiper
-              className={'top-jewellery-swiper'}
+              className={'top-property-swiper'}
               slidesPerView={'auto'}
               centeredSlides={true}
               spaceBetween={15}
@@ -77,7 +77,7 @@ const TopProperties = (props: TopPropertiesProps) => {
             >
               {topProperties.map((jewellery: Jewellery) => {
                 return (
-                  <SwiperSlide className={'top-jewellery-slide'} key={jewellery?._id}>
+                  <SwiperSlide className={'top-property-slide'} key={jewellery?._id}>
                     <TopJewelleryCard jewellery={jewellery} likeJewelleryHandler={likeJewelleryHandler} />
                   </SwiperSlide>
                 );
@@ -93,8 +93,8 @@ const TopProperties = (props: TopPropertiesProps) => {
         <Stack className={'container'}>
           <Stack className={'info-box'}>
             <Box component={'div'} className={'left'}>
-              <span>Top properties</span>
-              <p>Check out our Top Properties</p>
+              <span>Top jewelleries</span>
+              <p>Explore Our Finest Creations</p>
             </Box>
             <Box component={'div'} className={'right'}>
               <div className={'pagination-box'}>
@@ -106,7 +106,7 @@ const TopProperties = (props: TopPropertiesProps) => {
           </Stack>
           <Stack className={'card-box'}>
             <Swiper
-              className={'top-jewellery-swiper'}
+              className={'top-property-swiper'}
               slidesPerView={'auto'}
               spaceBetween={15}
               modules={[Autoplay, Navigation, Pagination]}
@@ -120,7 +120,7 @@ const TopProperties = (props: TopPropertiesProps) => {
             >
               {topProperties.map((jewellery: Jewellery) => {
                 return (
-                  <SwiperSlide className={'top-jewellery-slide'} key={jewellery?._id}>
+                  <SwiperSlide className={'top-property-slide'} key={jewellery?._id}>
                     <TopJewelleryCard jewellery={jewellery} likeJewelleryHandler={likeJewelleryHandler} />
                   </SwiperSlide>
                 );

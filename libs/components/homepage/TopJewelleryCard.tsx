@@ -9,6 +9,7 @@ import { REACT_APP_API_URL } from '../../config';
 import { useRouter } from 'next/router';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 interface TopJewelleryCardProps {
   jewellery: Jewellery;
@@ -51,7 +52,7 @@ const TopJewelleryCard = (props: TopJewelleryCardProps) => {
             {jewellery?.jewelleryTitle}
           </strong>
           <p className={'desc'}>{jewellery?.jewelleryAddress}</p>
-          <div className={'options'}>
+          {/* <div className={'options'}>
             <div>
               <img src="/img/icons/bed.svg" alt="" />
               <span>{jewellery?.propertyBeds} bed</span>
@@ -64,7 +65,7 @@ const TopJewelleryCard = (props: TopJewelleryCardProps) => {
               <img src="/img/icons/expand.svg" alt="" />
               <span>{jewellery?.propertySquare} m2</span>
             </div>
-          </div>
+          </div> */}
           <Divider sx={{ mt: '15px', mb: '17px' }} />
           <div className={'bott'}>
             <p>
@@ -116,40 +117,26 @@ const TopJewelleryCard = (props: TopJewelleryCardProps) => {
             {jewellery?.jewelleryTitle}
           </strong>
           <p className={'desc'}>{jewellery?.jewelleryAddress}</p>
-          <div className={'options'}>
-            <div>
-              <img src="/img/icons/bed.svg" alt="" />
-              <span>{jewellery?.propertyBeds} bed</span>
-            </div>
-            <div>
-              <img src="/img/icons/room.svg" alt="" />
-              <span>{jewellery?.propertyRooms} rooms</span>
-            </div>
-            <div>
-              <img src="/img/icons/expand.svg" alt="" />
-              <span>{jewellery?.propertySquare} m2</span>
-            </div>
-          </div>
+          <p className="grams">{jewellery.jewelleryGram} grams</p>
           <Divider sx={{ mt: '15px', mb: '17px' }} />
           <div className={'bott'}>
-            <p>
-              {' '}
-              {jewellery.jewelleryRent ? 'Rent' : ''} {jewellery.jewelleryRent && jewellery.jewelleryBarter && '/'}{' '}
-              {jewellery.jewelleryBarter ? 'Barter' : ''}
-            </p>
             <div className="view-like-box">
               <IconButton color={'default'}>
                 <RemoveRedEyeIcon />
+                <Typography className="view-cnt">{jewellery?.jewelleryViews}</Typography>
               </IconButton>
-              <Typography className="view-cnt">{jewellery?.jewelleryViews}</Typography>
               <IconButton color={'default'} onClick={() => likeJewelleryHandler(user, jewellery?._id)}>
                 {jewellery?.meLiked && jewellery?.meLiked[0]?.myFavorite ? (
                   <FavoriteIcon style={{ color: 'red' }} />
                 ) : (
                   <FavoriteIcon />
                 )}
+                <Typography className="view-cnt">{jewellery?.jewelleryLikes}</Typography>
               </IconButton>
-              <Typography className="view-cnt">{jewellery?.jewelleryLikes}</Typography>
+              <IconButton color={'default'} onClick={() => likeJewelleryHandler(user, jewellery?._id)}>
+                <AddShoppingCartIcon />
+                <Typography className="view-cnt">{jewellery?.jewelleryLikes}</Typography>
+              </IconButton>
             </div>
           </div>
         </Box>
