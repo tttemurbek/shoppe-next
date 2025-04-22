@@ -453,6 +453,11 @@
               border-radius: 12px;
               background: #fff;
               box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
+              transition: transform 0.3s;
+              &:hover {
+                opacity: 1;
+                transform: scale(1.05);
+              }
               .top {
                 position: relative;
                 width: 100%;
@@ -511,11 +516,11 @@
               }
               .bottom {
                 width: 100%;
-                height: 173px;
+                height: 200px;
                 padding: 20px 16px 10px 16px;
                 .name-address {
                   width: 100%;
-                  height: 48px;
+                  height: 60px;
                   gap: 5px;
                   margin-bottom: 20px;
                   .name {
@@ -542,6 +547,20 @@
                       font-style: normal;
                       font-weight: 400;
                       line-height: normal;
+                    }
+                  }
+                  .gram {
+                    width: 100%;
+                    height: 23px;
+                    overflow: hidden;
+                    p {
+                      color: #181a20;
+                      font-family: $font;
+                      font-size: 13px;
+                      font-style: normal;
+                      font-weight: 400;
+                      line-height: normal;
+                      text-transform: capitalize;
                     }
                   }
                 }
@@ -596,7 +615,8 @@
                   .buttons {
                     flex-direction: row;
                     width: auto;
-                    justify-content: center;
+                    justify-content: space-between;
+                    gap: 55px;
                     align-items: center;
                     svg {
                       width: 24px;

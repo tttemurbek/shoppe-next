@@ -27,6 +27,7 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import CategoryIcon from '@mui/icons-material/Category';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import { dir } from 'console';
 
 const Filter = (props: { searchFilter: PropertiesInquiry; setSearchFilter: any; initialInput: PropertiesInquiry }) => {
   const { searchFilter, setSearchFilter, initialInput } = props;
@@ -366,7 +367,7 @@ const Filter = (props: { searchFilter: PropertiesInquiry; setSearchFilter: any; 
                   }
                 }}
               >
-                <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1 }}>
+                <Box sx={{ display: 'flex', gridTemplateColumns: '1fr 1fr', gap: 1, flexDirection: 'column' }}>
                   {jewelleryLocation.map((location) => (
                     <Box
                       key={location}
@@ -638,6 +639,7 @@ const Filter = (props: { searchFilter: PropertiesInquiry; setSearchFilter: any; 
             <Fade in={expandedSections.price}>
               <Box sx={{ px: 2, pt: 1 }}>
                 <Slider
+                  color="black"
                   value={priceRange}
                   onChange={handlePriceChange}
                   onChangeCommitted={handlePriceCommitted}

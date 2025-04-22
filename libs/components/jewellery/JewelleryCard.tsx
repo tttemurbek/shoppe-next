@@ -11,6 +11,7 @@ import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import IconButton from '@mui/material/IconButton';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 interface JewelleryCardType {
   jewellery: Jewellery;
@@ -28,7 +29,7 @@ const JewelleryCard = (props: JewelleryCardType) => {
     : '/img/banner/header1.svg';
 
   if (device === 'mobile') {
-    return <div>PROPERTY CARD</div>;
+    return <div>JEWELLEY CARD</div>;
   } else {
     return (
       <Stack className="card-config">
@@ -68,8 +69,11 @@ const JewelleryCard = (props: JewelleryCardType) => {
                 {jewellery.jewelleryAddress}, {jewellery.jewelleryLocation}
               </Typography>
             </Stack>
+            <Stack className="gram">
+              <Typography>{jewellery.jewelleryGram} grams</Typography>
+            </Stack>
           </Stack>
-          <Stack className="options">
+          {/* <Stack className="options">
             <Stack className="option">
               <img src="/img/icons/bed.svg" alt="" /> <Typography>{jewellery.propertyBeds} bed</Typography>
             </Stack>
@@ -79,29 +83,15 @@ const JewelleryCard = (props: JewelleryCardType) => {
             <Stack className="option">
               <img src="/img/icons/expand.svg" alt="" /> <Typography>{jewellery.propertySquare} m2</Typography>
             </Stack>
-          </Stack>
+          </Stack> */}
           <Stack className="divider"></Stack>
           <Stack className="type-buttons">
-            <Stack className="type">
-              <Typography
-                sx={{ fontWeight: 500, fontSize: '13px' }}
-                className={jewellery.jewelleryRent ? '' : 'disabled-type'}
-              >
-                Rent
-              </Typography>
-              <Typography
-                sx={{ fontWeight: 500, fontSize: '13px' }}
-                className={jewellery.jewelleryBarter ? '' : 'disabled-type'}
-              >
-                Barter
-              </Typography>
-            </Stack>
             {!recentlyVisited && (
               <Stack className="buttons">
                 <IconButton color={'default'}>
                   <RemoveRedEyeIcon />
+                  <Typography className="view-cnt">{jewellery?.jewelleryViews}</Typography>
                 </IconButton>
-                <Typography className="view-cnt">{jewellery?.jewelleryViews}</Typography>
                 <IconButton color={'default'} onClick={() => likeJewelleryHandler(user, jewellery?._id)}>
                   {myFavorites ? (
                     <FavoriteIcon color="primary" />
@@ -110,8 +100,12 @@ const JewelleryCard = (props: JewelleryCardType) => {
                   ) : (
                     <FavoriteBorderIcon />
                   )}
+                  <Typography className="view-cnt">{jewellery?.jewelleryLikes}</Typography>
                 </IconButton>
-                <Typography className="view-cnt">{jewellery?.jewelleryLikes}</Typography>
+                <IconButton color={'default'} onClick={() => likeJewelleryHandler('user', 'jewellery?._id')}>
+                  <AddShoppingCartIcon />
+                  <Typography className="view-cnt">{jewellery?.jewelleryLikes}</Typography>
+                </IconButton>
               </Stack>
             )}
           </Stack>

@@ -114,20 +114,7 @@ const TrendJewelleryCard = (props: TrendJewelleryCardProps) => {
           </strong>
           <p className={'desc'}>{jewellery.jewelleryDesc ?? 'no description'}</p>
           <p className="grams">{jewellery.jewelleryGram} grams</p>
-          {/* <div className={'options'}>
-            <div>
-              <img src="/img/icons/bed.svg" alt="" />
-              <span>{jewellery.propertyBeds} bed</span>
-            </div>
-            <div>
-              <img src="/img/icons/room.svg" alt="" />
-              <span>{jewellery.propertyRooms} rooms</span>
-            </div>
-            <div>
-              <img src="/img/icons/expand.svg" alt="" />
-              <span>{jewellery.propertySquare} m2</span>
-            </div>
-          </div> */}
+
           <Divider sx={{ mt: '15px', mb: '17px' }} />
           <div className={'bott'}>
             <p>
@@ -147,7 +134,8 @@ const TrendJewelleryCard = (props: TrendJewelleryCardProps) => {
                 )}
                 <Typography className="view-cnt">{jewellery?.jewelleryLikes}</Typography>
               </IconButton>
-              <IconButton color={'default'} onClick={() => likeJewelleryHandler(user, jewellery?._id)}>
+
+              <IconButton color={'default'} onClick={() => likeJewelleryHandler('user', 'jskdnasknd')}>
                 <AddShoppingCartIcon />
                 <Typography className="view-cnt">{jewellery?.jewelleryLikes}</Typography>
               </IconButton>
