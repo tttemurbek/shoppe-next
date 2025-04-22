@@ -37,8 +37,8 @@ const Filter = (props: { searchFilter: PropertiesInquiry; setSearchFilter: any; 
   const [searchText, setSearchText] = useState<string>('');
   const [showMore, setShowMore] = useState<boolean>(false);
   const [expandedSections, setExpandedSections] = useState({
-    location: true,
-    type: true,
+    location: false,
+    type: false,
     options: false,
     price: true,
   });
@@ -352,19 +352,19 @@ const Filter = (props: { searchFilter: PropertiesInquiry; setSearchFilter: any; 
             <Fade in={expandedSections.location}>
               <Box
                 sx={{
-                  maxHeight: showMore ? 'none' : '130px',
-                  overflowY: 'hidden',
+                  maxHeight: expandedSections.location ? 'none' : '0',
+                  overflow: 'hidden',
                   transition: 'max-height 0.3s ease-in-out',
-                  position: 'relative',
-                }}
-                onMouseEnter={() => setShowMore(true)}
-                onMouseLeave={() => {
-                  if (!searchFilter?.search?.locationList?.length) {
-                    setShowMore(false);
-                  }
                 }}
               >
-                <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1 }}>
+                <Box sx={{ 
+                  display: 'flex', 
+                  flexDirection: 'column',
+                  gap: '8px',
+                  '& > *': {
+                    width: '100%'
+                  }
+                }}>
                   {jewelleryLocation.map((location) => (
                     <Box
                       key={location}
@@ -408,26 +408,6 @@ const Filter = (props: { searchFilter: PropertiesInquiry; setSearchFilter: any; 
                     </Box>
                   ))}
                 </Box>
-
-                {!showMore && (
-                  <Box
-                    sx={{
-                      position: 'absolute',
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      height: '40px',
-                      background: 'linear-gradient(transparent, #fafafa)',
-                      display: 'flex',
-                      alignItems: 'flex-end',
-                      justifyContent: 'center',
-                    }}
-                  >
-                    <IconButton size="small" onClick={() => setShowMore(true)}>
-                      <MoreHorizIcon fontSize="small" />
-                    </IconButton>
-                  </Box>
-                )}
               </Box>
             </Fade>
           )}
