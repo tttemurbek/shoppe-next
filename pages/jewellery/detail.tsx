@@ -263,17 +263,6 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
                     </svg>
                     <Typography className={'date'}>{moment().diff(jewellery?.createdAt, 'days')} days ago</Typography>
                   </Stack>
-                  <Stack className={'bottom-box'}>
-                    <Stack className="option">
-                      <img src="/img/icons/bed.svg" alt="" /> <Typography>{jewellery?.propertyBeds} bed</Typography>
-                    </Stack>
-                    <Stack className="option">
-                      <img src="/img/icons/room.svg" alt="" /> <Typography>{jewellery?.propertyRooms} room</Typography>
-                    </Stack>
-                    <Stack className="option">
-                      <img src="/img/icons/expand.svg" alt="" /> <Typography>{jewellery?.propertySquare} m2</Typography>
-                    </Stack>
-                  </Stack>
                 </Stack>
                 <Stack className={'right-box'}>
                   <Stack className="buttons">
@@ -319,7 +308,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
             <Stack className={'property-desc-config'}>
               <Stack className={'left-config'}>
                 <Stack className={'options-config'}>
-                  <Stack className={'option'}>
+                  {/* <Stack className={'option'}>
                     <Stack className={'svg-box'}>
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="20" viewBox="0 0 24 20" fill="none">
                         <path
@@ -341,7 +330,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
                       <Typography className={'title'}>Room</Typography>
                       <Typography className={'option-data'}>{jewellery?.propertyRooms}</Typography>
                     </Stack>
-                  </Stack>
+                  </Stack> */}
                   <Stack className={'option'}>
                     <Stack className={'svg-box'}>
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="20" viewBox="0 0 24 20" fill="none">
@@ -356,7 +345,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
                       </svg>
                     </Stack>
                     <Stack className={'option-includes'}>
-                      <Typography className={'title'}>Year Build</Typography>
+                      <Typography className={'title'}>Year Made</Typography>
                       <Typography className={'option-data'}>{moment(jewellery?.createdAt).format('YYYY')}</Typography>
                     </Stack>
                   </Stack>
@@ -384,8 +373,8 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
                       </svg>
                     </Stack>
                     <Stack className={'option-includes'}>
-                      <Typography className={'title'}>Size</Typography>
-                      <Typography className={'option-data'}>{jewellery?.propertySquare} m2</Typography>
+                      <Typography className={'title'}>Weight</Typography>
+                      <Typography className={'option-data'}>{jewellery?.jewelleryGram} grams</Typography>
                     </Stack>
                   </Stack>
                   <Stack className={'option'}>
