@@ -4,11 +4,30 @@ import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
 import PropertyBigCard from '../../libs/components/common/PropertyBigCard';
 import ReviewCard from '../../libs/components/agent/ReviewCard';
-import { Box, Button, Pagination, Stack, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Pagination,
+  Stack,
+  Typography,
+  Avatar,
+  Rating,
+  Divider,
+  Container,
+  Grid,
+  TextField,
+  IconButton,
+  Chip,
+  Skeleton,
+} from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
+import PhoneIcon from '@mui/icons-material/Phone';
+import EmailIcon from '@mui/icons-material/Email';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import SendIcon from '@mui/icons-material/Send';
 import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { useRouter } from 'next/router';
-import { Property } from '../../libs/types/jewellery/jewellery';
+import { Jewellery } from '../../libs/types/jewellery/jewellery';
 import { Member } from '../../libs/types/member/member';
 import { userVar } from '../../apollo/store';
 import { PropertiesInquiry } from '../../libs/types/jewellery/jewellery.input';
@@ -35,7 +54,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
   const [agentId, setAgentId] = useState<string | null>(null);
   const [agent, setAgent] = useState<Member | null>(null);
   const [searchFilter, setSearchFilter] = useState<PropertiesInquiry>(initialInput);
-  const [agentProperties, setAgentProperties] = useState<Property[]>([]);
+  const [agentProperties, setAgentProperties] = useState<Jewellery[]>([]);
   const [propertyTotal, setPropertyTotal] = useState<number>(0);
   const [commentInquiry, setCommentInquiry] = useState<CommentsInquiry>(initialComment);
   const [agentComments, setAgentComments] = useState<Comment[]>([]);
@@ -45,6 +64,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
     commentContent: '',
     commentRefId: '',
   });
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   /** APOLLO REQUESTS **/
 
@@ -78,6 +98,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
         ...insertCommentData,
         commentRefId: data?.getMember?._id,
       });
+      setTimeout(() => setIsLoading(false), 500);
     },
   });
 
@@ -141,19 +162,18 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
   };
 
   const propertyPaginationChangeHandler = async (event: ChangeEvent<unknown>, value: number) => {
-    searchFilter.page = value;
-    setSearchFilter({ ...searchFilter });
+    setSearchFilter({ ...searchFilter, page: value });
   };
 
   const commentPaginationChangeHandler = async (event: ChangeEvent<unknown>, value: number) => {
-    commentInquiry.page = value;
-    setCommentInquiry({ ...commentInquiry });
+    setCommentInquiry({ ...commentInquiry, page: value });
   };
 
   const createCommentHandler = async () => {
     try {
-      if (!user._id) throw new Error(Messages.error2);
+      if (!user?._id) throw new Error(Messages.error2);
       if (user._id === agentId) throw new Error('Cannot write a review for yourself');
+
       await createComment({
         variables: {
           input: insertCommentData,
@@ -161,7 +181,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
       });
 
       setInsertCommentData({ ...insertCommentData, commentContent: '' });
-
+      await sweetTopSmallSuccessAlert('Review submitted successfully!', 1200);
       await getCommentsRefetch({ input: commentInquiry });
     } catch (err: any) {
       sweetErrorHandling(err).then();
@@ -174,11 +194,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
       if (!user._id) throw new Error(Messages.error2);
 
       await likeTargetProperty({ variables: { input: id } });
-
-      await getPropertiesRefetch({
-        input: searchFilter,
-      });
-
+      await getPropertiesRefetch({ input: searchFilter });
       await sweetTopSmallSuccessAlert('success', 800);
     } catch (err: any) {
       console.log('ERROR, likeJewelleryHandler:', err.message);
@@ -186,124 +202,236 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
     }
   };
 
+  const renderAgentInfo = () => {
+    if (isLoading) {
+      return (
+        <Stack className="agent-info">
+          <Skeleton variant="circular" width={120} height={120} />
+          <Box component={'div'} className={'info'}>
+            <Skeleton variant="text" width={200} height={40} />
+            <Skeleton variant="text" width={150} height={30} />
+          </Box>
+        </Stack>
+      );
+    }
+
+    return (
+      <Stack className="agent-info">
+        <img
+          src={agent?.memberImage ? `${REACT_APP_API_URL}/${agent?.memberImage}` : '/img/profile/defaultUser.svg'}
+          alt={agent?.memberFullName || 'Agent profile'}
+          onClick={() => redirectToMemberPageHandler(agent?._id as string)}
+        />
+        <Box component={'div'} className={'info'}>
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <strong onClick={() => redirectToMemberPageHandler(agent?._id as string)}>
+              {agent?.memberFullName ?? agent?.memberNick}
+            </strong>
+            {agent?.memberVerified && (
+              <Chip size="small" color="primary" label="Verified" sx={{ height: 22, fontSize: 12 }} />
+            )}
+          </Stack>
+
+          <div>
+            <PhoneIcon sx={{ width: 18, height: 18 }} />
+            <span>{agent?.memberPhone || 'No phone provided'}</span>
+          </div>
+
+          {agent?.memberEmail && (
+            <div>
+              <EmailIcon sx={{ width: 18, height: 18 }} />
+              <span>{agent?.memberEmail}</span>
+            </div>
+          )}
+
+          {agent?.memberAddress && (
+            <div>
+              <LocationOnIcon sx={{ width: 18, height: 18 }} />
+              <span>{agent?.memberAddress}</span>
+            </div>
+          )}
+        </Box>
+      </Stack>
+    );
+  };
+
+  const renderPropertySection = () => {
+    return (
+      <Stack className="agent-home-list">
+        <Typography variant="h5" sx={{ fontWeight: 600, marginLeft: 2, marginTop: 2 }}>
+          Listed Properties
+        </Typography>
+
+        {getPropertiesLoading ? (
+          <Stack className="card-wrap">
+            {[1, 2, 3].map((item) => (
+              <Box key={item} sx={{ width: 300, height: 350, margin: 2 }}>
+                <Skeleton variant="rectangular" width="100%" height={200} sx={{ borderRadius: 2 }} />
+                <Skeleton variant="text" width="80%" height={30} sx={{ mt: 2 }} />
+                <Skeleton variant="text" width="60%" height={20} />
+                <Skeleton variant="text" width="40%" height={20} />
+              </Box>
+            ))}
+          </Stack>
+        ) : (
+          <Stack className="card-wrap">
+            {agentProperties.length > 0 ? (
+              <div className="wrap-main">
+                {agentProperties.map((jewellery: Jewellery) => (
+                  <PropertyBigCard
+                    jewellery={jewellery}
+                    key={jewellery?._id}
+                    likeJewelleryHandler={likeJewelleryHandler}
+                  />
+                ))}
+              </div>
+            ) : (
+              <Box className="no-data" sx={{ textAlign: 'center', py: 4 }}>
+                <img src="/img/icons/icoAlert.svg" alt="No properties" />
+                <Typography variant="body1" sx={{ mt: 2 }}>
+                  No properties found!
+                </Typography>
+              </Box>
+            )}
+          </Stack>
+        )}
+
+        {agentProperties.length > 0 && (
+          <Stack className="pagination">
+            <Stack className="pagination-box">
+              <Pagination
+                page={searchFilter.page}
+                count={Math.ceil(propertyTotal / searchFilter.limit) || 1}
+                onChange={propertyPaginationChangeHandler}
+                shape="rounded"
+                color="primary"
+              />
+            </Stack>
+            <Typography variant="body2" sx={{ mt: 1 }}>
+              Total {propertyTotal} propert{propertyTotal > 1 ? 'ies' : 'y'} available
+            </Typography>
+          </Stack>
+        )}
+      </Stack>
+    );
+  };
+
+  const renderReviewsSection = () => {
+    return (
+      <Stack className="review-box">
+        <Stack className="main-intro">
+          <Typography variant="h5" sx={{ fontWeight: 600 }}>
+            Reviews
+          </Typography>
+          <Typography variant="body2">See what others are saying about this agent</Typography>
+        </Stack>
+
+        {commentTotal > 0 ? (
+          <Stack className="review-wrap">
+            <Box component={'div'} className={'title-box'}>
+              <StarIcon />
+              <span>
+                {commentTotal} review{commentTotal > 1 ? 's' : ''}
+              </span>
+            </Box>
+
+            {getCommentsLoading
+              ? Array(3)
+                  .fill(0)
+                  .map((_, index) => (
+                    <Box key={index} sx={{ my: 2, px: 2 }}>
+                      <Stack direction="row" spacing={2} alignItems="flex-start">
+                        <Skeleton variant="circular" width={50} height={50} />
+                        <Stack spacing={1} width="100%">
+                          <Skeleton variant="text" width="40%" height={20} />
+                          <Skeleton variant="text" width="25%" height={16} />
+                          <Skeleton variant="text" width="100%" height={60} />
+                        </Stack>
+                      </Stack>
+                    </Box>
+                  ))
+              : agentComments?.map((comment: Comment) => <ReviewCard comment={comment} key={comment?._id} />)}
+
+            <Box component={'div'} className={'pagination-box'}>
+              <Pagination
+                page={commentInquiry.page}
+                count={Math.ceil(commentTotal / commentInquiry.limit) || 1}
+                onChange={commentPaginationChangeHandler}
+                shape="rounded"
+                color="primary"
+              />
+            </Box>
+          </Stack>
+        ) : (
+          <Box sx={{ textAlign: 'center', my: 4, p: 3, bgcolor: '#f9f9f9', borderRadius: 2 }}>
+            <Typography variant="body1">No reviews yet. Be the first to leave a review!</Typography>
+          </Box>
+        )}
+
+        <Stack className="leave-review-config">
+          <Typography className="main-title">Leave A Review</Typography>
+          <Typography className="review-title">Your Experience</Typography>
+
+          <TextField
+            multiline
+            rows={4}
+            placeholder="Share your experience with this agent..."
+            fullWidth
+            value={insertCommentData.commentContent}
+            onChange={({ target: { value } }) => {
+              setInsertCommentData({ ...insertCommentData, commentContent: value });
+            }}
+            variant="outlined"
+            InputProps={{
+              sx: {
+                borderRadius: 2,
+                height: 100,
+                padding: '8px',
+                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                  borderColor: '#eb6753',
+                  borderWidth: '2px',
+                },
+              },
+            }}
+          />
+
+          <Box className="submit-btn" component={'div'}>
+            <Button
+              className="submit-review"
+              disabled={!insertCommentData.commentContent || !user?._id || user?._id === agentId}
+              onClick={createCommentHandler}
+              endIcon={<SendIcon />}
+            >
+              <Typography className="title">Submit Review</Typography>
+            </Button>
+          </Box>
+
+          {!user?._id && (
+            <Typography className="error-message" variant="caption" color="error">
+              You must be logged in to leave a review
+            </Typography>
+          )}
+
+          {user?._id === agentId && (
+            <Typography className="error-message" variant="caption" color="error">
+              You cannot review your own profile
+            </Typography>
+          )}
+        </Stack>
+      </Stack>
+    );
+  };
+
   if (device === 'mobile') {
+    // Mobile version would be implemented here
     return <div>AGENT DETAIL PAGE MOBILE</div>;
   } else {
     return (
-      <Stack className={'agent-detail-page'}>
-        <Stack className={'container'}>
-          <Stack className={'agent-info'}>
-            <img
-              src={agent?.memberImage ? `${REACT_APP_API_URL}/${agent?.memberImage}` : '/img/profile/defaultUser.svg'}
-              alt=""
-            />
-            <Box component={'div'} className={'info'} onClick={() => redirectToMemberPageHandler(agent?._id as string)}>
-              <strong>{agent?.memberFullName ?? agent?.memberNick}</strong>
-              <div>
-                <img src="/img/icons/call.svg" alt="" />
-                <span>{agent?.memberPhone}</span>
-              </div>
-            </Box>
-          </Stack>
-          <Stack className={'agent-home-list'}>
-            <Stack className={'card-wrap'}>
-              {agentProperties.map((jewellery: Property) => {
-                return (
-                  <div className={'wrap-main'} key={property?._id}>
-                    <PropertyBigCard
-                      property={property}
-                      key={property?._id}
-                      likeJewelleryHandler={likeJewelleryHandler}
-                    />
-                  </div>
-                );
-              })}
-            </Stack>
-            <Stack className={'pagination'}>
-              {propertyTotal ? (
-                <>
-                  <Stack className="pagination-box">
-                    <Pagination
-                      page={searchFilter.page}
-                      count={Math.ceil(propertyTotal / searchFilter.limit) || 1}
-                      onChange={propertyPaginationChangeHandler}
-                      shape="circular"
-                      color="primary"
-                    />
-                  </Stack>
-                  <span>
-                    Total {propertyTotal} propert{propertyTotal > 1 ? 'ies' : 'y'} available
-                  </span>
-                </>
-              ) : (
-                <div className={'no-data'}>
-                  <img src="/img/icons/icoAlert.svg" alt="" />
-                  <p>No properties found!</p>
-                </div>
-              )}
-            </Stack>
-          </Stack>
-          <Stack className={'review-box'}>
-            <Stack className={'main-intro'}>
-              <span>Reviews</span>
-              <p>we are glad to see you again</p>
-            </Stack>
-            {commentTotal !== 0 && (
-              <Stack className={'review-wrap'}>
-                <Box component={'div'} className={'title-box'}>
-                  <StarIcon />
-                  <span>
-                    {commentTotal} review{commentTotal > 1 ? 's' : ''}
-                  </span>
-                </Box>
-                {agentComments?.map((comment: Comment) => {
-                  return <ReviewCard comment={comment} key={comment?._id} />;
-                })}
-                <Box component={'div'} className={'pagination-box'}>
-                  <Pagination
-                    page={commentInquiry.page}
-                    count={Math.ceil(commentTotal / commentInquiry.limit) || 1}
-                    onChange={commentPaginationChangeHandler}
-                    shape="circular"
-                    color="primary"
-                  />
-                </Box>
-              </Stack>
-            )}
-
-            <Stack className={'leave-review-config'}>
-              <Typography className={'main-title'}>Leave A Review</Typography>
-              <Typography className={'review-title'}>Review</Typography>
-              <textarea
-                onChange={({ target: { value } }: any) => {
-                  setInsertCommentData({ ...insertCommentData, commentContent: value });
-                }}
-                value={insertCommentData.commentContent}
-              ></textarea>
-              <Box className={'submit-btn'} component={'div'}>
-                <Button
-                  className={'submit-review'}
-                  disabled={insertCommentData.commentContent === '' || user?._id === ''}
-                  onClick={createCommentHandler}
-                >
-                  <Typography className={'title'}>Submit Review</Typography>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
-                    <g clipPath="url(#clip0_6975_3642)">
-                      <path
-                        d="M16.1571 0.5H6.37936C6.1337 0.5 5.93491 0.698792 5.93491 0.944458C5.93491 1.19012 6.1337 1.38892 6.37936 1.38892H15.0842L0.731781 15.7413C0.558156 15.915 0.558156 16.1962 0.731781 16.3698C0.818573 16.4566 0.932323 16.5 1.04603 16.5C1.15974 16.5 1.27345 16.4566 1.36028 16.3698L15.7127 2.01737V10.7222C15.7127 10.9679 15.9115 11.1667 16.1572 11.1667C16.4028 11.1667 16.6016 10.9679 16.6016 10.7222V0.944458C16.6016 0.698792 16.4028 0.5 16.1571 0.5Z"
-                        fill="#181A20"
-                      />
-                    </g>
-                    <defs>
-                      <clipPath id="clip0_6975_3642">
-                        <rect width="16" height="16" fill="white" transform="translate(0.601562 0.5)" />
-                      </clipPath>
-                    </defs>
-                  </svg>
-                </Button>
-              </Box>
-            </Stack>
-          </Stack>
+      <Stack className="agent-detail-page">
+        <Stack className="container">
+          {renderAgentInfo()}
+          {renderPropertySection()}
+          {renderReviewsSection()}
         </Stack>
       </Stack>
     );

@@ -1,6 +1,6 @@
 import React from 'react';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import { Stack, Box, Typography } from '@mui/material';
+import { Stack, Box, Typography, Tooltip } from '@mui/material';
 import Link from 'next/link';
 import { REACT_APP_API_URL } from '../../config';
 import IconButton from '@mui/material/IconButton';
@@ -24,60 +24,98 @@ const AgentCard = (props: AgentCardProps) => {
     : '/img/profile/defaultUser.svg';
 
   if (device === 'mobile') {
-    return <div>AGENT CARD</div>;
-  } else {
     return (
-      <Stack className="agent-general-card">
-        <Link
-          href={{
-            pathname: '/agent/detail',
-            query: { agentId: agent?._id },
+      <Stack className="agent-general-card mobile">
+        <Box
+          component={'div'}
+          className={'agent-img'}
+          style={{
+            backgroundImage: `url(${imagePath})`,
           }}
         >
-          <Box
-            component={'div'}
-            className={'agent-img'}
-            style={{
-              backgroundImage: `url(${imagePath})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              backgroundRepeat: 'no-repeat',
-            }}
-          >
-            <div>{agent?.memberJewelleries} properties</div>
-          </Box>
-        </Link>
-
+          <div className="property-badge">{agent?.memberJewelleries} properties</div>
+        </Box>
         <Stack className={'agent-desc'}>
           <Box component={'div'} className={'agent-info'}>
-            <Link
-              href={{
-                pathname: '/agent/detail',
-                query: { agentId: 'id' },
-              }}
-            >
-              <strong>{agent?.memberFullName ?? agent?.memberNick}</strong>
-            </Link>
+            <strong>{agent?.memberFullName ?? agent?.memberNick}</strong>
             <span>Agent</span>
           </Box>
           <Box component={'div'} className={'buttons'}>
-            <IconButton color={'default'}>
+            <span className="stat-item">
               <RemoveRedEyeIcon />
-            </IconButton>
-            <Typography className="view-cnt">{agent?.memberViews}</Typography>
-            <IconButton color={'default'} onClick={() => likeMemberHandler(user, agent?._id)}>
+              <Typography className="view-cnt">{agent?.memberViews}</Typography>
+            </span>
+            <span className="stat-item" onClick={() => likeMemberHandler(user, agent?._id)}>
               {agent?.meLiked && agent?.meLiked[0]?.myFavorite ? (
                 <FavoriteIcon color={'primary'} />
               ) : (
                 <FavoriteBorderIcon />
               )}
-            </IconButton>
-            <Typography className="view-cnt">{agent?.memberLikes}</Typography>
+              <Typography className="view-cnt">{agent?.memberLikes}</Typography>
+            </span>
           </Box>
         </Stack>
       </Stack>
     );
   }
+
+  return (
+    <Stack className="agent-general-card">
+      <Link
+        href={{
+          pathname: '/agent/detail',
+          query: { agentId: agent?._id },
+        }}
+      >
+        <Box
+          component={'div'}
+          className={'agent-img'}
+          style={{
+            backgroundImage: `url(${imagePath})`,
+          }}
+        >
+          <div className="property-badge">{agent?.memberJewelleries} properties</div>
+          <div className="hover-overlay">
+            <span>View Profile</span>
+          </div>
+        </Box>
+      </Link>
+
+      <Stack className={'agent-desc'}>
+        <Box component={'div'} className={'agent-info'}>
+          <Link
+            href={{
+              pathname: '/agent/detail',
+              query: { agentId: agent?._id },
+            }}
+          >
+            <strong>{agent?.memberFullName ?? agent?.memberNick}</strong>
+          </Link>
+          <span>Agent</span>
+        </Box>
+        <Box component={'div'} className={'buttons'}>
+          <Tooltip title="Views">
+            <IconButton className="stat-button">
+              <RemoveRedEyeIcon />
+              <Typography className="view-cnt">{agent?.memberViews}</Typography>
+            </IconButton>
+          </Tooltip>
+          <Tooltip
+            title={agent?.meLiked && agent?.meLiked[0]?.myFavorite ? 'Remove from favorites' : 'Add to favorites'}
+          >
+            <IconButton className="stat-button" onClick={() => likeMemberHandler(user, agent?._id)}>
+              {agent?.meLiked && agent?.meLiked[0]?.myFavorite ? (
+                <FavoriteIcon color={'primary'} />
+              ) : (
+                <FavoriteBorderIcon />
+              )}
+              <Typography className="view-cnt">{agent?.memberLikes}</Typography>
+            </IconButton>
+          </Tooltip>
+        </Box>
+      </Stack>
+    </Stack>
+  );
 };
 
 export default AgentCard;

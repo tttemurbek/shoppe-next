@@ -2,9 +2,10 @@ import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
-import { Stack, Box, Button, Pagination } from '@mui/material';
+import { Stack, Box, Button, Pagination, CircularProgress } from '@mui/material';
 import { Menu, MenuItem } from '@mui/material';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
+import SearchIcon from '@mui/icons-material/Search';
 import AgentCard from '../../libs/components/common/AgentCard';
 import { useRouter } from 'next/router';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -100,6 +101,14 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
     setAnchorEl2(null);
   };
 
+  const handleSearch = () => {
+    setSearchFilter({
+      ...searchFilter,
+      search: { ...searchFilter.search, text: searchText },
+      page: 1,
+    });
+  };
+
   const paginationChangeHandler = async (event: ChangeEvent<unknown>, value: number) => {
     searchFilter.page = value;
     await router.push(`/agent?input=${JSON.stringify(searchFilter)}`, `/agent?input=${JSON.stringify(searchFilter)}`, {
@@ -134,28 +143,44 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
         <Stack className={'container'}>
           <Stack className={'filter'}>
             <Box component={'div'} className={'left'}>
-              <input
-                type="text"
-                placeholder={'Search for an agent'}
-                value={searchText}
-                onChange={(e: any) => setSearchText(e.target.value)}
-                onKeyDown={(event: any) => {
-                  if (event.key == 'Enter') {
-                    setSearchFilter({
-                      ...searchFilter,
-                      search: { ...searchFilter.search, text: searchText },
-                    });
-                  }
-                }}
-              />
+              <div className="search-input-wrapper">
+                <input
+                  type="text"
+                  placeholder={'Search for an agent'}
+                  value={searchText}
+                  onChange={(e: any) => setSearchText(e.target.value)}
+                  onKeyDown={(event: any) => {
+                    if (event.key === 'Enter') {
+                      handleSearch();
+                    }
+                  }}
+                />
+                <Button className="search-button" onClick={handleSearch} variant="contained">
+                  <SearchIcon fontSize="small" />
+                </Button>
+              </div>
             </Box>
             <Box component={'div'} className={'right'}>
               <span>Sort by</span>
               <div>
-                <Button onClick={sortingClickHandler} endIcon={<KeyboardArrowDownRoundedIcon />}>
+                <Button onClick={sortingClickHandler} endIcon={<KeyboardArrowDownRoundedIcon />} variant="outlined">
                   {filterSortName}
                 </Button>
-                <Menu anchorEl={anchorEl} open={sortingOpen} onClose={sortingCloseHandler} sx={{ paddingTop: '5px' }}>
+                <Menu
+                  anchorEl={anchorEl}
+                  open={sortingOpen}
+                  onClose={sortingCloseHandler}
+                  sx={{ paddingTop: '5px' }}
+                  elevation={2}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'right',
+                  }}
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                >
                   <MenuItem onClick={sortingHandler} id={'recent'} disableRipple>
                     Recent
                   </MenuItem>
@@ -172,32 +197,52 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
               </div>
             </Box>
           </Stack>
-          <Stack className={'card-wrap'}>
-            {agents?.length === 0 ? (
-              <div className={'no-data'}>
-                <img src="/img/icons/icoAlert.svg" alt="" />
-                <p>No Agents found!</p>
-              </div>
-            ) : (
-              agents.map((agent: Member) => {
-                return <AgentCard agent={agent} key={agent._id} likeMemberHandler={likeMemberHandler} />;
-              })
-            )}
-          </Stack>
-          <Stack className={'pagination'}>
-            <Stack className="pagination-box">
-              {agents.length !== 0 && Math.ceil(total / searchFilter.limit) > 1 && (
-                <Stack className="pagination-box">
-                  <Pagination
-                    page={currentPage}
-                    count={Math.ceil(total / searchFilter.limit)}
-                    onChange={paginationChangeHandler}
-                    shape="circular"
-                    color="primary"
-                  />
-                </Stack>
+
+          {getAgentsLoading ? (
+            <Box className="loading-container">
+              <CircularProgress color="primary" />
+            </Box>
+          ) : (
+            <Stack className={'card-wrap'}>
+              {agents?.length === 0 ? (
+                <div className={'no-data'}>
+                  <img src="/img/icons/icoAlert.svg" alt="No results" />
+                  <p>No Agents found!</p>
+                  <Button
+                    variant="outlined"
+                    onClick={() => {
+                      setSearchText('');
+                      setSearchFilter({
+                        ...initialInput,
+                        search: {},
+                      });
+                    }}
+                    sx={{ mt: 2 }}
+                  >
+                    Clear filters
+                  </Button>
+                </div>
+              ) : (
+                agents.map((agent: Member) => {
+                  return <AgentCard agent={agent} key={agent._id} likeMemberHandler={likeMemberHandler} />;
+                })
               )}
             </Stack>
+          )}
+
+          <Stack className={'pagination'}>
+            {agents.length !== 0 && Math.ceil(total / searchFilter.limit) > 1 && (
+              <Stack className="pagination-box">
+                <Pagination
+                  page={currentPage}
+                  count={Math.ceil(total / searchFilter.limit)}
+                  onChange={paginationChangeHandler}
+                  shape="rounded"
+                  color="primary"
+                  size="large"
+                />
+              </Stack>
+            )}
 
             {agents.length !== 0 && (
               <span>
