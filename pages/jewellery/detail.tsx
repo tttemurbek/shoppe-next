@@ -205,6 +205,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
       </Stack>
     );
   }
+  console.log('jewellery=>>>>>>>>>>', jewellery?.createdAt);
 
   if (device === 'mobile') {
     return <div>PROPERTY DETAIL PAGE</div>;
@@ -220,30 +221,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
                   <Stack className={'top-box'}>
                     <Typography className={'city'}>{jewellery?.jewelleryLocation}</Typography>
                     <Stack className={'divider'}></Stack>
-                    <Stack className={'buy-rent-box'}>
-                      {jewellery?.jewelleryBarter && (
-                        <>
-                          <Stack className={'circle'}>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="6" height="6" viewBox="0 0 6 6" fill="none">
-                              <circle cx="3" cy="3" r="3" fill="#EB6753" />
-                            </svg>
-                          </Stack>
-                          <Typography className={'buy-rent'}>Barter</Typography>
-                        </>
-                      )}
-
-                      {jewellery?.jewelleryRent && (
-                        <>
-                          <Stack className={'circle'}>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="6" height="6" viewBox="0 0 6 6" fill="none">
-                              <circle cx="3" cy="3" r="3" fill="#EB6753" />
-                            </svg>
-                          </Stack>
-                          <Typography className={'buy-rent'}>rent</Typography>
-                        </>
-                      )}
-                    </Stack>
-                    <Stack className={'divider'}></Stack>
+                    <Stack className={'buy-rent-box'}></Stack>
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
                       <g clipPath="url(#clip0_6505_6282)">
                         <path

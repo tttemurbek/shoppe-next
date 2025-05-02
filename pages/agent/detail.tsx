@@ -23,6 +23,7 @@ import {
 import StarIcon from '@mui/icons-material/Star';
 import PhoneIcon from '@mui/icons-material/Phone';
 import EmailIcon from '@mui/icons-material/Email';
+import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import SendIcon from '@mui/icons-material/Send';
 import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
@@ -227,7 +228,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
             <strong onClick={() => redirectToMemberPageHandler(agent?._id as string)}>
               {agent?.memberFullName ?? agent?.memberNick}
             </strong>
-            {agent?.memberVerified && (
+            {agent?.memberStatus && (
               <Chip size="small" color="primary" label="Verified" sx={{ height: 22, fontSize: 12 }} />
             )}
           </Stack>
@@ -237,10 +238,10 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
             <span>{agent?.memberPhone || 'No phone provided'}</span>
           </div>
 
-          {agent?.memberEmail && (
+          {agent?.memberRank && (
             <div>
-              <EmailIcon sx={{ width: 18, height: 18 }} />
-              <span>{agent?.memberEmail}</span>
+              <ThumbUpOffAltIcon sx={{ width: 18, height: 18 }} />
+              <span>{agent.memberRank}</span>
             </div>
           )}
 

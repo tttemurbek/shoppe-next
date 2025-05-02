@@ -102,6 +102,7 @@ export const GET_JEWELLERY = gql`
       memberId
       soldAt
       deletedAt
+      createdAt
       constructedAt
       memberData {
         _id
