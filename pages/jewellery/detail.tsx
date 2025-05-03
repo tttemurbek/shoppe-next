@@ -6,7 +6,7 @@ import { NextPage } from 'next';
 import Review from '../../libs/components/jewellery/Review';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Autoplay, Navigation, Pagination } from 'swiper';
-import PropertyBigCard from '../../libs/components/common/PropertyBigCard';
+import JewelleryBigCard from '../../libs/components/common/JewelleryBigCard';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import WestIcon from '@mui/icons-material/West';
@@ -41,16 +41,16 @@ export const getStaticProps = async ({ locale }: any) => ({
   },
 });
 
-const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
+const JewelleryDetail: NextPage = ({ initialComment, ...props }: any) => {
   const device = useDeviceDetect();
   const router = useRouter();
   const user = useReactiveVar(userVar);
-  const [propertyId, setPropertyId] = useState<string | null>(null);
-  const [jewellery, setProperty] = useState<Jewellery | null>(null);
+  const [jewelleryId, setJewelleryId] = useState<string | null>(null);
+  const [jewellery, setJewellery] = useState<Jewellery | null>(null);
   const [slideImage, setSlideImage] = useState<string>('');
   const [destinationProperties, setDestinationProperties] = useState<Jewellery[]>([]);
   const [commentInquiry, setCommentInquiry] = useState<CommentsInquiry>(initialComment);
-  const [propertyComments, setPropertyComments] = useState<Comment[]>([]);
+  const [jewelleryComments, setJewelleryComments] = useState<Comment[]>([]);
   const [commentTotal, setCommentTotal] = useState<number>(0);
   const [insertCommentData, setInsertCommentData] = useState<CommentInput>({
     commentGroup: CommentGroup.JEWELLERY,
@@ -60,21 +60,21 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 
   /** APOLLO REQUESTS **/
 
-  const [likeTargetProperty] = useMutation(LIKE_TARGET_JEWELLERY);
+  const [likeTargetJewellery] = useMutation(LIKE_TARGET_JEWELLERY);
   const [createCommand] = useMutation(CREATE_COMMENT);
 
   const {
-    loading: getPropertyLoading,
-    data: getPropertyData,
-    error: getPropertyError,
-    refetch: getPropertyRefetch,
+    loading: getJewelleryLoading,
+    data: getJewelleryData,
+    error: getJewelleryError,
+    refetch: getJewelleryRefetch,
   } = useQuery(GET_JEWELLERY, {
     fetchPolicy: 'network-only',
-    variables: { input: propertyId },
-    skip: !propertyId,
+    variables: { input: jewelleryId },
+    skip: !jewelleryId,
     notifyOnNetworkStatusChange: true,
     onCompleted: (data: T) => {
-      if (data?.getJewellery) setProperty(data?.getJewellery);
+      if (data?.getJewellery) setJewellery(data?.getJewellery);
       if (data?.getJewellery) setSlideImage(data?.getJewellery?.jewelleryImages[0]);
     },
   });
@@ -97,10 +97,10 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
         },
       },
     },
-    skip: !propertyId && !jewellery,
+    skip: !jewelleryId && !jewellery,
     notifyOnNetworkStatusChange: true,
     onCompleted: (data: T) => {
-      if (data?.getJewelleries?.list) setDestinationProperties(data?.getJewelleries?.list);
+      if (data?.getProperties?.list) setDestinationProperties(data?.getProperties?.list);
     },
   });
 
@@ -115,7 +115,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
     skip: !commentInquiry.search?.commentRefId,
     notifyOnNetworkStatusChange: true,
     onCompleted: (data: T) => {
-      if (data?.getComments?.list) setPropertyComments(data?.getComments?.list);
+      if (data?.getComments?.list) setJewelleryComments(data?.getComments?.list);
       setCommentTotal(data?.getComments?.metaCounter[0]?.total ?? 0);
     },
   });
@@ -123,7 +123,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
   /** LIFECYCLES **/
   useEffect(() => {
     if (router.query.id) {
-      setPropertyId(router.query.id as string);
+      setJewelleryId(router.query.id as string);
       setCommentInquiry({
         ...commentInquiry,
         search: {
@@ -151,10 +151,10 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
       if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
 
       //execute likeJewelleryHandler
-      await likeTargetProperty({ variables: { input: id } });
+      await likeTargetJewellery({ variables: { input: id } });
 
       // execute getPropertiesRefetch
-      await getPropertyRefetch({
+      await getJewelleryRefetch({
         input: id,
       });
       await getPropertiesRefetch({
@@ -205,10 +205,9 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
       </Stack>
     );
   }
-  console.log('jewellery=>>>>>>>>>>', jewellery?.createdAt);
 
   if (device === 'mobile') {
-    return <div>PROPERTY DETAIL PAGE</div>;
+    return <div>JEWELLERY DETAIL PAGE</div>;
   } else {
     return (
       <div id={'property-detail-page'}>
@@ -221,7 +220,30 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
                   <Stack className={'top-box'}>
                     <Typography className={'city'}>{jewellery?.jewelleryLocation}</Typography>
                     <Stack className={'divider'}></Stack>
-                    <Stack className={'buy-rent-box'}></Stack>
+                    <Stack className={'buy-rent-box'}>
+                      {jewellery?.jewelleryBarter && (
+                        <>
+                          <Stack className={'circle'}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="6" height="6" viewBox="0 0 6 6" fill="none">
+                              <circle cx="3" cy="3" r="3" fill="#EB6753" />
+                            </svg>
+                          </Stack>
+                          <Typography className={'buy-rent'}>Barter</Typography>
+                        </>
+                      )}
+
+                      {jewellery?.jewelleryRent && (
+                        <>
+                          <Stack className={'circle'}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="6" height="6" viewBox="0 0 6 6" fill="none">
+                              <circle cx="3" cy="3" r="3" fill="#EB6753" />
+                            </svg>
+                          </Stack>
+                          <Typography className={'buy-rent'}>rent</Typography>
+                        </>
+                      )}
+                    </Stack>
+                    <Stack className={'divider'}></Stack>
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
                       <g clipPath="url(#clip0_6505_6282)">
                         <path
@@ -241,6 +263,17 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
                     </svg>
                     <Typography className={'date'}>{moment().diff(jewellery?.createdAt, 'days')} days ago</Typography>
                   </Stack>
+                  {/* <Stack className={'bottom-box'}>
+                    <Stack className="option">
+                      <img src="/img/icons/bed.svg" alt="" /> <Typography>{jewellery?.propertyBeds} bed</Typography>
+                    </Stack>
+                    <Stack className="option">
+                      <img src="/img/icons/room.svg" alt="" /> <Typography>{jewellery?.propertyRooms} room</Typography>
+                    </Stack>
+                    <Stack className="option">
+                      <img src="/img/icons/expand.svg" alt="" /> <Typography>{jewellery?.propertySquare} m2</Typography>
+                    </Stack>
+                  </Stack> */}
                 </Stack>
                 <Stack className={'right-box'}>
                   <Stack className="buttons">
@@ -299,8 +332,8 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
                       <Typography className={'title'}>Bedroom</Typography>
                       <Typography className={'option-data'}>{jewellery?.propertyBeds}</Typography>
                     </Stack>
-                  </Stack>
-                  <Stack className={'option'}>
+                  </Stack> */}
+                  {/* <Stack className={'option'}>
                     <Stack className={'svg-box'}>
                       <img src={'/img/icons/room.svg'} />
                     </Stack>
@@ -352,7 +385,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
                     </Stack>
                     <Stack className={'option-includes'}>
                       <Typography className={'title'}>Weight</Typography>
-                      <Typography className={'option-data'}>{jewellery?.jewelleryGram} grams</Typography>
+                      <Typography className={'option-data'}>{jewellery?.jewelleryGram} gram</Typography>
                     </Stack>
                   </Stack>
                   <Stack className={'option'}>
@@ -380,48 +413,48 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
                     <Typography className={'title'}>Jewellery Details</Typography>
                     <Stack className={'info-box'}>
                       <Stack className={'left'}>
-                        <Box component={'div'} className={'info'}>
+                        {/* <Box component={'div'} className={'info'}>
                           <Typography className={'title'}>Price</Typography>
-                          <Typography className={'data'}>${formatterStr(jewellery?.jewelleryPrice)}</Typography>
-                        </Box>
+                          <Typography className={'data'}>${formatterStr(jewellery?.propertyPrice)}</Typography>
+                        </Box> */}
                         <Box component={'div'} className={'info'}>
-                          <Typography className={'title'}>Jewellery Size</Typography>
-                          <Typography className={'data'}>{jewellery?.propertySquare} m2</Typography>
+                          <Typography className={'title'}>Jewellery Weight</Typography>
+                          <Typography className={'data'}>{jewellery?.jewelleryGram} gram</Typography>
                         </Box>
-                        <Box component={'div'} className={'info'}>
+                        {/* <Box component={'div'} className={'info'}>
                           <Typography className={'title'}>Rooms</Typography>
                           <Typography className={'data'}>{jewellery?.propertyRooms}</Typography>
-                        </Box>
-                        <Box component={'div'} className={'info'}>
+                        </Box> */}
+                        {/* <Box component={'div'} className={'info'}>
                           <Typography className={'title'}>Bedrooms</Typography>
                           <Typography className={'data'}>{jewellery?.propertyBeds}</Typography>
-                        </Box>
-                      </Stack>
-                      <Stack className={'right'}>
+                        </Box> */}
                         <Box component={'div'} className={'info'}>
-                          <Typography className={'title'}>Year Built</Typography>
+                          <Typography className={'title'}>Year Made</Typography>
                           <Typography className={'data'}>{moment(jewellery?.createdAt).format('YYYY')}</Typography>
                         </Box>
                         <Box component={'div'} className={'info'}>
                           <Typography className={'title'}>Jewellery Type</Typography>
                           <Typography className={'data'}>{jewellery?.jewelleryType}</Typography>
                         </Box>
+                      </Stack>
+                      {/* <Stack className={'right'}>
                         <Box component={'div'} className={'info'}>
                           <Typography className={'title'}>Jewellery Options</Typography>
                           <Typography className={'data'}>
-                            For {jewellery?.jewelleryBarter && 'Barter'} {jewellery?.jewelleryRent && 'Rent'}
+                            For {jewellery?.propertyBarter && 'Barter'} {jewellery?.propertyRent && 'Rent'}
                           </Typography>
                         </Box>
-                      </Stack>
+                      </Stack> */}
                     </Stack>
                   </Stack>
                 </Stack>
-                <Stack className={'floor-plans-config'}>
+                {/* <Stack className={'floor-plans-config'}>
                   <Typography className={'title'}>Floor Plans</Typography>
                   <Stack className={'image-box'}>
                     <img src={'/img/jewellery/floorPlan.png'} alt={'image'} />
                   </Stack>
-                </Stack>
+                </Stack> */}
                 <Stack className={'address-config'}>
                   <Typography className={'title'}>Address</Typography>
                   <Stack className={'map-box'}>
@@ -457,7 +490,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
                       </Stack>
                     </Stack>
                     <Stack className={'review-list'}>
-                      {propertyComments?.map((comment: Comment) => {
+                      {jewelleryComments?.map((comment: Comment) => {
                         return <Review comment={comment} key={comment?._id} />;
                       })}
                       <Box component={'div'} className={'pagination-box'}>
@@ -607,7 +640,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
                     {destinationProperties.map((jewellery: Jewellery) => {
                       return (
                         <SwiperSlide className={'similar-homes-slide'} key={jewellery.jewelleryTitle}>
-                          <PropertyBigCard
+                          <JewelleryBigCard
                             likeJewelleryHandler={likeJewelleryHandler}
                             jewellery={jewellery}
                             key={jewellery?._id}
@@ -626,7 +659,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
   }
 };
 
-PropertyDetail.defaultProps = {
+JewelleryDetail.defaultProps = {
   initialComment: {
     page: 1,
     limit: 5,
@@ -638,4 +671,4 @@ PropertyDetail.defaultProps = {
   },
 };
 
-export default withLayoutFull(PropertyDetail);
+export default withLayoutFull(JewelleryDetail);
