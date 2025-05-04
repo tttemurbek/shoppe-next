@@ -99,6 +99,7 @@ export const GET_JEWELLERY = gql`
       jewelleryDesc
       jewelleryBarter
       jewelleryRent
+      jewelleryRank
       memberId
       soldAt
       deletedAt

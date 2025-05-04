@@ -34,7 +34,7 @@ const Review = (props: ReviewProps) => {
 		return (
 			<Stack className={'review-config'}>
 				<Stack className={'review-mb-info'}>
-					<Stack className={'img-name-box'}>
+					<Stack className={'img-name-box'} sx={{width: "100px"}}>
 						<img src={imagePath} alt="" className={'img-box'} />
 						<Stack>
 							<Typography className={'name'} onClick={() => goMemberPage(comment?.memberData?._id as string)}>
