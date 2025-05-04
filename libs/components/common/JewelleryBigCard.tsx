@@ -10,6 +10,7 @@ import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import { useRouter } from 'next/router';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 interface JewelleryBigCardProps {
   jewellery: Jewellery;
@@ -65,15 +66,15 @@ const JewelleryBigCard = (props: JewelleryBigCardProps) => {
           </div>
           <Divider sx={{ mt: '15px', mb: '17px' }} />
           <div className={'bott'}>
-            <div>
+            {/* <div>
               {jewellery?.jewelleryRent ? <p>Rent</p> : <span>Rent</span>}
-              {jewellery?.jewelleryBarter ? <p>Barter</p> : <span>Barter</span>}
-            </div>
+                {jewellery?.jewelleryBarter ? <p>Barter</p> : <span>Barter</span>}
+            </div> */}
             <div className="buttons-box">
               <IconButton color={'default'}>
                 <RemoveRedEyeIcon />
+                <Typography className="view-cnt">{jewellery?.jewelleryViews}</Typography>
               </IconButton>
-              <Typography className="view-cnt">{jewellery?.jewelleryViews}</Typography>
               <IconButton
                 color={'default'}
                 onClick={(e: any) => {
@@ -86,8 +87,12 @@ const JewelleryBigCard = (props: JewelleryBigCardProps) => {
                 ) : (
                   <FavoriteIcon />
                 )}
+                <Typography className="view-cnt">{jewellery?.jewelleryLikes}</Typography>
               </IconButton>
-              <Typography className="view-cnt">{jewellery?.jewelleryLikes}</Typography>
+              <IconButton color={'default'} onClick={() => likeJewelleryHandler('user', 'jskdnasknd')}>
+                <AddShoppingCartIcon />
+                <Typography className="view-cnt">{jewellery?.jewelleryLikes}</Typography>
+              </IconButton>
             </div>
           </div>
         </Box>
