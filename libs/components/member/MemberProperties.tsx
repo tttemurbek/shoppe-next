@@ -3,41 +3,41 @@ import { NextPage } from 'next';
 import { Pagination, Stack, Typography } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { JewelleryCard } from '../mypage/JewelleryCard';
-import { Property } from '../../types/jewellery/jewellery';
-import { PropertiesInquiry } from '../../types/jewellery/jewellery.input';
+import { Jewellery } from '../../types/jewellery/jewellery';
+import { JewelleriesInquiry } from '../../types/jewellery/jewellery.input';
 import { T } from '../../types/common';
 import { useRouter } from 'next/router';
 import { useQuery } from '@apollo/client';
 import { GET_JEWELLERIES } from '../../../apollo/user/query';
 
-const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
+const MyJewelleries: NextPage = ({ initialInput, ...props }: any) => {
   const device = useDeviceDetect();
   const router = useRouter();
   const { memberId } = router.query;
-  const [searchFilter, setSearchFilter] = useState<PropertiesInquiry>({ ...initialInput });
-  const [agentProperties, setAgentProperties] = useState<Property[]>([]);
+  const [searchFilter, setSearchFilter] = useState<JewelleriesInquiry>({ ...initialInput });
+  const [agentJewelleries, setAgentJewelleries] = useState<Jewellery[]>([]);
   const [total, setTotal] = useState<number>(0);
 
   /** APOLLO REQUESTS **/
   const {
-    loading: getPropertiesLoading,
-    data: getPropertiesData,
-    error: getPropertiesError,
-    refetch: getPropertiesRefetch,
+    loading: getJewelleriesLoading,
+    data: getJewelleriesData,
+    error: getJewelleriesError,
+    refetch: getJewelleriesRefetch,
   } = useQuery(GET_JEWELLERIES, {
     fetchPolicy: 'network-only',
     variables: { input: searchFilter },
     skip: !searchFilter?.search?.memberId,
     notifyOnNetworkStatusChange: true,
     onCompleted: (data: T) => {
-      setAgentProperties(data?.getJewelleries?.list);
+      setAgentJewelleries(data?.getJewelleries?.list);
       setTotal(data?.getJewelleries?.metaCounter[0]?.total ?? 0);
     },
   });
 
   /** LIFECYCLES **/
   useEffect(() => {
-    getPropertiesRefetch().then();
+    getJewelleriesRefetch().then();
   }, [searchFilter]);
 
   useEffect(() => {
@@ -51,18 +51,18 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
   };
 
   if (device === 'mobile') {
-    return <div>shoppe PROPERTIES MOBILE</div>;
+    return <div>SHOPPE JEWELLERIES MOBILE</div>;
   } else {
     return (
       <div id="member-properties-page">
         <Stack className="main-title-box">
           <Stack className="right-box">
-            <Typography className="main-title">Properties</Typography>
+            <Typography className="main-title">Jewelleries</Typography>
           </Stack>
         </Stack>
         <Stack className="properties-list-box">
           <Stack className="list-box">
-            {agentProperties?.length > 0 && (
+            {agentJewelleries?.length > 0 && (
               <Stack className="listing-title-box">
                 <Typography className="title-text">Listing title</Typography>
                 <Typography className="title-text">Date Published</Typography>
@@ -70,17 +70,17 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
                 <Typography className="title-text">View</Typography>
               </Stack>
             )}
-            {agentProperties?.length === 0 && (
+            {agentJewelleries?.length === 0 && (
               <div className={'no-data'}>
                 <img src="/img/icons/icoAlert.svg" alt="" />
-                <p>No Property found!</p>
+                <p>No Jewellery found!</p>
               </div>
             )}
-            {agentProperties?.map((jewellery: Property) => {
+            {agentJewelleries?.map((jewellery: Jewellery) => {
               return <JewelleryCard jewellery={jewellery} memberPage={true} key={jewellery?._id} />;
             })}
 
-            {agentProperties.length !== 0 && (
+            {agentJewelleries.length !== 0 && (
               <Stack className="pagination-config">
                 <Stack className="pagination-box">
                   <Pagination
@@ -92,7 +92,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
                   />
                 </Stack>
                 <Stack className="total-result">
-                  <Typography>{total} jewellery available</Typography>
+                  <Typography>{total} jewelleries available</Typography>
                 </Stack>
               </Stack>
             )}
@@ -103,7 +103,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
   }
 };
 
-MyProperties.defaultProps = {
+MyJewelleries.defaultProps = {
   initialInput: {
     page: 1,
     limit: 5,
@@ -114,4 +114,4 @@ MyProperties.defaultProps = {
   },
 };
 
-export default MyProperties;
+export default MyJewelleries;

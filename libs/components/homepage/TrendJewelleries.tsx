@@ -6,7 +6,7 @@ import EastIcon from '@mui/icons-material/East';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation, Pagination } from 'swiper';
 import { Jewellery } from '../../types/jewellery/jewellery';
-import { PropertiesInquiry } from '../../types/jewellery/jewellery.input';
+import { JewelleriesInquiry } from '../../types/jewellery/jewellery.input';
 import TrendPropertyCard from './TrendJewelleryCard';
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_JEWELLERIES } from '../../../apollo/user/query';
@@ -16,7 +16,7 @@ import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAler
 import { Message } from '../../enums/common.enum';
 
 interface TrendPropertiesProps {
-  initialInput: PropertiesInquiry;
+  initialInput: JewelleriesInquiry;
 }
 
 const TrendProperties = (props: TrendPropertiesProps) => {

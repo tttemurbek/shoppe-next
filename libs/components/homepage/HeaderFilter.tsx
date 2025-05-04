@@ -8,7 +8,7 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { propertySquare, propertyYears } from '../../config';
 import { JewelleryLocation, JewelleryType } from '../../enums/jewellery.enum';
-import { PropertiesInquiry } from '../../types/jewellery/jewellery.input';
+import { JewelleriesInquiry } from '../../types/jewellery/jewellery.input';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import SearchIcon from '@mui/icons-material/Search';
@@ -36,14 +36,14 @@ const MenuProps = {
 const thisYear = new Date().getFullYear();
 
 interface HeaderFilterProps {
-  initialInput: PropertiesInquiry;
+  initialInput: JewelleriesInquiry;
 }
 
 const HeaderFilter = (props: HeaderFilterProps) => {
   const { initialInput } = props;
   const device = useDeviceDetect();
   const { t, i18n } = useTranslation('common');
-  const [searchFilter, setSearchFilter] = useState<PropertiesInquiry>(initialInput);
+  const [searchFilter, setSearchFilter] = useState<JewelleriesInquiry>(initialInput);
   const locationRef: any = useRef();
   const typeRef: any = useRef();
   const roomsRef: any = useRef();

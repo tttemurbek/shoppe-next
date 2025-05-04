@@ -13,7 +13,7 @@ import { CREATE_JEWELLERY, UPDATE_JEWELLERY } from '../../../apollo/user/mutatio
 import { GET_JEWELLERY } from '../../../apollo/user/query';
 import { sweetErrorHandling, sweetMixinErrorAlert, sweetMixinSuccessAlert } from '../../sweetAlert';
 
-const AddProperty = ({ initialValues, ...props }: any) => {
+const AddJewellery = ({ initialValues, ...props }: any) => {
   const device = useDeviceDetect();
   const router = useRouter();
   const inputRef = useRef<any>(null);
@@ -50,8 +50,8 @@ const AddProperty = ({ initialValues, ...props }: any) => {
       jewelleryAddress: getPropertyData?.getJewellery ? getPropertyData?.getJewellery?.jewelleryAddress : '',
       jewelleryBarter: getPropertyData?.getJewellery ? getPropertyData?.getJewellery?.jewelleryBarter : false,
       jewelleryRent: getPropertyData?.getJewellery ? getPropertyData?.getJewellery?.jewelleryRent : false,
-      propertyRooms: getPropertyData?.getJewellery ? getPropertyData?.getJewellery?.propertyRooms : 0,
-      propertyBeds: getPropertyData?.getJewellery ? getPropertyData?.getJewellery?.propertyBeds : 0,
+      // propertyRooms: getPropertyData?.getJewellery ? getPropertyData?.getJewellery?.propertyRooms : 0,
+      // propertyBeds: getPropertyData?.getJewellery ? getPropertyData?.getJewellery?.propertyBeds : 0,
       propertySquare: getPropertyData?.getJewellery ? getPropertyData?.getJewellery?.propertySquare : 0,
       jewelleryDesc: getPropertyData?.getJewellery ? getPropertyData?.getJewellery?.jewelleryDesc : '',
       jewelleryImages: getPropertyData?.getJewellery ? getPropertyData?.getJewellery?.jewelleryImages : [],
@@ -120,8 +120,8 @@ const AddProperty = ({ initialValues, ...props }: any) => {
       insertPropertyData.jewelleryAddress === '' || // @ts-ignore
       insertPropertyData.jewelleryBarter === '' || // @ts-ignore
       insertPropertyData.jewelleryRent === '' ||
-      insertPropertyData.propertyRooms === 0 ||
-      insertPropertyData.propertyBeds === 0 ||
+      // insertPropertyData.propertyRooms === 0 ||
+      // insertPropertyData.propertyBeds === 0 ||
       insertPropertyData.propertySquare === 0 ||
       insertPropertyData.jewelleryDesc === '' ||
       insertPropertyData.jewelleryImages.length === 0
@@ -513,7 +513,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
   }
 };
 
-AddProperty.defaultProps = {
+AddJewellery.defaultProps = {
   initialValues: {
     jewelleryTitle: '',
     jewelleryPrice: 0,
@@ -530,4 +530,4 @@ AddProperty.defaultProps = {
   },
 };
 
-export default AddProperty;
+export default AddJewellery;

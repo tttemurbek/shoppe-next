@@ -8,13 +8,13 @@ import EastIcon from '@mui/icons-material/East';
 import PopularPropertyCard from './PopularJewelleryCard';
 import { Jewellery } from '../../types/jewellery/jewellery';
 import Link from 'next/link';
-import { PropertiesInquiry } from '../../types/jewellery/jewellery.input';
+import { JewelleriesInquiry } from '../../types/jewellery/jewellery.input';
 import { GET_JEWELLERIES } from '../../../apollo/user/query';
 import { useQuery } from '@apollo/client';
 import { T } from '../../types/common';
 
 interface PopularPropertiesProps {
-  initialInput: PropertiesInquiry;
+  initialInput: JewelleriesInquiry;
 }
 
 const PopularProperties = (props: PopularPropertiesProps) => {

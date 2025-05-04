@@ -16,7 +16,7 @@ import {
 } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { JewelleryLocation, JewelleryType } from '../../enums/jewellery.enum';
-import { PropertiesInquiry } from '../../types/jewellery/jewellery.input';
+import { JewelleriesInquiry } from '../../types/jewellery/jewellery.input';
 import { useRouter } from 'next/router';
 import SearchIcon from '@mui/icons-material/Search';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
@@ -29,7 +29,11 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { dir } from 'console';
 
-const Filter = (props: { searchFilter: PropertiesInquiry; setSearchFilter: any; initialInput: PropertiesInquiry }) => {
+const Filter = (props: {
+  searchFilter: JewelleriesInquiry;
+  setSearchFilter: any;
+  initialInput: JewelleriesInquiry;
+}) => {
   const { searchFilter, setSearchFilter, initialInput } = props;
   const device = useDeviceDetect();
   const router = useRouter();

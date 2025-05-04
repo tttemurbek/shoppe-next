@@ -6,7 +6,7 @@ import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
 import Filter from '../../libs/components/jewellery/Filter';
 import { useRouter } from 'next/router';
-import { PropertiesInquiry } from '../../libs/types/jewellery/jewellery.input';
+import { JewelleriesInquiry } from '../../libs/types/jewellery/jewellery.input';
 import { Jewellery } from '../../libs/types/jewellery/jewellery';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
@@ -26,7 +26,7 @@ export const getStaticProps = async ({ locale }: any) => ({
 const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
   const device = useDeviceDetect();
   const router = useRouter();
-  const [searchFilter, setSearchFilter] = useState<PropertiesInquiry>(
+  const [searchFilter, setSearchFilter] = useState<JewelleriesInquiry>(
     router?.query?.input ? JSON.parse(router?.query?.input as string) : initialInput,
   );
   const [properties, setProperties] = useState<Jewellery[]>([]);
@@ -209,7 +209,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
                 {properties.length !== 0 && (
                   <Stack className="total-result">
                     <Typography>
-                      Total {total} propert{total > 1 ? 'ies' : 'y'} available
+                      Total {total} jeweller{total > 1 ? 'ies' : 'y'} available
                     </Typography>
                   </Stack>
                 )}

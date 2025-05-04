@@ -7,7 +7,6 @@ import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
 import MyProperties from '../../libs/components/mypage/MyProperties';
 import MyFavorites from '../../libs/components/mypage/MyFavorites';
 import RecentlyVisited from '../../libs/components/mypage/RecentlyVisited';
-import AddProperty from '../../libs/components/mypage/AddNewProperty';
 import MyProfile from '../../libs/components/mypage/MyProfile';
 import MyArticles from '../../libs/components/mypage/MyArticles';
 import { useMutation, useReactiveVar } from '@apollo/client';
@@ -20,6 +19,7 @@ import MemberFollowings from '../../libs/components/member/MemberFollowings';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { LIKE_TARGET_MEMBER, SUBSCRIBE, UNSUBSCRIBE } from '../../apollo/user/mutation';
 import { Messages } from '../../libs/config';
+import AddJewellery from '../../libs/components/mypage/AddNewJewellery';
 
 export const getStaticProps = async ({ locale }: any) => ({
   props: {
@@ -119,7 +119,7 @@ const MyPage: NextPage = () => {
               </Stack>
               <Stack className="main-config" mb={'76px'}>
                 <Stack className={'list-config'}>
-                  {category === 'addProperty' && <AddProperty />}
+                  {category === 'addJewellery' && <AddJewellery />}
                   {category === 'myProperties' && <MyProperties />}
                   {category === 'myFavorites' && <MyFavorites />}
                   {category === 'recentlyVisited' && <RecentlyVisited />}

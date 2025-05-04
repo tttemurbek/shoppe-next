@@ -31,7 +31,7 @@ import { useRouter } from 'next/router';
 import { Jewellery } from '../../libs/types/jewellery/jewellery';
 import { Member } from '../../libs/types/member/member';
 import { userVar } from '../../apollo/store';
-import { PropertiesInquiry } from '../../libs/types/jewellery/jewellery.input';
+import { JewelleriesInquiry } from '../../libs/types/jewellery/jewellery.input';
 import { CommentInput, CommentsInquiry } from '../../libs/types/comment/comment.input';
 import { Comment } from '../../libs/types/comment/comment';
 import { CommentGroup } from '../../libs/enums/comment.enum';
@@ -54,7 +54,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
   const user = useReactiveVar(userVar);
   const [agentId, setAgentId] = useState<string | null>(null);
   const [agent, setAgent] = useState<Member | null>(null);
-  const [searchFilter, setSearchFilter] = useState<PropertiesInquiry>(initialInput);
+  const [searchFilter, setSearchFilter] = useState<JewelleriesInquiry>(initialInput);
   const [agentProperties, setAgentProperties] = useState<Jewellery[]>([]);
   const [propertyTotal, setPropertyTotal] = useState<number>(0);
   const [commentInquiry, setCommentInquiry] = useState<CommentsInquiry>(initialComment);
@@ -260,7 +260,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
     return (
       <Stack className="agent-home-list">
         <Typography variant="h5" sx={{ fontWeight: 600, marginLeft: 2, marginTop: 2 }}>
-          Listed Properties
+          Listed Jewelleries
         </Typography>
 
         {getPropertiesLoading ? (
@@ -309,7 +309,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
               />
             </Stack>
             <Typography variant="body2" sx={{ mt: 1 }}>
-              Total {propertyTotal} propert{propertyTotal > 1 ? 'ies' : 'y'} available
+              Total {propertyTotal} jeweller{propertyTotal > 1 ? 'ies' : 'y'} available
             </Typography>
           </Stack>
         )}

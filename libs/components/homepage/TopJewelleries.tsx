@@ -6,7 +6,7 @@ import EastIcon from '@mui/icons-material/East';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation, Pagination } from 'swiper';
 import TopJewelleryCard from './TopJewelleryCard';
-import { PropertiesInquiry } from '../../types/jewellery/jewellery.input';
+import { JewelleriesInquiry } from '../../types/jewellery/jewellery.input';
 import { Jewellery } from '../../types/jewellery/jewellery';
 import { GET_JEWELLERIES } from '../../../apollo/user/query';
 import { useMutation, useQuery } from '@apollo/client';
@@ -16,7 +16,7 @@ import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAler
 import { Message } from '../../enums/common.enum';
 
 interface TopPropertiesProps {
-  initialInput: PropertiesInquiry;
+  initialInput: JewelleriesInquiry;
 }
 
 const TopProperties = (props: TopPropertiesProps) => {

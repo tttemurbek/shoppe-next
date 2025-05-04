@@ -29,7 +29,7 @@ export const JewelleryCard = (props: PropertyCardProps) => {
     console.log('+pushEditProperty: ', id);
     await router.push({
       pathname: '/mypage',
-      query: { category: 'addProperty', jewelleryId: id },
+      query: { category: 'addJewellery', jewelleryId: id },
     });
   };
 
@@ -54,7 +54,7 @@ export const JewelleryCard = (props: PropertyCardProps) => {
     return <div>MOBILE PROPERTY CARD</div>;
   } else
     return (
-      <Stack className="jewellery-card-box">
+      <Stack className="property-card-box">
         <Stack className="image-box" onClick={() => pushPropertyDetail(jewellery?._id)}>
           <img src={`${process.env.REACT_APP_API_URL}/${jewellery.jewelleryImages[0]}`} alt="" />
         </Stack>

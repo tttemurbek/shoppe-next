@@ -4,32 +4,32 @@ import useDeviceDetect from '../../hooks/useDeviceDetect';
 import IconButton from '@mui/material/IconButton';
 import ModeIcon from '@mui/icons-material/Mode';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Property } from '../../types/jewellery/jewellery';
+import { Jewellery } from '../../types/jewellery/jewellery';
 import { formatterStr } from '../../utils';
 import Moment from 'react-moment';
 import { useRouter } from 'next/router';
 import { JewelleryStatus } from '../../enums/jewellery.enum';
 
-interface PropertyCardProps {
-  jewellery: Property;
-  deletePropertyHandler?: any;
+interface JewelleryCardProps {
+  jewellery: Jewellery;
+  deleteJewelleryHandler?: any;
   memberPage?: boolean;
-  updatePropertyHandler?: any;
+  updateJewelleryHandler?: any;
 }
 
-export const JewelleryCard = (props: PropertyCardProps) => {
-  const { jewellery, deletePropertyHandler, memberPage, updatePropertyHandler } = props;
+export const JewelleryCard = (props: JewelleryCardProps) => {
+  const { jewellery, deleteJewelleryHandler, memberPage, updateJewelleryHandler } = props;
   const device = useDeviceDetect();
   const router = useRouter();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
   /** HANDLERS **/
-  const pushEditProperty = async (id: string) => {
-    console.log('+pushEditProperty: ', id);
+  const pushEditJewellery = async (id: string) => {
+    console.log('+pushEditJewellery: ', id);
     await router.push({
       pathname: '/mypage',
-      query: { category: 'addProperty', jewelleryId: id },
+      query: { category: 'addJewellery', jewelleryId: id },
     });
   };
 
@@ -54,7 +54,7 @@ export const JewelleryCard = (props: PropertyCardProps) => {
     return <div>MOBILE PROPERTY CARD</div>;
   } else
     return (
-      <Stack className="jewellery-card-box">
+      <Stack className="property-card-box">
         <Stack className="image-box" onClick={() => pushPropertyDetail(jewellery?._id)}>
           <img src={`${process.env.REACT_APP_API_URL}/${jewellery.jewelleryImages[0]}`} alt="" />
         </Stack>
@@ -104,7 +104,7 @@ export const JewelleryCard = (props: PropertyCardProps) => {
                   disableRipple
                   onClick={() => {
                     handleClose();
-                    updatePropertyHandler(JewelleryStatus.RESERVED, jewellery?._id);
+                    updateJewelleryHandler(JewelleryStatus.RESERVED, jewellery?._id);
                   }}
                 >
                   Sold
@@ -119,10 +119,10 @@ export const JewelleryCard = (props: PropertyCardProps) => {
         </Stack>
         {!memberPage && jewellery.jewelleryStatus === JewelleryStatus.AVAILABLE && (
           <Stack className="action-box">
-            <IconButton className="icon-button" onClick={() => pushEditProperty(jewellery._id)}>
+            <IconButton className="icon-button" onClick={() => pushEditJewellery(jewellery._id)}>
               <ModeIcon className="buttons" />
             </IconButton>
-            <IconButton className="icon-button" onClick={() => deletePropertyHandler(jewellery._id)}>
+            <IconButton className="icon-button" onClick={() => deleteJewelleryHandler(jewellery._id)}>
               <DeleteIcon className="buttons" />
             </IconButton>
           </Stack>
