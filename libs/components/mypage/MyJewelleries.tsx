@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NextPage } from 'next';
 import { Pagination, Stack, Typography } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
@@ -22,6 +22,13 @@ const MyJewelleries: NextPage = ({ initialInput, ...props }: any) => {
   const user = useReactiveVar(userVar);
   const router = useRouter();
 
+  // Redirect non-agent users immediately
+  useEffect(() => {
+    if (user && user.memberType !== 'AGENT') {
+      router.back();
+    }
+  }, [user, router]);
+
   /** APOLLO REQUESTS **/
   const [updateJewellery] = useMutation(UPDATE_JEWELLERY);
 
@@ -38,6 +45,7 @@ const MyJewelleries: NextPage = ({ initialInput, ...props }: any) => {
       setAgentJewelleries(data?.getAgentJewelleries?.list);
       setTotal(data?.getAgentJewelleries?.metaCounter[0]?.total ?? 0);
     },
+    skip: !user || user.memberType !== 'AGENT',
   });
 
   /** HANDLERS **/
@@ -56,7 +64,7 @@ const MyJewelleries: NextPage = ({ initialInput, ...props }: any) => {
           variables: {
             input: {
               _id: id,
-              JewelleryStatus: 'OUT_OF_STOCK',
+              jewelleryStatus: 'OUT_OF_STOCK', // Fixed case consistency
             },
           },
         });
@@ -87,8 +95,9 @@ const MyJewelleries: NextPage = ({ initialInput, ...props }: any) => {
     }
   };
 
-  if (user?.memberType !== 'AGENT') {
-    router.back();
+  // If user is not an agent, don't render component
+  if (user && user.memberType !== 'AGENT') {
+    return null;
   }
 
   if (device === 'mobile') {
@@ -128,8 +137,10 @@ const MyJewelleries: NextPage = ({ initialInput, ...props }: any) => {
               )}
             </Stack>
 
-            {agentJewelleries?.length === 0 ? (
-              <div className={'no-data'}>
+            {getAgentJewelleriesLoading ? (
+              <div className="loading">Loading...</div>
+            ) : agentJewelleries?.length === 0 ? (
+              <div className="no-data">
                 <img src="/img/icons/icoAlert.svg" alt="" />
                 <p>No Jewellery found!</p>
               </div>
@@ -137,6 +148,7 @@ const MyJewelleries: NextPage = ({ initialInput, ...props }: any) => {
               agentJewelleries.map((jewellery: Jewellery) => {
                 return (
                   <JewelleryCard
+                    key={jewellery._id} // Added key prop
                     jewellery={jewellery}
                     deleteJewelleryHandler={deleteJewelleryHandler}
                     updateJewelleryHandler={updateJewelleryHandler}
@@ -174,7 +186,7 @@ MyJewelleries.defaultProps = {
     limit: 5,
     sort: 'createdAt',
     search: {
-      JewelleryStatus: 'AVAILABLE',
+      jewelleryStatus: 'AVAILABLE', // Fixed case consistency
     },
   },
 };
