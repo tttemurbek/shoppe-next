@@ -51,12 +51,12 @@ const MyJewelleries: NextPage = ({ initialInput, ...props }: any) => {
 
   const deleteJewelleryHandler = async (id: string) => {
     try {
-      if (await sweetConfirmAlert('Are you sure to delete this Jewellery?')) {
+      if (await sweetConfirmAlert('Are you sure to delete this jewellery?')) {
         await updateJewellery({
           variables: {
             input: {
               _id: id,
-              jewelleryStatus: 'OUT_OF_STOCK',
+              JewelleryStatus: 'OUT_OF_STOCK',
             },
           },
         });
@@ -92,7 +92,7 @@ const MyJewelleries: NextPage = ({ initialInput, ...props }: any) => {
   }
 
   if (device === 'mobile') {
-    return <div>shoppe JEWELLERIES MOBILE</div>;
+    return <div>NESTAR JEWELLERIES MOBILE</div>;
   } else {
     return (
       <div id="my-property-page">
@@ -114,7 +114,7 @@ const MyJewelleries: NextPage = ({ initialInput, ...props }: any) => {
               onClick={() => changeStatusHandler(JewelleryStatus.RESERVED)}
               className={searchFilter.search.jewelleryStatus === 'RESERVED' ? 'active-tab-name' : 'tab-name'}
             >
-              On Sold
+              On Reserved
             </Typography>
           </Stack>
           <Stack className="list-box">
@@ -174,7 +174,7 @@ MyJewelleries.defaultProps = {
     limit: 5,
     sort: 'createdAt',
     search: {
-      jewelleryStatus: 'AVAILABLE',
+      JewelleryStatus: 'AVAILABLE',
     },
   },
 };

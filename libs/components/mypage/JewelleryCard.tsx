@@ -107,7 +107,7 @@ export const JewelleryCard = (props: JewelleryCardProps) => {
                     updateJewelleryHandler(JewelleryStatus.RESERVED, jewellery?._id);
                   }}
                 >
-                  Sold
+                  Reserved
                 </MenuItem>
               </>
             )}

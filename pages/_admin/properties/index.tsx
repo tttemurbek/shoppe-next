@@ -180,11 +180,11 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
                   Active
                 </ListItem>
                 <ListItem
-                  onClick={(e: any) => tabChangeHandler(e, 'SOLD')}
-                  value="SOLD"
-                  className={value === 'SOLD' ? 'li on' : 'li'}
+                  onClick={(e: any) => tabChangeHandler(e, 'RESERVED')}
+                  value="RESERVED"
+                  className={value === 'RESERVED' ? 'li on' : 'li'}
                 >
-                  Sold
+                  Reserved
                 </ListItem>
                 <ListItem
                   onClick={(e: any) => tabChangeHandler(e, 'DELETE')}
