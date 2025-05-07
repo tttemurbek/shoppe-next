@@ -3,7 +3,7 @@ import { NextPage } from 'next';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { Pagination, Stack, Typography } from '@mui/material';
 import JewelleryCard from '../jewellery/JewelleryCard';
-import { Property } from '../../types/jewellery/jewellery';
+import { Jewellery } from '../../types/jewellery/jewellery';
 import { T } from '../../types/common';
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_FAVORITES } from '../../../apollo/user/query';
@@ -13,12 +13,12 @@ import { sweetMixinErrorAlert } from '../../sweetAlert';
 
 const MyFavorites: NextPage = () => {
   const device = useDeviceDetect();
-  const [myFavorites, setMyFavorites] = useState<Property[]>([]);
+  const [myFavorites, setMyFavorites] = useState<Jewellery[]>([]);
   const [total, setTotal] = useState<number>(0);
   const [searchFavorites, setSearchFavorites] = useState<T>({ page: 1, limit: 6 });
 
   /** APOLLO REQUESTS **/
-  const [likeTargetProperty] = useMutation(LIKE_TARGET_JEWELLERY);
+  const [likeTargetJewellery] = useMutation(LIKE_TARGET_JEWELLERY);
 
   const {
     loading: getFavoritesLoading,
@@ -45,7 +45,7 @@ const MyFavorites: NextPage = () => {
       if (!id) return;
       if (!user._id) throw new Error(Messages.error2);
 
-      await likeTargetProperty({ variables: { input: id } });
+      await likeTargetJewellery({ variables: { input: id } });
 
       await getFavoritesRefetch({ input: searchFavorites });
     } catch (err: any) {
@@ -67,9 +67,9 @@ const MyFavorites: NextPage = () => {
         </Stack>
         <Stack className="favorites-list-box">
           {myFavorites?.length ? (
-            myFavorites?.map((jewellery: Property) => {
+            myFavorites?.map((jewellery: Jewellery) => {
               return (
-                <JewelleryCard property={property} likeJewelleryHandler={likeJewelleryHandler} myFavorites={true} />
+                <JewelleryCard jewellery={jewellery} likeJewelleryHandler={likeJewelleryHandler} myFavorites={true} />
               );
             })
           ) : (
@@ -92,7 +92,7 @@ const MyFavorites: NextPage = () => {
             </Stack>
             <Stack className="total-result">
               <Typography>
-                Total {total} favorite propert{total > 1 ? 'ies' : 'y'}
+                Total {total} favorite jeweller{total > 1 ? 'ies' : 'y'}
               </Typography>
             </Stack>
           </Stack>

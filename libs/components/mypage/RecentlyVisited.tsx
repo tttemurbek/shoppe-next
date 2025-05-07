@@ -3,14 +3,14 @@ import { NextPage } from 'next';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { Pagination, Stack, Typography } from '@mui/material';
 import JewelleryCard from '../jewellery/JewelleryCard';
-import { Property } from '../../types/jewellery/jewellery';
+import { Jewellery } from '../../types/jewellery/jewellery';
 import { T } from '../../types/common';
 import { useQuery } from '@apollo/client';
 import { GET_VISITED } from '../../../apollo/user/query';
 
 const RecentlyVisited: NextPage = () => {
   const device = useDeviceDetect();
-  const [recentlyVisited, setRecentlyVisited] = useState<Property[]>([]);
+  const [recentlyVisited, setRecentlyVisited] = useState<Jewellery[]>([]);
   const [total, setTotal] = useState<number>(0);
   const [searchVisited, setSearchVisited] = useState<T>({ page: 1, limit: 6 });
 
@@ -48,13 +48,13 @@ const RecentlyVisited: NextPage = () => {
         </Stack>
         <Stack className="favorites-list-box">
           {recentlyVisited?.length ? (
-            recentlyVisited?.map((jewellery: Property) => {
-              return <JewelleryCard property={property} recentlyVisited={true} />;
+            recentlyVisited?.map((jewellery: Jewellery) => {
+              return <JewelleryCard jewellery={jewellery} recentlyVisited={true} />;
             })
           ) : (
             <div className={'no-data'}>
               <img src="/img/icons/icoAlert.svg" alt="" />
-              <p>No Recently Visited Properties found!</p>
+              <p>No Recently Visited Jewelleries found!</p>
             </div>
           )}
         </Stack>
@@ -71,7 +71,7 @@ const RecentlyVisited: NextPage = () => {
             </Stack>
             <Stack className="total-result">
               <Typography>
-                Total {total} recently visited propert{total > 1 ? 'ies' : 'y'}
+                Total {total} recently visited jeweller{total > 1 ? 'ies' : 'y'}
               </Typography>
             </Stack>
           </Stack>

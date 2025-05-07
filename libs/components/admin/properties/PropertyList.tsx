@@ -114,7 +114,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 }
 
 interface JewelleryPanelListType {
-  properties: Jewellery[];
+  jewelleries: Jewellery[];
   anchorEl: any;
   menuIconClickHandler: any;
   menuIconCloseHandler: any;
@@ -124,7 +124,7 @@ interface JewelleryPanelListType {
 
 export const JewelleryPanelList = (props: JewelleryPanelListType) => {
   const {
-    properties,
+    jewelleries,
     anchorEl,
     menuIconClickHandler,
     menuIconCloseHandler,
@@ -139,7 +139,7 @@ export const JewelleryPanelList = (props: JewelleryPanelListType) => {
           {/*@ts-ignore*/}
           <EnhancedTableHead />
           <TableBody>
-            {properties.length === 0 && (
+            {jewelleries.length === 0 && (
               <TableRow>
                 <TableCell align="center" colSpan={8}>
                   <span className={'no-data'}>data not found!</span>
@@ -147,8 +147,8 @@ export const JewelleryPanelList = (props: JewelleryPanelListType) => {
               </TableRow>
             )}
 
-            {properties.length !== 0 &&
-              properties.map((jewellery: Jewellery, index: number) => {
+            {jewelleries.length !== 0 &&
+              jewelleries.map((jewellery: Jewellery, index: number) => {
                 const jewelleryImage = `${REACT_APP_API_URL}/${jewellery?.jewelleryImages[0]}`;
 
                 return (

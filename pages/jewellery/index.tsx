@@ -23,13 +23,13 @@ export const getStaticProps = async ({ locale }: any) => ({
   },
 });
 
-const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
+const JewelleryList: NextPage = ({ initialInput, ...props }: any) => {
   const device = useDeviceDetect();
   const router = useRouter();
   const [searchFilter, setSearchFilter] = useState<JewelleriesInquiry>(
     router?.query?.input ? JSON.parse(router?.query?.input as string) : initialInput,
   );
-  const [properties, setProperties] = useState<Jewellery[]>([]);
+  const [jewelleries, setJewelleries] = useState<Jewellery[]>([]);
   const [total, setTotal] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -37,19 +37,19 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
   const [filterSortName, setFilterSortName] = useState('New');
 
   /** APOLLO REQUESTS **/
-  const [likeTargetProperty] = useMutation(LIKE_TARGET_JEWELLERY);
+  const [likeTargetJewellery] = useMutation(LIKE_TARGET_JEWELLERY);
 
   const {
-    loading: getPropertiesLoading,
-    data: getPropertiesData,
-    error: getPropertiesError,
-    refetch: getPropertiesRefetch,
+    loading: getJewelleriesLoading,
+    data: getJewelleriesData,
+    error: getJewelleriesError,
+    refetch: getJewelleriesRefetch,
   } = useQuery(GET_JEWELLERIES, {
     fetchPolicy: 'network-only',
     variables: { input: searchFilter },
     notifyOnNetworkStatusChange: true,
     onCompleted: (data: T) => {
-      setProperties(data?.getJewelleries?.list);
+      setJewelleries(data?.getJewelleries?.list);
       setTotal(data?.getJewelleries?.metaCounter[0]?.total);
     },
   });
@@ -66,7 +66,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 
   useEffect(() => {
     console.log('searchFilter):', searchFilter);
-    // getPropertiesRefetch({ input: searchFilter }).then();
+    getJewelleriesRefetch({ input: searchFilter }).then();
   }, [searchFilter]);
 
   /** HANDLERS **/
@@ -77,10 +77,10 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
       if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
 
       //execute likeJewelleryHandler
-      await likeTargetProperty({ variables: { input: id } });
+      await likeTargetJewellery({ variables: { input: id } });
 
-      // execute getPropertiesRefetch
-      await getPropertiesRefetch({ input: initialInput });
+      // execute getJewelleriesRefetch
+      await getJewelleriesRefetch({ input: initialInput });
 
       await sweetTopSmallSuccessAlert('success', 800);
     } catch (err: any) {
@@ -130,7 +130,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
   };
 
   if (device === 'mobile') {
-    return <h1>PROPERTIES MOBILE</h1>;
+    return <h1>JEWELLERIES MOBILE</h1>;
   } else {
     return (
       <div id="property-list-page" style={{ position: 'relative' }}>
@@ -176,13 +176,13 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
             </Stack>
             <Stack className="main-config" mb={'76px'}>
               <Stack className={'list-config'}>
-                {properties?.length === 0 ? (
+                {jewelleries?.length === 0 ? (
                   <div className={'no-data'}>
                     <img src="/img/icons/icoAlert.svg" alt="" />
-                    <p>No Properties found!</p>
+                    <p>No Data found!</p>
                   </div>
                 ) : (
-                  properties.map((jewellery: Jewellery) => {
+                  jewelleries.map((jewellery: Jewellery) => {
                     return (
                       <JewelleryCard
                         jewellery={jewellery}
@@ -194,7 +194,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
                 )}
               </Stack>
               <Stack className="pagination-config">
-                {properties.length !== 0 && (
+                {jewelleries.length !== 0 && (
                   <Stack className="pagination-box">
                     <Pagination
                       page={currentPage}
@@ -206,7 +206,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
                   </Stack>
                 )}
 
-                {properties.length !== 0 && (
+                {jewelleries.length !== 0 && (
                   <Stack className="total-result">
                     <Typography>
                       Total {total} jeweller{total > 1 ? 'ies' : 'y'} available
@@ -222,7 +222,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
   }
 };
 
-PropertyList.defaultProps = {
+JewelleryList.defaultProps = {
   initialInput: {
     page: 1,
     limit: 9,
@@ -241,4 +241,4 @@ PropertyList.defaultProps = {
   },
 };
 
-export default withLayoutBasic(PropertyList);
+export default withLayoutBasic(JewelleryList);

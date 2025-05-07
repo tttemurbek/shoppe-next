@@ -8,7 +8,7 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { TabContext } from '@mui/lab';
 import TablePagination from '@mui/material/TablePagination';
-import { PropertyPanelList } from '../../../libs/components/admin/properties/PropertyList';
+import { JewelleryPanelList } from '../../../libs/components/admin/properties/PropertyList';
 import { AllJewelleriesInquiry } from '../../../libs/types/jewellery/jewellery.input';
 import { Jewellery } from '../../../libs/types/jewellery/jewellery';
 import { JewelleryLocation, JewelleryStatus } from '../../../libs/enums/jewellery.enum';
@@ -139,7 +139,7 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
     }
   };
 
-  const updatePropertyHandler = async (updateData: JewelleryUpdate) => {
+  const updateJewelleryHandler = async (updateData: JewelleryUpdate) => {
     try {
       console.log('+updateData: ', updateData);
       await updatePropertyByAdmin({
@@ -209,12 +209,12 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
               </Stack>
               <Divider />
             </Box>
-            <PropertyPanelList
-              properties={properties}
+            <JewelleryPanelList
+              jewelleries={jewelleries}
               anchorEl={anchorEl}
               menuIconClickHandler={menuIconClickHandler}
               menuIconCloseHandler={menuIconCloseHandler}
-              updatePropertyHandler={updatePropertyHandler}
+              updateJewelleryHandler={updateJewelleryHandler}
               removePropertyHandler={removePropertyHandler}
             />
 

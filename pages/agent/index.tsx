@@ -155,8 +155,8 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
                     }
                   }}
                 />
-                <Button className="search-button" onClick={handleSearch} variant="contained">
-                  <SearchIcon fontSize="small" />
+                <Button className="search-button" onClick={handleSearch}>
+                  <SearchIcon fontSize="medium" />
                 </Button>
               </div>
             </Box>

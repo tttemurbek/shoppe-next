@@ -4,7 +4,7 @@ import { Pagination, Stack, Typography } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { JewelleryCard } from './JewelleryCard';
 import { Jewellery } from '../../types/jewellery/jewellery';
-import { AgentPropertiesInquiry } from '../../types/jewellery/jewellery.input';
+import { AgentJewelleriesInquiry } from '../../types/jewellery/jewellery.input';
 import { T } from '../../types/common';
 import { JewelleryStatus } from '../../enums/jewellery.enum';
 import { userVar } from '../../../apollo/store';
@@ -14,29 +14,29 @@ import { UPDATE_JEWELLERY } from '../../../apollo/user/mutation';
 import { GET_AGENT_JEWELLERIES } from '../../../apollo/user/query';
 import { sweetConfirmAlert, sweetErrorHandling } from '../../sweetAlert';
 
-const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
+const MyJewelleries: NextPage = ({ initialInput, ...props }: any) => {
   const device = useDeviceDetect();
-  const [searchFilter, setSearchFilter] = useState<AgentPropertiesInquiry>(initialInput);
-  const [agentProperties, setAgentProperties] = useState<Jewellery[]>([]);
+  const [searchFilter, setSearchFilter] = useState<AgentJewelleriesInquiry>(initialInput);
+  const [agentJewelleries, setAgentJewelleries] = useState<Jewellery[]>([]);
   const [total, setTotal] = useState<number>(0);
   const user = useReactiveVar(userVar);
   const router = useRouter();
 
   /** APOLLO REQUESTS **/
-  const [updateProperty] = useMutation(UPDATE_JEWELLERY);
+  const [updateJewellery] = useMutation(UPDATE_JEWELLERY);
 
   const {
-    loading: getAgentPropertiesLoading,
-    data: getAgentPropertiesData,
-    error: getAgentPropertiesError,
-    refetch: getAgentPropertiesRefetch,
+    loading: getAgentJewelleriesLoading,
+    data: getAgentJewelleriesData,
+    error: getAgentJewelleriesError,
+    refetch: getAgentJewelleriesRefetch,
   } = useQuery(GET_AGENT_JEWELLERIES, {
     fetchPolicy: 'network-only',
     variables: { input: searchFilter },
     notifyOnNetworkStatusChange: true,
     onCompleted: (data: T) => {
-      setAgentProperties(data?.getAgentProperties?.list);
-      setTotal(data?.getAgentProperties?.metaCounter[0]?.total ?? 0);
+      setAgentJewelleries(data?.getAgentJewelleries?.list);
+      setTotal(data?.getAgentJewelleries?.metaCounter[0]?.total ?? 0);
     },
   });
 
@@ -49,29 +49,29 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
     setSearchFilter({ ...searchFilter, search: { jewelleryStatus: value } });
   };
 
-  const deletePropertyHandler = async (id: string) => {
+  const deleteJewelleryHandler = async (id: string) => {
     try {
-      if (await sweetConfirmAlert('Are you sure to delete this property?')) {
-        await updateProperty({
+      if (await sweetConfirmAlert('Are you sure to delete this Jewellery?')) {
+        await updateJewellery({
           variables: {
             input: {
               _id: id,
-              jewelleryStatus: 'DELETE',
+              jewelleryStatus: 'OUT_OF_STOCK',
             },
           },
         });
 
-        await getAgentPropertiesRefetch({ input: searchFilter });
+        await getAgentJewelleriesRefetch({ input: searchFilter });
       }
     } catch (err: any) {
       await sweetErrorHandling(err);
     }
   };
 
-  const updatePropertyHandler = async (status: string, id: string) => {
+  const updateJewelleryHandler = async (status: string, id: string) => {
     try {
       if (await sweetConfirmAlert(`Are you sure change to ${status} status?`)) {
-        await updateProperty({
+        await updateJewellery({
           variables: {
             input: {
               _id: id,
@@ -80,7 +80,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
           },
         });
 
-        await getAgentPropertiesRefetch({ input: searchFilter });
+        await getAgentJewelleriesRefetch({ input: searchFilter });
       }
     } catch (err: any) {
       await sweetErrorHandling(err);
@@ -92,13 +92,13 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
   }
 
   if (device === 'mobile') {
-    return <div>shoppe PROPERTIES MOBILE</div>;
+    return <div>shoppe JEWELLERIES MOBILE</div>;
   } else {
     return (
       <div id="my-property-page">
         <Stack className="main-title-box">
           <Stack className="right-box">
-            <Typography className="main-title">My Properties</Typography>
+            <Typography className="main-title">My Jewelleries</Typography>
             <Typography className="sub-title">We are glad to see you again!</Typography>
           </Stack>
         </Stack>
@@ -128,24 +128,24 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
               )}
             </Stack>
 
-            {agentProperties?.length === 0 ? (
+            {agentJewelleries?.length === 0 ? (
               <div className={'no-data'}>
                 <img src="/img/icons/icoAlert.svg" alt="" />
-                <p>No Property found!</p>
+                <p>No Jewellery found!</p>
               </div>
             ) : (
-              agentProperties.map((jewellery: Jewellery) => {
+              agentJewelleries.map((jewellery: Jewellery) => {
                 return (
                   <JewelleryCard
-                    property={property}
-                    deletePropertyHandler={deletePropertyHandler}
-                    updatePropertyHandler={updatePropertyHandler}
+                    jewellery={jewellery}
+                    deleteJewelleryHandler={deleteJewelleryHandler}
+                    updateJewelleryHandler={updateJewelleryHandler}
                   />
                 );
               })
             )}
 
-            {agentProperties.length !== 0 && (
+            {agentJewelleries.length !== 0 && (
               <Stack className="pagination-config">
                 <Stack className="pagination-box">
                   <Pagination
@@ -168,15 +168,15 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
   }
 };
 
-MyProperties.defaultProps = {
+MyJewelleries.defaultProps = {
   initialInput: {
     page: 1,
     limit: 5,
     sort: 'createdAt',
     search: {
-      jewelleryStatus: 'ACTIVE',
+      jewelleryStatus: 'AVAILABLE',
     },
   },
 };
 
-export default MyProperties;
+export default MyJewelleries;

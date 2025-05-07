@@ -17,46 +17,46 @@ const AddJewellery = ({ initialValues, ...props }: any) => {
   const device = useDeviceDetect();
   const router = useRouter();
   const inputRef = useRef<any>(null);
-  const [insertPropertyData, setInsertPropertyData] = useState<JewelleryInput>(initialValues);
-  const [jewelleryType, setPropertyType] = useState<JewelleryType[]>(Object.values(JewelleryType));
-  const [jewelleryLocation, setPropertyLocation] = useState<JewelleryLocation[]>(Object.values(JewelleryLocation));
+  const [insertJewelleryData, setInsertJewelleryData] = useState<JewelleryInput>(initialValues);
+  const [jewelleryType, setJewelleryType] = useState<JewelleryType[]>(Object.values(JewelleryType));
+  const [jewelleryLocation, setJewelleryLocation] = useState<JewelleryLocation[]>(Object.values(JewelleryLocation));
   const token = getJwtToken();
   const user = useReactiveVar(userVar);
 
   /** APOLLO REQUESTS **/
-  const [createProperty] = useMutation(CREATE_JEWELLERY);
-  const [updateProperty] = useMutation(UPDATE_JEWELLERY);
+  const [createJewellery] = useMutation(CREATE_JEWELLERY);
+  const [updateJewellery] = useMutation(UPDATE_JEWELLERY);
 
   const {
-    loading: getPropertyLoading,
-    data: getPropertyData,
-    error: getPropertyError,
-    refetch: getPropertyRefetch,
+    loading: getJewelleryLoading,
+    data: getJewelleryData,
+    error: getJewelleryError,
+    refetch: getJewelleryRefetch,
   } = useQuery(GET_JEWELLERY, {
     fetchPolicy: 'network-only',
     variables: {
-      input: router.query.propertyId,
+      input: router.query.jewelleryId,
     },
   });
 
   /** LIFECYCLES **/
   useEffect(() => {
-    setInsertPropertyData({
-      ...insertPropertyData,
-      jewelleryTitle: getPropertyData?.getJewellery ? getPropertyData?.getJewellery?.jewelleryTitle : '',
-      jewelleryPrice: getPropertyData?.getJewellery ? getPropertyData?.getJewellery?.jewelleryPrice : 0,
-      jewelleryType: getPropertyData?.getJewellery ? getPropertyData?.getJewellery?.jewelleryType : '',
-      jewelleryLocation: getPropertyData?.getJewellery ? getPropertyData?.getJewellery?.jewelleryLocation : '',
-      jewelleryAddress: getPropertyData?.getJewellery ? getPropertyData?.getJewellery?.jewelleryAddress : '',
-      jewelleryBarter: getPropertyData?.getJewellery ? getPropertyData?.getJewellery?.jewelleryBarter : false,
-      jewelleryRent: getPropertyData?.getJewellery ? getPropertyData?.getJewellery?.jewelleryRent : false,
-      // propertyRooms: getPropertyData?.getJewellery ? getPropertyData?.getJewellery?.propertyRooms : 0,
-      // propertyBeds: getPropertyData?.getJewellery ? getPropertyData?.getJewellery?.propertyBeds : 0,
-      propertySquare: getPropertyData?.getJewellery ? getPropertyData?.getJewellery?.propertySquare : 0,
-      jewelleryDesc: getPropertyData?.getJewellery ? getPropertyData?.getJewellery?.jewelleryDesc : '',
-      jewelleryImages: getPropertyData?.getJewellery ? getPropertyData?.getJewellery?.jewelleryImages : [],
+    setInsertJewelleryData({
+      ...insertJewelleryData,
+      jewelleryTitle: getJewelleryData?.getJewellery ? getJewelleryData?.getJewellery?.jewelleryTitle : '',
+      jewelleryPrice: getJewelleryData?.getJewellery ? getJewelleryData?.getJewellery?.jewelleryPrice : 0,
+      jewelleryType: getJewelleryData?.getJewellery ? getJewelleryData?.getJewellery?.jewelleryType : '',
+      jewelleryLocation: getJewelleryData?.getJewellery ? getJewelleryData?.getJewellery?.jewelleryLocation : '',
+      jewelleryAddress: getJewelleryData?.getJewellery ? getJewelleryData?.getJewellery?.jewelleryAddress : '',
+      jewelleryBarter: getJewelleryData?.getJewellery ? getJewelleryData?.getJewellery?.jewelleryBarter : false,
+      jewelleryRent: getJewelleryData?.getJewellery ? getJewelleryData?.getJewellery?.jewelleryRent : false,
+      // propertyRooms: getJewelleryData?.getJewellery ? getJewelleryData?.getJewellery?.propertyRooms : 0,
+      // propertyBeds: getJewelleryData?.getJewellery ? getJewelleryData?.getJewellery?.propertyBeds : 0,
+      propertySquare: getJewelleryData?.getJewellery ? getJewelleryData?.getJewellery?.propertySquare : 0,
+      jewelleryDesc: getJewelleryData?.getJewellery ? getJewelleryData?.getJewellery?.jewelleryDesc : '',
+      jewelleryImages: getJewelleryData?.getJewellery ? getJewelleryData?.getJewellery?.jewelleryImages : [],
     });
-  }, [getPropertyLoading, getPropertyData]);
+  }, [getJewelleryLoading, getJewelleryData]);
 
   /** HANDLERS **/
   async function uploadImages() {
@@ -75,7 +75,7 @@ const AddJewellery = ({ initialValues, ...props }: any) => {
 				  }`,
           variables: {
             files: [null, null, null, null, null],
-            target: 'property',
+            target: 'jewellery',
           },
         }),
       );
@@ -104,7 +104,7 @@ const AddJewellery = ({ initialValues, ...props }: any) => {
       const responseImages = response.data.data.imagesUploader;
 
       console.log('+responseImages: ', responseImages);
-      setInsertPropertyData({ ...insertPropertyData, jewelleryImages: responseImages });
+      setInsertJewelleryData({ ...insertJewelleryData, jewelleryImages: responseImages });
     } catch (err: any) {
       console.log('err: ', err.message);
       await sweetMixinErrorAlert(err.message);
@@ -113,78 +113,78 @@ const AddJewellery = ({ initialValues, ...props }: any) => {
 
   const doDisabledCheck = () => {
     if (
-      insertPropertyData.jewelleryTitle === '' ||
-      insertPropertyData.jewelleryPrice === 0 || // @ts-ignore
-      insertPropertyData.jewelleryType === '' || // @ts-ignore
-      insertPropertyData.jewelleryLocation === '' || // @ts-ignore
-      insertPropertyData.jewelleryAddress === '' || // @ts-ignore
-      insertPropertyData.jewelleryBarter === '' || // @ts-ignore
-      insertPropertyData.jewelleryRent === '' ||
-      // insertPropertyData.propertyRooms === 0 ||
-      // insertPropertyData.propertyBeds === 0 ||
-      insertPropertyData.propertySquare === 0 ||
-      insertPropertyData.jewelleryDesc === '' ||
-      insertPropertyData.jewelleryImages.length === 0
+      insertJewelleryData.jewelleryTitle === '' ||
+      insertJewelleryData.jewelleryPrice === 0 || // @ts-ignore
+      insertJewelleryData.jewelleryType === '' || // @ts-ignore
+      insertJewelleryData.jewelleryLocation === '' || // @ts-ignore
+      insertJewelleryData.jewelleryAddress === '' || // @ts-ignore
+      insertJewelleryData.jewelleryBarter === '' || // @ts-ignore
+      insertJewelleryData.jewelleryRent === '' ||
+      // insertJewelleryData.propertyRooms === 0 ||
+      // insertJewelleryData.propertyBeds === 0 ||
+      insertJewelleryData.propertySquare === 0 ||
+      insertJewelleryData.jewelleryDesc === '' ||
+      insertJewelleryData.jewelleryImages.length === 0
     ) {
       return true;
     }
   };
 
-  const insertPropertyHandler = useCallback(async () => {
+  const insertJewelleryHandler = useCallback(async () => {
     try {
-      const result = await createProperty({
+      const result = await createJewellery({
         variables: {
-          input: insertPropertyData,
+          input: insertJewelleryData,
         },
       });
 
-      await sweetMixinSuccessAlert('This property has been created successfully.');
+      await sweetMixinSuccessAlert('This Jewellery has been created successfully.');
       await router.push({
         pathname: '/mypage',
         query: {
-          category: 'myProperties',
+          category: 'myJewelleries',
         },
       });
     } catch (err: any) {
       sweetErrorHandling(err).then();
     }
-  }, [insertPropertyData]);
+  }, [insertJewelleryData]);
 
-  const updatePropertyHandler = useCallback(async () => {
+  const updateJewelleryHandler = useCallback(async () => {
     try {
       //@ts-ignore
-      insertPropertyData._id = getPropertyData?.getJewellery?._id;
-      const result = await updateProperty({
+      insertJewelleryData._id = getJewelleryData?.getJewellery?._id;
+      const result = await updateJewellery({
         variables: {
-          input: insertPropertyData,
+          input: insertJewelleryData,
         },
       });
 
-      await sweetMixinSuccessAlert('This property has been updated successfully.');
+      await sweetMixinSuccessAlert('This jewellery has been updated successfully.');
       await router.push({
         pathname: '/mypage',
         query: {
-          category: 'myProperties',
+          category: 'myJewelleries',
         },
       });
     } catch (err: any) {
       sweetErrorHandling(err).then();
     }
-  }, [insertPropertyData]);
+  }, [insertJewelleryData]);
 
   if (user?.memberType !== 'AGENT') {
     router.back();
   }
 
-  console.log('+insertPropertyData', insertPropertyData);
+  console.log('+insertJewelleryData', insertJewelleryData);
 
   if (device === 'mobile') {
-    return <div>ADD NEW PROPERTY MOBILE PAGE</div>;
+    return <div>ADD NEW JEWELLERY MOBILE PAGE</div>;
   } else {
     return (
       <div id="add-property-page">
         <Stack className="main-title-box">
-          <Typography className="main-title">Add New Property</Typography>
+          <Typography className="main-title">Add New Jewellery</Typography>
           <Typography className="sub-title">We are glad to see you again!</Typography>
         </Stack>
 
@@ -197,9 +197,9 @@ const AddJewellery = ({ initialValues, ...props }: any) => {
                   type="text"
                   className="description-input"
                   placeholder={'Title'}
-                  value={insertPropertyData.jewelleryTitle}
+                  value={insertJewelleryData.jewelleryTitle}
                   onChange={({ target: { value } }) =>
-                    setInsertPropertyData({ ...insertPropertyData, jewelleryTitle: value })
+                    setInsertJewelleryData({ ...insertJewelleryData, jewelleryTitle: value })
                   }
                 />
               </Stack>
@@ -211,9 +211,9 @@ const AddJewellery = ({ initialValues, ...props }: any) => {
                     type="text"
                     className="description-input"
                     placeholder={'Price'}
-                    value={insertPropertyData.jewelleryPrice}
+                    value={insertJewelleryData.jewelleryPrice}
                     onChange={({ target: { value } }) =>
-                      setInsertPropertyData({ ...insertPropertyData, jewelleryPrice: parseInt(value) })
+                      setInsertJewelleryData({ ...insertJewelleryData, jewelleryPrice: parseInt(value) })
                     }
                   />
                 </Stack>
@@ -221,11 +221,11 @@ const AddJewellery = ({ initialValues, ...props }: any) => {
                   <Typography className="title">Select Type</Typography>
                   <select
                     className={'select-description'}
-                    defaultValue={insertPropertyData.jewelleryType || 'select'}
-                    value={insertPropertyData.jewelleryType || 'select'}
+                    defaultValue={insertJewelleryData.jewelleryType || 'select'}
+                    value={insertJewelleryData.jewelleryType || 'select'}
                     onChange={({ target: { value } }) =>
                       // @ts-ignore
-                      setInsertPropertyData({ ...insertPropertyData, jewelleryType: value })
+                      setInsertJewelleryData({ ...insertJewelleryData, jewelleryType: value })
                     }
                   >
                     <>
@@ -249,11 +249,11 @@ const AddJewellery = ({ initialValues, ...props }: any) => {
                   <Typography className="title">Select Location</Typography>
                   <select
                     className={'select-description'}
-                    defaultValue={insertPropertyData.jewelleryLocation || 'select'}
-                    value={insertPropertyData.jewelleryLocation || 'select'}
+                    defaultValue={insertJewelleryData.jewelleryLocation || 'select'}
+                    value={insertJewelleryData.jewelleryLocation || 'select'}
                     onChange={({ target: { value } }) =>
                       // @ts-ignore
-                      setInsertPropertyData({ ...insertPropertyData, jewelleryLocation: value })
+                      setInsertJewelleryData({ ...insertJewelleryData, jewelleryLocation: value })
                     }
                   >
                     <>
@@ -276,9 +276,9 @@ const AddJewellery = ({ initialValues, ...props }: any) => {
                     type="text"
                     className="description-input"
                     placeholder={'Address'}
-                    value={insertPropertyData.jewelleryAddress}
+                    value={insertJewelleryData.jewelleryAddress}
                     onChange={({ target: { value } }) =>
-                      setInsertPropertyData({ ...insertPropertyData, jewelleryAddress: value })
+                      setInsertJewelleryData({ ...insertJewelleryData, jewelleryAddress: value })
                     }
                   />
                 </Stack>
@@ -289,10 +289,10 @@ const AddJewellery = ({ initialValues, ...props }: any) => {
                   <Typography className="title">Barter</Typography>
                   <select
                     className={'select-description'}
-                    value={insertPropertyData.jewelleryBarter ? 'yes' : 'no'}
-                    defaultValue={insertPropertyData.jewelleryBarter ? 'yes' : 'no'}
+                    value={insertJewelleryData.jewelleryBarter ? 'yes' : 'no'}
+                    defaultValue={insertJewelleryData.jewelleryBarter ? 'yes' : 'no'}
                     onChange={({ target: { value } }) =>
-                      setInsertPropertyData({ ...insertPropertyData, jewelleryBarter: value === 'yes' })
+                      setInsertJewelleryData({ ...insertJewelleryData, jewelleryBarter: value === 'yes' })
                     }
                   >
                     <option disabled={true} selected={true}>
@@ -308,10 +308,10 @@ const AddJewellery = ({ initialValues, ...props }: any) => {
                   <Typography className="title">Rent</Typography>
                   <select
                     className={'select-description'}
-                    value={insertPropertyData.jewelleryRent ? 'yes' : 'no'}
-                    defaultValue={insertPropertyData.jewelleryRent ? 'yes' : 'no'}
+                    value={insertJewelleryData.jewelleryRent ? 'yes' : 'no'}
+                    defaultValue={insertJewelleryData.jewelleryRent ? 'yes' : 'no'}
                     onChange={({ target: { value } }) =>
-                      setInsertPropertyData({ ...insertPropertyData, jewelleryRent: value === 'yes' })
+                      setInsertJewelleryData({ ...insertJewelleryData, jewelleryRent: value === 'yes' })
                     }
                   >
                     <option disabled={true} selected={true}>
@@ -330,10 +330,10 @@ const AddJewellery = ({ initialValues, ...props }: any) => {
                   <Typography className="title">Rooms</Typography>
                   <select
                     className={'select-description'}
-                    value={insertPropertyData.propertyRooms || 'select'}
-                    defaultValue={insertPropertyData.propertyRooms || 'select'}
+                    value={insertJewelleryData.propertyRooms || 'select'}
+                    defaultValue={insertJewelleryData.propertyRooms || 'select'}
                     onChange={({ target: { value } }) =>
-                      setInsertPropertyData({ ...insertPropertyData, propertyRooms: parseInt(value) })
+                      setInsertJewelleryData({ ...insertJewelleryData, propertyRooms: parseInt(value) })
                     }
                   >
                     <option disabled={true} selected={true} value={'select'}>
@@ -350,10 +350,10 @@ const AddJewellery = ({ initialValues, ...props }: any) => {
                   <Typography className="title">Bed</Typography>
                   <select
                     className={'select-description'}
-                    value={insertPropertyData.propertyBeds || 'select'}
-                    defaultValue={insertPropertyData.propertyBeds || 'select'}
+                    value={insertJewelleryData.propertyBeds || 'select'}
+                    defaultValue={insertJewelleryData.propertyBeds || 'select'}
                     onChange={({ target: { value } }) =>
-                      setInsertPropertyData({ ...insertPropertyData, propertyBeds: parseInt(value) })
+                      setInsertJewelleryData({ ...insertJewelleryData, propertyBeds: parseInt(value) })
                     }
                   >
                     <option disabled={true} selected={true} value={'select'}>
@@ -370,10 +370,10 @@ const AddJewellery = ({ initialValues, ...props }: any) => {
                   <Typography className="title">Square</Typography>
                   <select
                     className={'select-description'}
-                    value={insertPropertyData.propertySquare || 'select'}
-                    defaultValue={insertPropertyData.propertySquare || 'select'}
+                    value={insertJewelleryData.propertySquare || 'select'}
+                    defaultValue={insertJewelleryData.propertySquare || 'select'}
                     onChange={({ target: { value } }) =>
-                      setInsertPropertyData({ ...insertPropertyData, propertySquare: parseInt(value) })
+                      setInsertJewelleryData({ ...insertJewelleryData, propertySquare: parseInt(value) })
                     }
                   >
                     <option disabled={true} selected={true} value={'select'}>
@@ -390,22 +390,22 @@ const AddJewellery = ({ initialValues, ...props }: any) => {
                 </Stack>
               </Stack>
 
-              <Typography className="property-title">Property Description</Typography>
+              <Typography className="property-title">Jewellery Description</Typography>
               <Stack className="config-column">
                 <Typography className="title">Description</Typography>
                 <textarea
                   name=""
                   id=""
                   className="description-text"
-                  value={insertPropertyData.jewelleryDesc}
+                  value={insertJewelleryData.jewelleryDesc}
                   onChange={({ target: { value } }) =>
-                    setInsertPropertyData({ ...insertPropertyData, jewelleryDesc: value })
+                    setInsertJewelleryData({ ...insertJewelleryData, jewelleryDesc: value })
                   }
                 ></textarea>
               </Stack>
             </Stack>
 
-            <Typography className="upload-title">Upload photos of your property</Typography>
+            <Typography className="upload-title">Upload photos of your jewellery</Typography>
             <Stack className="images-box">
               <Stack className="upload-box">
                 <svg xmlns="http://www.w3.org/2000/svg" width="121" height="120" viewBox="0 0 121 120" fill="none">
@@ -484,7 +484,7 @@ const AddJewellery = ({ initialValues, ...props }: any) => {
                 </Button>
               </Stack>
               <Stack className="gallery-box">
-                {insertPropertyData?.jewelleryImages.map((image: string) => {
+                {insertJewelleryData?.jewelleryImages.map((image: string) => {
                   const imagePath: string = `${REACT_APP_API_URL}/${image}`;
                   return (
                     <Stack className="image-box">
@@ -496,12 +496,12 @@ const AddJewellery = ({ initialValues, ...props }: any) => {
             </Stack>
 
             <Stack className="buttons-row">
-              {router.query.propertyId ? (
-                <Button className="next-button" disabled={doDisabledCheck()} onClick={updatePropertyHandler}>
+              {router.query.jewelleryId ? (
+                <Button className="next-button" disabled={doDisabledCheck()} onClick={updateJewelleryHandler}>
                   <Typography className="next-button-text">Save</Typography>
                 </Button>
               ) : (
-                <Button className="next-button" disabled={doDisabledCheck()} onClick={insertPropertyHandler}>
+                <Button className="next-button" disabled={doDisabledCheck()} onClick={insertJewelleryHandler}>
                   <Typography className="next-button-text">Save</Typography>
                 </Button>
               )}

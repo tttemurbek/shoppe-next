@@ -43,7 +43,7 @@ interface APISearch {
   jewelleryStatus?: JewelleryStatus;
 }
 
-export interface AgentPropertiesInquiry {
+export interface AgentJewelleriesInquiry {
   page: number;
   limit: number;
   sort?: string;

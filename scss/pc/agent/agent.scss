@@ -1,7 +1,7 @@
 #pc-wrap {
   .agent-list-page {
     position: relative;
-    padding: 147px 0 100px;
+    padding: 100px 0 100px;
     width: 100%;
     height: auto;
     display: flex;
@@ -146,11 +146,11 @@
 
         span {
           margin-top: 20px;
-          color: #6b7280;
+          color: #000;
           font-family: $font;
-          font-size: 14px;
+          font-size: 20px;
           font-style: normal;
-          font-weight: 500;
+          font-weight: 275;
           line-height: 26px;
         }
       }

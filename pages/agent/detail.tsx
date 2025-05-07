@@ -2,7 +2,7 @@ import React, { ChangeEvent, useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
-import PropertyBigCard from '../../libs/components/common/JewelleryBigCard';
+import JewelleryBigCard from '../../libs/components/common/JewelleryBigCard';
 import ReviewCard from '../../libs/components/agent/ReviewCard';
 import {
   Box,
@@ -55,8 +55,8 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
   const [agentId, setAgentId] = useState<string | null>(null);
   const [agent, setAgent] = useState<Member | null>(null);
   const [searchFilter, setSearchFilter] = useState<JewelleriesInquiry>(initialInput);
-  const [agentProperties, setAgentProperties] = useState<Jewellery[]>([]);
-  const [propertyTotal, setPropertyTotal] = useState<number>(0);
+  const [agentJewelleries, setAgentJewelleries] = useState<Jewellery[]>([]);
+  const [jewelleryTotal, setJewelleryTotal] = useState<number>(0);
   const [commentInquiry, setCommentInquiry] = useState<CommentsInquiry>(initialComment);
   const [agentComments, setAgentComments] = useState<Comment[]>([]);
   const [commentTotal, setCommentTotal] = useState<number>(0);
@@ -70,7 +70,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
   /** APOLLO REQUESTS **/
 
   const [createComment] = useMutation(CREATE_COMMENT);
-  const [likeTargetProperty] = useMutation(LIKE_TARGET_JEWELLERY);
+  const [likeTargetJewellery] = useMutation(LIKE_TARGET_JEWELLERY);
 
   const {
     loading: getMemberLoading,
@@ -114,8 +114,8 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
     skip: !searchFilter.search.memberId,
     notifyOnNetworkStatusChange: true,
     onCompleted: (data: T) => {
-      setAgentProperties(data?.getJewelleries?.list);
-      setPropertyTotal(data?.getJewelleries?.metaCounter[0]?.total ?? 0);
+      setAgentJewelleries(data?.getJewelleries?.list);
+      setJewelleryTotal(data?.getJewelleries?.metaCounter[0]?.total ?? 0);
     },
   });
 
@@ -194,7 +194,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
       if (!id) return;
       if (!user._id) throw new Error(Messages.error2);
 
-      await likeTargetProperty({ variables: { input: id } });
+      await likeTargetJewellery({ variables: { input: id } });
       await getPropertiesRefetch({ input: searchFilter });
       await sweetTopSmallSuccessAlert('success', 800);
     } catch (err: any) {
@@ -276,10 +276,10 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
           </Stack>
         ) : (
           <Stack className="card-wrap">
-            {agentProperties.length > 0 ? (
+            {agentJewelleries.length > 0 ? (
               <div className="wrap-main">
-                {agentProperties.map((jewellery: Jewellery) => (
-                  <PropertyBigCard
+                {agentJewelleries.map((jewellery: Jewellery) => (
+                  <JewelleryBigCard
                     jewellery={jewellery}
                     key={jewellery?._id}
                     likeJewelleryHandler={likeJewelleryHandler}
@@ -297,19 +297,19 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
           </Stack>
         )}
 
-        {agentProperties.length > 0 && (
+        {agentJewelleries.length > 0 && (
           <Stack className="pagination">
             <Stack className="pagination-box">
               <Pagination
                 page={searchFilter.page}
-                count={Math.ceil(propertyTotal / searchFilter.limit) || 1}
+                count={Math.ceil(jewelleryTotal / searchFilter.limit) || 1}
                 onChange={propertyPaginationChangeHandler}
                 shape="rounded"
                 color="primary"
               />
             </Stack>
             <Typography variant="body2" sx={{ mt: 1 }}>
-              Total {propertyTotal} jeweller{propertyTotal > 1 ? 'ies' : 'y'} available
+              Total {jewelleryTotal} jeweller{jewelleryTotal > 1 ? 'ies' : 'y'} available
             </Typography>
           </Stack>
         )}

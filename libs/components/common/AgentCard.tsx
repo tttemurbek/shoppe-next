@@ -9,6 +9,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 
 interface AgentCardProps {
   agent: any;
@@ -92,6 +93,7 @@ const AgentCard = (props: AgentCardProps) => {
             <strong>{agent?.memberFullName ?? agent?.memberNick}</strong>
           </Link>
           <span>Agent</span>
+          <span style={{ display: 'flex', alignItems: 'center' }}>{agent.memberAddress}</span>
         </Box>
         <Box component={'div'} className={'buttons'}>
           <Tooltip title="Views">

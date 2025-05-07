@@ -4,7 +4,7 @@ import { NextPage } from 'next';
 import { Stack } from '@mui/material';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
-import MyProperties from '../../libs/components/mypage/MyProperties';
+import MyJewelleries from '../../libs/components/mypage/MyJewelleries';
 import MyFavorites from '../../libs/components/mypage/MyFavorites';
 import RecentlyVisited from '../../libs/components/mypage/RecentlyVisited';
 import MyProfile from '../../libs/components/mypage/MyProfile';
@@ -120,7 +120,7 @@ const MyPage: NextPage = () => {
               <Stack className="main-config" mb={'76px'}>
                 <Stack className={'list-config'}>
                   {category === 'addJewellery' && <AddJewellery />}
-                  {category === 'myProperties' && <MyProperties />}
+                  {category === 'myJewelleries' && <MyJewelleries />}
                   {category === 'myFavorites' && <MyFavorites />}
                   {category === 'recentlyVisited' && <RecentlyVisited />}
                   {category === 'myArticles' && <MyArticles />}
