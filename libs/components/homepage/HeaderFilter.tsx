@@ -6,7 +6,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import { propertySquare, propertyYears } from '../../config';
+import { propertyYears } from '../../config';
 import { JewelleryLocation, JewelleryType } from '../../enums/jewellery.enum';
 import { JewelleriesInquiry } from '../../types/jewellery/jewellery.input';
 import { useRouter } from 'next/router';
@@ -510,7 +510,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
                           inputProps={{ 'aria-label': 'Without label' }}
                           MenuProps={MenuProps}
                         >
-                          {propertySquare.map((square: number) => (
+                          {/* {propertySquare.map((square: number) => (
                             <MenuItem
                               value={square}
                               disabled={(searchFilter?.search?.squaresRange?.end || 0) < square}
@@ -518,7 +518,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
                             >
                               {square}
                             </MenuItem>
-                          ))}
+                          ))} */}
                         </Select>
                       </FormControl>
                       <div className={'minus-line'}></div>
@@ -530,7 +530,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
                           inputProps={{ 'aria-label': 'Without label' }}
                           MenuProps={MenuProps}
                         >
-                          {propertySquare.map((square: number) => (
+                          {/* {propertySquare.map((square: number) => (
                             <MenuItem
                               value={square}
                               disabled={(searchFilter?.search?.squaresRange?.start || 0) > square}
@@ -538,7 +538,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
                             >
                               {square}
                             </MenuItem>
-                          ))}
+                          ))} */}
                         </Select>
                       </FormControl>
                     </div>

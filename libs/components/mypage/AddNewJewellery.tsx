@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { Button, Stack, Typography } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { JewelleryLocation, JewelleryType } from '../../enums/jewellery.enum';
-import { REACT_APP_API_URL, propertySquare } from '../../config';
+import { REACT_APP_API_URL } from '../../config';
 import { JewelleryInput } from '../../types/jewellery/jewellery.input';
 import axios from 'axios';
 import { getJwtToken } from '../../auth';
@@ -48,11 +48,7 @@ const AddJewellery = ({ initialValues, ...props }: any) => {
       jewelleryType: getJewelleryData?.getJewellery ? getJewelleryData?.getJewellery?.jewelleryType : '',
       jewelleryLocation: getJewelleryData?.getJewellery ? getJewelleryData?.getJewellery?.jewelleryLocation : '',
       jewelleryAddress: getJewelleryData?.getJewellery ? getJewelleryData?.getJewellery?.jewelleryAddress : '',
-      jewelleryBarter: getJewelleryData?.getJewellery ? getJewelleryData?.getJewellery?.jewelleryBarter : false,
-      jewelleryRent: getJewelleryData?.getJewellery ? getJewelleryData?.getJewellery?.jewelleryRent : false,
-      // propertyRooms: getJewelleryData?.getJewellery ? getJewelleryData?.getJewellery?.propertyRooms : 0,
-      // propertyBeds: getJewelleryData?.getJewellery ? getJewelleryData?.getJewellery?.propertyBeds : 0,
-      propertySquare: getJewelleryData?.getJewellery ? getJewelleryData?.getJewellery?.propertySquare : 0,
+      jewelleryGram: getJewelleryData?.getJewellery ? getJewelleryData?.getJewellery?.jewelleryGram : 0,
       jewelleryDesc: getJewelleryData?.getJewellery ? getJewelleryData?.getJewellery?.jewelleryDesc : '',
       jewelleryImages: getJewelleryData?.getJewellery ? getJewelleryData?.getJewellery?.jewelleryImages : [],
     });
@@ -114,15 +110,11 @@ const AddJewellery = ({ initialValues, ...props }: any) => {
   const doDisabledCheck = () => {
     if (
       insertJewelleryData.jewelleryTitle === '' ||
-      insertJewelleryData.jewelleryPrice === 0 || // @ts-ignore
-      insertJewelleryData.jewelleryType === '' || // @ts-ignore
-      insertJewelleryData.jewelleryLocation === '' || // @ts-ignore
-      insertJewelleryData.jewelleryAddress === '' || // @ts-ignore
-      insertJewelleryData.jewelleryBarter === '' || // @ts-ignore
-      insertJewelleryData.jewelleryRent === '' ||
-      // insertJewelleryData.propertyRooms === 0 ||
-      // insertJewelleryData.propertyBeds === 0 ||
-      insertJewelleryData.propertySquare === 0 ||
+      insertJewelleryData.jewelleryPrice === 0 ||
+      !insertJewelleryData.jewelleryType ||
+      !insertJewelleryData.jewelleryLocation ||
+      insertJewelleryData.jewelleryAddress === '' ||
+      insertJewelleryData.jewelleryGram === 0 ||
       insertJewelleryData.jewelleryDesc === '' ||
       insertJewelleryData.jewelleryImages.length === 0
     ) {
@@ -224,8 +216,7 @@ const AddJewellery = ({ initialValues, ...props }: any) => {
                     defaultValue={insertJewelleryData.jewelleryType || 'select'}
                     value={insertJewelleryData.jewelleryType || 'select'}
                     onChange={({ target: { value } }) =>
-                      // @ts-ignore
-                      setInsertJewelleryData({ ...insertJewelleryData, jewelleryType: value })
+                      setInsertJewelleryData({ ...insertJewelleryData, jewelleryType: value as JewelleryType })
                     }
                   >
                     <>
@@ -252,8 +243,7 @@ const AddJewellery = ({ initialValues, ...props }: any) => {
                     defaultValue={insertJewelleryData.jewelleryLocation || 'select'}
                     value={insertJewelleryData.jewelleryLocation || 'select'}
                     onChange={({ target: { value } }) =>
-                      // @ts-ignore
-                      setInsertJewelleryData({ ...insertJewelleryData, jewelleryLocation: value })
+                      setInsertJewelleryData({ ...insertJewelleryData, jewelleryLocation: value as JewelleryLocation })
                     }
                   >
                     <>
@@ -286,107 +276,16 @@ const AddJewellery = ({ initialValues, ...props }: any) => {
 
               <Stack className="config-row">
                 <Stack className="price-year-after-price">
-                  <Typography className="title">Barter</Typography>
-                  <select
-                    className={'select-description'}
-                    value={insertJewelleryData.jewelleryBarter ? 'yes' : 'no'}
-                    defaultValue={insertJewelleryData.jewelleryBarter ? 'yes' : 'no'}
+                  <Typography className="title">Weight (grams)</Typography>
+                  <input
+                    type="number"
+                    className="description-input"
+                    placeholder={'Weight in grams'}
+                    value={insertJewelleryData.jewelleryGram}
                     onChange={({ target: { value } }) =>
-                      setInsertJewelleryData({ ...insertJewelleryData, jewelleryBarter: value === 'yes' })
+                      setInsertJewelleryData({ ...insertJewelleryData, jewelleryGram: parseInt(value) })
                     }
-                  >
-                    <option disabled={true} selected={true}>
-                      Select
-                    </option>
-                    <option value={'yes'}>Yes</option>
-                    <option value={'no'}>No</option>
-                  </select>
-                  <div className={'divider'}></div>
-                  <img src={'/img/icons/Vector.svg'} className={'arrow-down'} />
-                </Stack>
-                <Stack className="price-year-after-price">
-                  <Typography className="title">Rent</Typography>
-                  <select
-                    className={'select-description'}
-                    value={insertJewelleryData.jewelleryRent ? 'yes' : 'no'}
-                    defaultValue={insertJewelleryData.jewelleryRent ? 'yes' : 'no'}
-                    onChange={({ target: { value } }) =>
-                      setInsertJewelleryData({ ...insertJewelleryData, jewelleryRent: value === 'yes' })
-                    }
-                  >
-                    <option disabled={true} selected={true}>
-                      Select
-                    </option>
-                    <option value={'yes'}>Yes</option>
-                    <option value={'no'}>No</option>
-                  </select>
-                  <div className={'divider'}></div>
-                  <img src={'/img/icons/Vector.svg'} className={'arrow-down'} />
-                </Stack>
-              </Stack>
-
-              <Stack className="config-row">
-                <Stack className="price-year-after-price">
-                  <Typography className="title">Rooms</Typography>
-                  <select
-                    className={'select-description'}
-                    value={insertJewelleryData.propertyRooms || 'select'}
-                    defaultValue={insertJewelleryData.propertyRooms || 'select'}
-                    onChange={({ target: { value } }) =>
-                      setInsertJewelleryData({ ...insertJewelleryData, propertyRooms: parseInt(value) })
-                    }
-                  >
-                    <option disabled={true} selected={true} value={'select'}>
-                      Select
-                    </option>
-                    {[1, 2, 3, 4, 5].map((room: number) => (
-                      <option value={`${room}`}>{room}</option>
-                    ))}
-                  </select>
-                  <div className={'divider'}></div>
-                  <img src={'/img/icons/Vector.svg'} className={'arrow-down'} />
-                </Stack>
-                <Stack className="price-year-after-price">
-                  <Typography className="title">Bed</Typography>
-                  <select
-                    className={'select-description'}
-                    value={insertJewelleryData.propertyBeds || 'select'}
-                    defaultValue={insertJewelleryData.propertyBeds || 'select'}
-                    onChange={({ target: { value } }) =>
-                      setInsertJewelleryData({ ...insertJewelleryData, propertyBeds: parseInt(value) })
-                    }
-                  >
-                    <option disabled={true} selected={true} value={'select'}>
-                      Select
-                    </option>
-                    {[1, 2, 3, 4, 5].map((bed: number) => (
-                      <option value={`${bed}`}>{bed}</option>
-                    ))}
-                  </select>
-                  <div className={'divider'}></div>
-                  <img src={'/img/icons/Vector.svg'} className={'arrow-down'} />
-                </Stack>
-                <Stack className="price-year-after-price">
-                  <Typography className="title">Square</Typography>
-                  <select
-                    className={'select-description'}
-                    value={insertJewelleryData.propertySquare || 'select'}
-                    defaultValue={insertJewelleryData.propertySquare || 'select'}
-                    onChange={({ target: { value } }) =>
-                      setInsertJewelleryData({ ...insertJewelleryData, propertySquare: parseInt(value) })
-                    }
-                  >
-                    <option disabled={true} selected={true} value={'select'}>
-                      Select
-                    </option>
-                    {propertySquare.map((square: number) => {
-                      if (square !== 0) {
-                        return <option value={`${square}`}>{square}</option>;
-                      }
-                    })}
-                  </select>
-                  <div className={'divider'}></div>
-                  <img src={'/img/icons/Vector.svg'} className={'arrow-down'} />
+                  />
                 </Stack>
               </Stack>
 
@@ -520,11 +419,7 @@ AddJewellery.defaultProps = {
     jewelleryType: '',
     jewelleryLocation: '',
     jewelleryAddress: '',
-    jewelleryBarter: false,
-    jewelleryRent: false,
-    propertyRooms: 0,
-    propertyBeds: 0,
-    propertySquare: 0,
+    jewelleryGram: 0,
     jewelleryDesc: '',
     jewelleryImages: [],
   },

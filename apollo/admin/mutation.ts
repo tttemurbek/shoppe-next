@@ -47,7 +47,6 @@ export const UPDATE_PROPERTY_BY_ADMIN = gql`
       jewelleryAddress
       jewelleryTitle
       jewelleryPrice
-      propertySquare
       propertyBeds
       propertyRooms
       jewelleryViews
@@ -76,7 +75,6 @@ export const REMOVE_PROPERTY_BY_ADMIN = gql`
       jewelleryAddress
       jewelleryTitle
       jewelleryPrice
-      propertySquare
       propertyBeds
       propertyRooms
       jewelleryViews

@@ -53,7 +53,6 @@ export const GET_ALL_PROPERTIES_BY_ADMIN = gql`
         jewelleryAddress
         jewelleryTitle
         jewelleryPrice
-        propertySquare
         propertyBeds
         propertyRooms
         jewelleryViews
