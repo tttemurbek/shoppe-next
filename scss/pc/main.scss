@@ -37,6 +37,8 @@ body {
   -ms-overflow-style: none; /* for Internet Explorer, Edge */
   scrollbar-width: none; /* for Firefox */
   overflow-y: scroll;
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
 body::-webkit-scrollbar {
@@ -56,9 +58,10 @@ body::-webkit-scrollbar {
         box-sizing: border-box;
         z-index: 99;
         align-items: center;
-        border-top: 1px solid rgba(255, 255, 255, 0.07);
+        border-top: 1px solid var(--border-color);
+        background-color: var(--navbar-background);
         &.transparent {
-          background-color: #fff;
+          background-color: var(--navbar-background);
         }
         .container {
           flex-direction: row;
@@ -78,7 +81,7 @@ body::-webkit-scrollbar {
             justify-content: space-between;
             div {
               position: relative;
-              color: #000000;
+              color: var(--navbar-text);
               font-family: $font;
               font-size: 15px;
               font-style: normal;
@@ -91,7 +94,7 @@ body::-webkit-scrollbar {
                 top: 30px;
                 width: 434px;
                 height: 33px;
-                background: white;
+                background: var(--card-background);
                 transition: all ease 2s;
                 &:before {
                   content: '';
@@ -101,7 +104,7 @@ body::-webkit-scrollbar {
                   right: 50%;
                   width: 10px;
                   height: 10px;
-                  background: white;
+                  background: var(--card-background);
                   transform: translateY(-50%) rotate(45deg);
                   z-index: 0;
                 }
@@ -120,10 +123,10 @@ body::-webkit-scrollbar {
               align-items: center;
               justify-content: center;
               border-radius: 60px;
-              border: 1px solid #000000;
+              border: 1px solid var(--button-border);
               cursor: pointer;
               svg {
-                color: #000000;
+                color: var(--button-text);
                 margin-right: 10px;
               }
               span {
@@ -132,7 +135,7 @@ body::-webkit-scrollbar {
                 font-style: normal;
                 font-weight: 600;
                 line-height: normal;
-                color: #000000;
+                color: var(--button-text);
               }
             }
             .login-user {
