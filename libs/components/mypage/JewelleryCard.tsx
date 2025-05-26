@@ -72,7 +72,7 @@ export const JewelleryCard = (props: JewelleryCardProps) => {
         </Stack>
         <Stack className="status-box">
           <Stack className="coloured-box" sx={{ background: '#E5F0FD' }} onClick={handleClick}>
-            <Typography className="status" sx={{ color: '#3554d1' }}>
+            <Typography className="status" sx={{ color: '#212121' }}>
               {jewellery.jewelleryStatus}
             </Typography>
           </Stack>

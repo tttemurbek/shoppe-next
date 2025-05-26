@@ -255,10 +255,10 @@ const Filter = (props: {
 
   // Desktop view with redesigned UI
   return (
-    <Paper elevation={3} sx={{ borderRadius: 3, overflow: 'hidden' }}>
+    <Paper elevation={3} sx={{ borderRadius: 3, overflow: 'hidden', border: '1px solid #e0e0e0' }}>
       <Box
         sx={{
-          backgroundColor: '#f0f2f5',
+          // backgroundColor: '#f0f2f5',
           p: 2,
           borderBottom: '1px solid #e0e0e0',
         }}
@@ -271,7 +271,7 @@ const Filter = (props: {
           sx={{
             display: 'flex',
             alignItems: 'center',
-            backgroundColor: '#fff',
+            // backgroundColor: '#fff',
             borderRadius: 2,
             boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
           }}
@@ -291,6 +291,8 @@ const Filter = (props: {
             placeholder="What are you looking for?"
             fullWidth
             sx={{
+              color: "#000",
+              bgcolor: "Background.default",
               border: 'none',
               '& fieldset': { border: 'none' },
               fontSize: '0.9rem',
@@ -643,7 +645,7 @@ const Filter = (props: {
             <Fade in={expandedSections.price}>
               <Box sx={{ px: 2, pt: 1 }}>
                 <Slider
-                  color="black"
+                  color="text-primary"
                   value={priceRange}
                   onChange={handlePriceChange}
                   onChangeCommitted={handlePriceCommitted}
@@ -668,7 +670,7 @@ const Filter = (props: {
                       borderRadius: 1,
                       width: '45%',
                       textAlign: 'center',
-                      bgcolor: '#fff',
+                      // bgcolor: '#fff',
                     }}
                   >
                     ${priceRange[0]}
@@ -681,7 +683,7 @@ const Filter = (props: {
                       borderRadius: 1,
                       width: '45%',
                       textAlign: 'center',
-                      bgcolor: '#fff',
+                      // bgcolor: '#fff',
                     }}
                   >
                     ${priceRange[1]}

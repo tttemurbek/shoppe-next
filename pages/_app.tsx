@@ -1,64 +1,46 @@
+'use client';
+
 import type { AppProps } from 'next/app';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { CssBaseline, IconButton } from '@mui/material';
-import React, { useState, useEffect } from 'react';
-import { light, dark } from '../scss/MaterialTheme';
+import { ThemeProvider } from '@mui/material/styles';
+import { CssBaseline } from '@mui/material';
+import { useEffect } from 'react';
 import { ApolloProvider } from '@apollo/client';
 import { useApollo } from '../apollo/client';
 import { appWithTranslation } from 'next-i18next';
-import Brightness4Icon from '@mui/icons-material/Brightness4';
-import Brightness7Icon from '@mui/icons-material/Brightness7';
+import { useTheme } from '../libs/hooks/useTheme';
+import ThemeToggle from '../libs/components/ThemeToggle';
 import '../scss/app.scss';
 import '../scss/pc/main.scss';
-// import '../scss/mobile/main.scss';
 
 const App = ({ Component, pageProps }: AppProps) => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
-	const [theme, setTheme] = useState(createTheme(light));
-	const client = useApollo(pageProps.initialApolloState);
+  const { theme, isInitialized } = useTheme();
+  const client = useApollo(pageProps.initialApolloState);
 
+  // Prevent flash of unstyled content
   useEffect(() => {
-    // Check for saved theme preference
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
-      setIsDarkMode(true);
-      setTheme(createTheme(dark));
-      document.documentElement.setAttribute('data-theme', 'dark');
+    if (isInitialized) {
+      document.body.style.visibility = 'visible';
     }
+  }, [isInitialized]);
+
+  // Hide body until theme is initialized to prevent flash
+  useEffect(() => {
+    document.body.style.visibility = 'hidden';
   }, []);
 
-  const toggleTheme = () => {
-    const newTheme = !isDarkMode;
-    setIsDarkMode(newTheme);
-    setTheme(createTheme(newTheme ? dark : light));
-    localStorage.setItem('theme', newTheme ? 'dark' : 'light');
-    document.documentElement.setAttribute('data-theme', newTheme ? 'dark' : 'light');
-  };
+  if (!isInitialized) {
+    return null; // or a loading spinner
+  }
 
-	return (
-		<ApolloProvider client={client}>
-			<ThemeProvider theme={theme}>
-				<CssBaseline />
-        <IconButton
-          sx={{
-            position: 'fixed',
-            top: 16,
-            right: 16,
-            zIndex: 1000,
-            bgcolor: 'background.paper',
-            '&:hover': {
-              bgcolor: 'background.paper',
-            },
-          }}
-          onClick={toggleTheme}
-          color="inherit"
-        >
-          {isDarkMode ? <Brightness7Icon /> : <Brightness4Icon />}
-        </IconButton>
-				<Component {...pageProps} />
-			</ThemeProvider>
-		</ApolloProvider>
-	);
+  return (
+    <ApolloProvider client={client}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <ThemeToggle />
+        <Component {...pageProps} />
+      </ThemeProvider>
+    </ApolloProvider>
+  );
 };
 
 export default appWithTranslation(App);

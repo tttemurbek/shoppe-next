@@ -1,6 +1,6 @@
 #jewellery-detail-page {
   position: relative;
-  background: #fff;
+  // background: #fff;
   padding-top: 87px;
   padding-bottom: 50px;
 
@@ -104,7 +104,7 @@
     }
 
     .jewellery-title {
-      color: #000;
+      color: text-primary;
       font-family: $font;
       font-size: 24px;
       font-weight: 500;
@@ -112,7 +112,7 @@
     }
 
     .jewellery-price {
-      color: #666;
+      color: text-primary;
       font-family: $font;
       font-size: 18px;
       font-weight: 400;
@@ -136,13 +136,13 @@
 
       .review-count {
         margin-left: 10px;
-        color: #666;
+        color: text-primary;
         font-size: 14px;
       }
     }
 
     .jewellery-description {
-      color: #666;
+      color: text-primary;
       font-family: $font;
       font-size: 14px;
       line-height: 1.6;
@@ -188,7 +188,7 @@
       margin-bottom: 20px;
 
       .social-button {
-        color: #666;
+        color: text-primary;
         padding: 8px;
 
         &:hover {
@@ -200,7 +200,7 @@
     .product-meta {
       .meta-item {
         margin-bottom: 5px;
-        color: #666;
+        color: text-primary;
         font-family: $font;
         font-size: 14px;
 
@@ -223,7 +223,7 @@
         text-transform: none;
         font-family: $font;
         font-weight: normal;
-        color: #666;
+        color: text-primary;
 
         &.Mui-selected {
           color: #000;
@@ -238,7 +238,7 @@
 
     .tab-content {
       padding: 20px 0;
-      color: #666;
+      color: text-primary;
       font-family: $font;
       font-size: 14px;
       line-height: 1.6;
@@ -257,7 +257,7 @@
         }
 
         .info-value {
-          color: #666;
+          color: text-primary;
         }
       }
     }
@@ -278,7 +278,7 @@
     }
 
     .no-reviews {
-      color: #666;
+      color: text-primary;
       font-style: italic;
     }
 
@@ -356,7 +356,7 @@
         .swiper-similar-prev,
         .swiper-similar-next {
           cursor: pointer;
-          color: #666;
+          color: text-primary;
 
           &:hover {
             color: #000;

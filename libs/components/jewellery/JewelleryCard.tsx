@@ -91,7 +91,7 @@ const JewelleryCard = (props: JewelleryCardType) => {
               <Stack className="buttons">
                 <IconButton color={'default'}>
                   <RemoveRedEyeIcon />
-                  <Typography className="view-cnt">{jewellery?.jewelleryViews}</Typography>
+                  <Typography sx={{color: "#212121"}} className="view-cnt">{jewellery?.jewelleryViews}</Typography>
                 </IconButton>
                 <IconButton color={'default'} onClick={() => likeJewelleryHandler(user, jewellery?._id)}>
                   {myFavorites ? (
@@ -101,7 +101,7 @@ const JewelleryCard = (props: JewelleryCardType) => {
                   ) : (
                     <FavoriteBorderIcon />
                   )}
-                  <Typography className="view-cnt">{jewellery?.jewelleryLikes}</Typography>
+                  <Typography sx={{color: "#212121"}} className="view-cnt">{jewellery?.jewelleryLikes}</Typography>
                 </IconButton>
                 <IconButton
                     color="default"

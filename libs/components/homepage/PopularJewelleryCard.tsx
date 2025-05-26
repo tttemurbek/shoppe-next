@@ -1,5 +1,5 @@
 import React from 'react';
-import { Stack, Box, Divider, Typography } from '@mui/material';
+import { Stack, Box, Divider, Typography, useTheme } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { Jewellery } from '../../types/jewellery/jewellery';
@@ -18,6 +18,7 @@ const PopularJewelleryCard = (props: PopularJewelleryCardProps) => {
   const device = useDeviceDetect();
   const router = useRouter();
   const user = useReactiveVar(userVar);
+  const theme = useTheme();
 
   /** HANDLERS **/
 
@@ -42,44 +43,56 @@ const PopularJewelleryCard = (props: PopularJewelleryCardProps) => {
               <img src="/img/icons/electricity.svg" alt="" />
               <span>top</span>
             </div>
-          ) : (
-            ''
-          )}
+          ) : null}
 
-          <div className={'price'}>${jewellery.jewelleryPrice}</div>
+          <div className={'price'} style={{ color: theme.palette.text.primary }}>
+            ${jewellery.jewelleryPrice}
+          </div>
         </Box>
-        <Box component={'div'} className={'info'}>
+        <Box
+          component={'div'}
+          className={'info'}
+          sx={{
+            backgroundColor: theme.palette.background.paper,
+            boxShadow: theme.shadows[1],
+          }}
+        >
           <strong
             className={'title'}
             onClick={() => {
               pushDetailHandler(jewellery._id);
             }}
+            style={{ color: theme.palette.text.primary }}
           >
             {jewellery.jewelleryTitle}
           </strong>
-          <p className={'desc'}>{jewellery.jewelleryAddress}</p>
+          <p className={'desc'} style={{ color: theme.palette.text.secondary }}>
+            {jewellery.jewelleryAddress}
+          </p>
           <div className={'options'}>
             <div>
               <img src="/img/icons/bed.svg" alt="" />
-              <span>{jewellery?.propertyBeds} bed</span>
+              <span style={{ color: theme.palette.text.primary }}>{jewellery?.propertyBeds} bed</span>
             </div>
             <div>
               <img src="/img/icons/room.svg" alt="" />
-              <span>{jewellery?.propertyRooms} rooms</span>
+              <span style={{ color: theme.palette.text.primary }}>{jewellery?.propertyRooms} rooms</span>
             </div>
             <div>
               <img src="/img/icons/expand.svg" alt="" />
-              <span>{jewellery?.propertySquare} m2</span>
+              <span style={{ color: theme.palette.text.primary }}>{jewellery?.propertySquare} m2</span>
             </div>
           </div>
-          <Divider sx={{ mt: '15px', mb: '17px' }} />
+          <Divider sx={{ mt: '15px', mb: '17px', borderColor: theme.palette.divider }} />
           <div className={'bott'}>
-            <p>{jewellery?.jewelleryRent ? 'rent' : 'sale'}</p>
+            <p style={{ color: theme.palette.text.secondary }}>{jewellery?.jewelleryRent ? 'rent' : 'sale'}</p>
             <div className="view-like-box">
-              <IconButton color={'default'}>
+              <IconButton color={'default'} sx={{ color: theme.palette.text.secondary }}>
                 <RemoveRedEyeIcon />
               </IconButton>
-              <Typography className="view-cnt">{jewellery?.jewelleryViews}</Typography>
+              <Typography className="view-cnt" sx={{ color: theme.palette.text.secondary }}>
+                {jewellery?.jewelleryViews}
+              </Typography>
             </div>
           </div>
         </Box>
@@ -101,31 +114,45 @@ const PopularJewelleryCard = (props: PopularJewelleryCardProps) => {
               <img src="/img/icons/electricity.svg" alt="" />
               <span>top</span>
             </div>
-          ) : (
-            ''
-          )}
+          ) : null}
 
-          <div className={'price'}>${jewellery.jewelleryPrice}</div>
+          <div className={'price'} style={{ color: theme.palette.text.primary }}>
+            ${jewellery.jewelleryPrice}
+          </div>
         </Box>
-        <Box component={'div'} className={'info'}>
+        <Box
+          component={'div'}
+          className={'info'}
+          sx={{
+            backgroundColor: theme.palette.background.paper,
+            boxShadow: theme.shadows[1],
+          }}
+        >
           <strong
             className={'title'}
             onClick={() => {
               pushDetailHandler(jewellery._id);
             }}
+            style={{ color: theme.palette.text.primary }}
           >
             {jewellery.jewelleryTitle}
           </strong>
-          <p className={'desc'}>{jewellery.jewelleryAddress}</p>
-          <p className="grams">{jewellery.jewelleryGram} grams</p>
-          <Divider sx={{ mt: '15px', mb: '17px' }} />
+          <p className={'desc'} style={{ color: theme.palette.text.secondary }}>
+            {jewellery.jewelleryAddress}
+          </p>
+          <p className="grams" style={{ color: theme.palette.error.main }}>
+            {jewellery.jewelleryGram} grams
+          </p>
+          <Divider sx={{ mt: '15px', mb: '17px', borderColor: theme.palette.divider }} />
           <div className={'bott'}>
-            <p>{jewellery?.jewelleryRent ? 'rent' : 'sale'}</p>
+            <p style={{ color: theme.palette.text.secondary }}>{jewellery?.jewelleryRent ? 'rent' : 'sale'}</p>
             <div className="view-like-box">
-              <IconButton color={'default'}>
+              <IconButton color={'default'} sx={{ color: theme.palette.text.secondary }}>
                 <RemoveRedEyeIcon />
               </IconButton>
-              <Typography className="view-cnt">{jewellery?.jewelleryViews}</Typography>
+              <Typography className="view-cnt" sx={{ color: theme.palette.text.secondary }}>
+                {jewellery?.jewelleryViews}
+              </Typography>
             </div>
           </div>
         </Box>

@@ -15,7 +15,7 @@
           flex-direction: column;
           align-items: center;
           span {
-            color: #000;
+            color: text-primary;
             font-family: $font;
             font-size: 35px;
             font-style: normal;
@@ -72,7 +72,7 @@
         flex-direction: column;
         .title {
           margin-bottom: 25px;
-          color: #000;
+          color: text-primary;
           font-family: $font;
           font-size: 27px;
           font-style: normal;
@@ -95,7 +95,7 @@
               flex-direction: row;
               justify-content: space-between;
               span {
-                color: #000;
+                color: text-primary;
                 font-family: $font;
                 font-size: 14px;
                 font-style: normal;

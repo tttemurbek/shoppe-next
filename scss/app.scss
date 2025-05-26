@@ -2,54 +2,80 @@
 @import 'variables.scss';
 @import 'reset.scss';
 
+// Prevent flash of unstyled content
+body {
+  visibility: hidden;
+}
+
+body.light-mode,
+body.dark-mode {
+  visibility: visible !important;
+}
+
 a {
-  // white-space: nowrap;
   text-decoration: none;
   color: var(--text-color);
+  transition: color 0.3s ease;
 }
+
 button {
   text-transform: none;
   box-shadow: none;
   padding: 0;
   color: var(--button-text);
+  transition: all 0.3s ease;
 }
+
 button.outline {
   border: 1px solid var(--border-color);
 }
+
 button.contain {
   color: var(--button-text);
 }
+
 span,
 p {
   line-height: 1.2;
-  color: var(--text-color);
+  color: var(--text-primary);
+  transition: color 0.3s ease;
 }
+
 body {
   font-family: $font;
   background-color: var(--background-color);
   color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+
   &::-webkit-scrollbar {
     width: 9px;
   }
+
   &::-webkit-scrollbar-thumb {
     height: 30%;
     background: var(--scrollbar-thumb);
     border-radius: 10px;
+    transition: background 0.3s ease;
   }
+
   &::-webkit-scrollbar-track {
     background: var(--scrollbar-track);
+    transition: background 0.3s ease;
   }
 
   .MuiPopover-paper {
     box-shadow: none;
-    background-color: var(--card-background);
+    background-color: var(--card-background) !important;
+    transition: background-color 0.3s ease;
   }
 }
+
 hr {
   border-width: 0;
   border-bottom-width: thin;
   border-color: var(--border-color);
   margin: auto;
+  transition: border-color 0.3s ease;
 }
 
 /** VERSION: PC **/
@@ -57,11 +83,35 @@ hr {
   width: 100%;
   height: 100%;
   background-color: var(--background-color);
+  transition: background-color 0.3s ease;
 
   .container {
     position: relative;
     width: 1300px;
     margin: 0 auto;
     display: flex;
+  }
+}
+
+// Dark mode specific overrides
+[data-theme='dark'] {
+  .MuiPaper-root {
+    background-color: var(--card-background) !important;
+  }
+
+  .MuiAppBar-root {
+    background-color: var(--navbar-background) !important;
+  }
+
+  .MuiDrawer-paper {
+    background-color: var(--card-background) !important;
+  }
+
+  .MuiDialog-paper {
+    background-color: var(--card-background) !important;
+  }
+
+  .MuiMenu-paper {
+    background-color: var(--card-background) !important;
   }
 }

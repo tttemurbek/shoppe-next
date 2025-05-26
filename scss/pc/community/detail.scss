@@ -88,7 +88,7 @@
 							width: 60%;
 							height: auto;
 							.title {
-								color: #000;
+								color: text-primary;
 								font-family: $font;
 								font-size: 24px;
 								font-style: normal;
@@ -137,7 +137,7 @@
 								.content {
 									gap: 12px;
 									.content-data {
-										color: #000;
+										color: text-primary;
 										font-family: $font;
 										font-size: 18px;
 										font-style: normal;
@@ -156,7 +156,7 @@
 											cursor: pointer;
 										}
 										.member-nick {
-											color: #000;
+											color: text-primary;
 											font-family: $font;
 											font-size: 13px;
 											font-style: normal;
@@ -198,7 +198,7 @@
 										}
 										.text {
 											padding-top: 2 px;
-											color: #000;
+											color: text-primary;
 											font-family: $font;
 											font-size: 11px;
 											font-style: normal;
@@ -255,7 +255,7 @@
 							gap: 11px;
 							.title-text {
 								align-self: flex-start;
-								color: #000;
+								color: text-primary;
 								text-align: center;
 								font-family: $font;
 								font-size: 17px;
@@ -291,7 +291,7 @@
 									border: 1px solid #eee;
 									border-top: none;
 									p {
-										color: #000;
+										color: text-primary;
 										font-family: $font;
 										font-size: 14px;
 										font-style: normal;

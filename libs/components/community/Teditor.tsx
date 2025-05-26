@@ -131,7 +131,7 @@ const TuiEditor = () => {
               inputProps={{ 'aria-label': 'Without label' }}
             >
               <MenuItem value={BoardArticleCategory.FREE}>
-                <span>Free</span>
+                <span style={{ color: '#212121' }}>Free</span>
               </MenuItem>
               <MenuItem value={BoardArticleCategory.HUMOR}>Humor</MenuItem>
               <MenuItem value={BoardArticleCategory.NEWS}>News</MenuItem>
@@ -139,7 +139,7 @@ const TuiEditor = () => {
             </Select>
           </FormControl>
         </Box>
-        <Box component={'div'} style={{ width: '300px', flexDirection: 'column' }}>
+        <Box component={'div'} style={{  width: '300px', flexDirection: 'column', color: "#212121" }}>
           <Typography style={{ color: '#7f838d', margin: '10px' }} variant="h3">
             Title
           </Typography>
@@ -147,7 +147,7 @@ const TuiEditor = () => {
             onChange={articleTitleHandler}
             id="filled-basic"
             label="Type Title"
-            style={{ width: '300px', background: 'white' }}
+            style={{ color: '#212121', width: '300px', background: 'white' }}
           />
         </Box>
       </Stack>

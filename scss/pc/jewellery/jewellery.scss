@@ -1,7 +1,7 @@
 #pc-wrap {
   #property-list-page {
     padding-bottom: 40px;
-    background: #fff;
+    // background: #fff;
     .container {
       .right {
         position: absolute;
@@ -13,7 +13,7 @@
         z-index: 2;
         button {
           margin-left: 10px;
-          color: #181a20;
+          color: text-primary;
           font-family: $font;
           font-size: 14px;
           font-style: normal;
@@ -33,6 +33,7 @@
         .filter-config {
           width: 339px;
           height: auto;
+
           .filter-main {
             width: 100%;
             border-radius: 16px;
@@ -93,7 +94,7 @@
                   height: 54px;
                   border-radius: 12px;
                   border: 1px solid #e0e0e0;
-                  background: #fff;
+                  // background: #fff;
                   outline: none;
                   padding-left: 50px;
                   color: #333;
@@ -141,7 +142,7 @@
                 height: 52px;
                 border-radius: 12px;
                 border: 1px solid #e0e0e0;
-                background: #fff;
+                // background: #fff;
                 outline: none;
                 padding-left: 16px;
                 appearance: none;
@@ -202,7 +203,7 @@
                   height: 100%;
                   border-radius: 8px;
                   border: 1px solid #e0e0e0;
-                  background: #fff;
+                  // background: #fff;
                   color: #333;
                   font-size: 14px;
                   font-weight: 500;
@@ -237,7 +238,7 @@
                   height: 50px;
                   border-radius: 10px;
                   border: 1px solid #e0e0e0;
-                  background: #fff;
+                  // background: #fff;
                   outline: none;
                   padding: 0 16px;
                   color: #333;
@@ -332,7 +333,7 @@
 
               .slider-track {
                 height: 4px;
-                background: #e0e0e0;
+                // background: #e0e0e0;
                 border-radius: 2px;
                 position: relative;
 
@@ -372,7 +373,7 @@
                 margin-top: 16px;
 
                 .price-box {
-                  background: white;
+                  // background: white;
                   border: 1px solid #e0e0e0;
                   border-radius: 8px;
                   padding: 8px 12px;
@@ -643,7 +644,7 @@
             }
             .total-result {
               p {
-                color: #181a20;
+                color: text-primary;
                 text-align: center;
                 font-family: $font;
                 font-size: 20px;

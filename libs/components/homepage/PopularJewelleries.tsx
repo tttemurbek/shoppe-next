@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Stack, Box } from '@mui/material';
+import { Stack, Box, useTheme } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation, Pagination } from 'swiper';
@@ -21,6 +21,7 @@ const PopularProperties = (props: PopularPropertiesProps) => {
   const { initialInput } = props;
   const device = useDeviceDetect();
   const [popularProperties, setPopularProperties] = useState<Jewellery[]>([]);
+  const theme = useTheme();
 
   /** APOLLO REQUESTS **/
 
@@ -46,7 +47,7 @@ const PopularProperties = (props: PopularPropertiesProps) => {
       <Stack className={'popular-properties'}>
         <Stack className={'container'}>
           <Stack className={'info-box'}>
-            <span>Popular   </span>
+            <span style={{ color: theme.palette.text.primary }}>Popular</span>
           </Stack>
           <Stack className={'card-box'}>
             <Swiper
@@ -75,12 +76,12 @@ const PopularProperties = (props: PopularPropertiesProps) => {
           <Stack className={'info-box'}>
             <Box component={'div'} className={'left'}>
               <span>Popular jewelleries</span>
-              <p>Popularity is based on views</p>
+              <p style={{ color: theme.palette.text.secondary }}>Popularity is based on views</p>
             </Box>
             <Box component={'div'} className={'right'}>
               <div className={'more-box'}>
                 <Link href={'/jewellery'}>
-                  <span>View all</span>
+                  <span style={{ color: theme.palette.primary.main }}>View all</span>
                 </Link>
                 {/* <img src="/img/icons/rightup.svg" alt="" /> */}
               </div>
@@ -110,9 +111,9 @@ const PopularProperties = (props: PopularPropertiesProps) => {
             </Swiper>
           </Stack>
           <Stack className={'pagination-box'}>
-            <WestIcon className={'swiper-popular-prev'} />
+            <WestIcon className={'swiper-popular-prev'} sx={{ color: theme.palette.text.primary }} />
             <div className={'swiper-popular-pagination'}></div>
-            <EastIcon className={'swiper-popular-next'} />
+            <EastIcon className={'swiper-popular-next'} sx={{ color: theme.palette.text.primary }} />
           </Stack>
         </Stack>
       </Stack>

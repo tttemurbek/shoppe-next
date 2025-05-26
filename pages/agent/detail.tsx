@@ -364,7 +364,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
             </Box>
           </Stack>
         ) : (
-          <Box sx={{ textAlign: 'center', my: 4, p: 3, bgcolor: '#f9f9f9', borderRadius: 2 }}>
+          <Box sx={{ textAlign: 'center', my: 4, p: 3, borderRadius: 2 }}>
             <Typography variant="body1">No reviews yet. Be the first to leave a review!</Typography>
           </Box>
         )}

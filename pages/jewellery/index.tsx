@@ -138,7 +138,11 @@ const JewelleryList: NextPage = ({ initialInput, ...props }: any) => {
           <Box component={'div'} className={'right'}>
             <span>Sort by</span>
             <div>
-              <Button onClick={sortingClickHandler} endIcon={<KeyboardArrowDownRoundedIcon />}>
+              <Button
+                sx={{ color: '#A18A68' }}
+                onClick={sortingClickHandler}
+                endIcon={<KeyboardArrowDownRoundedIcon />}
+              >
                 {filterSortName}
               </Button>
               <Menu anchorEl={anchorEl} open={sortingOpen} onClose={sortingCloseHandler} sx={{ paddingTop: '5px' }}>
@@ -170,7 +174,7 @@ const JewelleryList: NextPage = ({ initialInput, ...props }: any) => {
             </div>
           </Box>
           <Stack className={'property-page'}>
-            <Stack className={'filter-config'}>
+            <Stack className={'filter-config'} >
               {/* @ts-ignore */}
               <Filter searchFilter={searchFilter} setSearchFilter={setSearchFilter} initialInput={initialInput} />
             </Stack>
