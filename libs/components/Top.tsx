@@ -17,6 +17,7 @@ import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../apollo/store';
 import { Logout } from '@mui/icons-material';
 import { REACT_APP_API_URL } from '../config';
+import NotificationBell from './common/NotificationBell';
 
 const Top = () => {
   const device = useDeviceDetect();
@@ -230,7 +231,7 @@ const Top = () => {
               )}
 
               <div className={'lan-box'}>
-                {user?._id && <NotificationsOutlinedIcon className={'notification-icon'} />}
+                {user?._id && <NotificationBell />}
                 <Button
                   disableRipple
                   className="btn-lang"

@@ -344,3 +344,31 @@ export const UNSUBSCRIBE = gql`
     }
   }
 `;
+
+/**************************
+ *         NOTIFICATION       *
+ *************************/
+
+export const READ_NOTIFICATION = gql`
+  mutation NotificationTargetJewellery($input: String!) {
+    notificationTargetJewellery(input: $input) {
+      _id
+      notificationType
+      notificationStatus
+      notificationGroup
+      notificationTitle
+      notificationDesc
+      memberId
+      authorId
+      receiverId
+      jewelleryId
+      articleId
+    }
+  }
+`;
+
+export const READ_ALL_NOTIFICATION = gql`
+  mutation NotificationsTargetJewellery($input: String!) {
+    notificationsTargetJewellery(input: $input)
+  }
+`;
