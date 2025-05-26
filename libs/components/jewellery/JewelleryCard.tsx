@@ -12,6 +12,7 @@ import { userVar } from '../../../apollo/store';
 import IconButton from '@mui/material/IconButton';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import Swal from 'sweetalert2';
 
 interface JewelleryCardType {
   jewellery: Jewellery;
@@ -102,9 +103,22 @@ const JewelleryCard = (props: JewelleryCardType) => {
                   )}
                   <Typography className="view-cnt">{jewellery?.jewelleryLikes}</Typography>
                 </IconButton>
-                <IconButton color={'default'} onClick={() => likeJewelleryHandler('user', 'jewellery?._id')}>
+                <IconButton
+                    color="default"
+                  onClick={() =>
+                    Swal.fire({
+                      title: 'Coming Soon',
+                      text: 'Stay tuned for something beautiful.',
+                      imageWidth: 80,
+                      imageHeight: 80,
+                      showConfirmButton: true,
+                      confirmButtonText: 'OK',
+                      confirmButtonColor: '#c2a27e',
+                    })
+                  }
+                >
                   <AddShoppingCartIcon />
-                  <Typography className="view-cnt">{jewellery?.jewelleryLikes}</Typography>
+                  {/* <Typography className="view-cnt">1</Typography> */}
                 </IconButton>
               </Stack>
             )}

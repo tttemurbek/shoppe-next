@@ -10,6 +10,7 @@ import { useRouter } from 'next/router';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import Swal from 'sweetalert2';
 
 interface TopJewelleryCardProps {
   jewellery: Jewellery;
@@ -133,10 +134,23 @@ const TopJewelleryCard = (props: TopJewelleryCardProps) => {
                 )}
                 <Typography className="view-cnt">{jewellery?.jewelleryLikes}</Typography>
               </IconButton>
-              <IconButton color={'default'} onClick={() => likeJewelleryHandler(user, jewellery?._id)}>
-                <AddShoppingCartIcon />
-                <Typography className="view-cnt">{jewellery?.jewelleryLikes}</Typography>
-              </IconButton>
+              <IconButton
+                  color="default"
+                  onClick={() =>
+                    Swal.fire({
+                      title: 'Coming Soon',
+                      text: 'Stay tuned for something beautiful.',
+                      imageWidth: 80,
+                      imageHeight: 80,
+                      showConfirmButton: true,
+                      confirmButtonText: 'OK',
+                      confirmButtonColor: '#c2a27e',
+                    })
+                  }
+                >
+                  <AddShoppingCartIcon />
+                  {/* <Typography className="view-cnt">1</Typography> */}
+                </IconButton>
             </div>
           </div>
         </Box>

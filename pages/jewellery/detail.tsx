@@ -38,6 +38,8 @@ import type { T } from '../../libs/types/common';
 import { Direction, Message } from '../../libs/enums/common.enum';
 import { sweetErrorHandling, sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 import { CREATE_COMMENT, LIKE_TARGET_JEWELLERY } from '../../apollo/user/mutation';
+import Swal from 'sweetalert2';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 SwiperCore.use([Autoplay, Navigation, Pagination]);
 
@@ -551,7 +553,23 @@ const JewelleryDetail: NextPage = ({ initialComment, ...props }: any) => {
                   </Box>
 
                   <Button variant="contained" fullWidth className={'add-to-cart-button'}>
-                    ADD TO CART
+                    <IconButton
+                      color="default"
+                      onClick={() =>
+                        Swal.fire({
+                          title: 'Coming Soon',
+                          text: 'Stay tuned for something beautiful.',
+                          imageWidth: 80,
+                          imageHeight: 80,
+                          showConfirmButton: true,
+                          confirmButtonText: 'OK',
+                          confirmButtonColor: '#c2a27e',
+                        })
+                      }
+                    >
+                      <AddShoppingCartIcon style={{color: "white"}} />
+                      <Typography style={{color: "white"}} className="view-cnt">Add to cart</Typography>
+                    </IconButton>
                   </Button>
                 </Stack>
 

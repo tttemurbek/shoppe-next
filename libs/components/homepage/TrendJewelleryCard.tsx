@@ -151,7 +151,7 @@ const TrendJewelleryCard = (props: TrendJewelleryCardProps) => {
                 }
               >
                 <AddShoppingCartIcon />
-                <Typography className="view-cnt">0</Typography>
+                {/* <Typography className="view-cnt">1</Typography> */}
               </IconButton>
             </div>
           </div>

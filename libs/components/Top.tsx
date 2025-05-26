@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useRouter, withRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { getJwtToken, logOut, updateUserInfo } from '../auth';
-import { Stack, Box } from '@mui/material';
+import { Stack, Box, IconButton, Typography } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import { alpha, styled } from '@mui/material/styles';
@@ -18,6 +18,8 @@ import { userVar } from '../../apollo/store';
 import { Logout } from '@mui/icons-material';
 import { REACT_APP_API_URL } from '../config';
 import NotificationBell from './common/NotificationBell';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import Swal from 'sweetalert2';
 
 const Top = () => {
   const device = useDeviceDetect();
@@ -193,6 +195,49 @@ const Top = () => {
               </Link>
             </Box>
             <Box component={'div'} className={'user-box'}>
+              {user?._id && (
+                <IconButton
+                  style={{
+                    marginRight: '30px',
+                    position: 'relative',
+                  }}
+                  color="default"
+                  onClick={() =>
+                    Swal.fire({
+                      title: 'Coming Soon',
+                      text: 'Stay tuned for something beautiful.',
+                      imageWidth: 80,
+                      imageHeight: 80,
+                      showConfirmButton: true,
+                      confirmButtonText: 'OK',
+                      confirmButtonColor: '#c2a27e',
+                    })
+                  }
+                >
+                  <AddShoppingCartIcon />
+                  <Typography
+                    className="view-cnt"
+                    style={{
+                      position: 'absolute',
+                      top: '-8px',
+                      right: '-8px',
+                      backgroundColor: '#4CAF50',
+                      color: 'white',
+                      borderRadius: '50%',
+                      width: '20px',
+                      height: '20px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '12px',
+                      fontWeight: 'bold',
+                      minWidth: '20px',
+                    }}
+                  >
+                    0
+                  </Typography>
+                </IconButton>
+              )}
               {user?._id ? (
                 <>
                   <div className={'login-user'} onClick={(event: any) => setLogoutAnchor(event.currentTarget)}>
