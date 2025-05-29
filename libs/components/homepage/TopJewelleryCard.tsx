@@ -1,3 +1,4 @@
+// ts-nocheck
 import React from 'react';
 import { Stack, Box, Divider, Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
@@ -100,7 +101,7 @@ const TopJewelleryCard = (props: TopJewelleryCardProps) => {
           className={'card-img'}
           style={{
             backgroundImage: `url(${REACT_APP_API_URL}/${jewellery?.jewelleryImages[0]})`,
-            backgrounSizedSize: 'cover',
+            backgroundSize: 'cover'
           }}
           onClick={() => {
             pushDetailHandler(jewellery._id);

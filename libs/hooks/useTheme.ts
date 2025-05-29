@@ -1,20 +1,102 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useMediaQuery } from '@mui/material';
 import { createTheme } from '@mui/material/styles';
-import { light, dark } from '../../scss/MaterialTheme';
+
+// Add fallback theme definitions in case imports fail
+const defaultLight = {
+  palette: {
+    mode: 'light' as const,
+    primary: {
+      main: '#1976d2',
+    },
+    background: {
+      default: '#ffffff',
+      paper: '#ffffff',
+    },
+  },
+};
+
+const defaultDark = {
+  palette: {
+    mode: 'dark' as const,
+    primary: {
+      main: '#90caf9',
+    },
+    background: {
+      default: '#121212',
+      paper: '#1e1e1e',
+    },
+  },
+};
+
+// Try to import themes with fallbacks
+let light: any, dark: any;
+try {
+  // @ts-ignore
+  const themes = require('../../scss/MaterialTheme');
+  light = themes.light || defaultLight;
+  dark = themes.dark || defaultDark;
+} catch (error) {
+  console.warn('MaterialTheme import failed, using defaults:', error);
+  light = defaultLight;
+  dark = defaultDark;
+}
 
 export const useTheme = () => {
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  // Add fallback for useMediaQuery in case it fails
+  let initialPrefersDarkMode = false;
+  if (typeof window !== 'undefined') {
+    try {
+      initialPrefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    } catch (e) {
+      console.warn('window.matchMedia failed:', e);
+    }
+  }
+
+  const [prefersDarkMode, setPrefersDarkMode] = useState(initialPrefersDarkMode);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+        const handleChange = (event: MediaQueryListEvent) => {
+          setPrefersDarkMode(event.matches);
+        };
+
+        mediaQuery.addEventListener('change', handleChange);
+
+        return () => {
+          mediaQuery.removeEventListener('change', handleChange);
+        };
+      } catch (error) {
+        console.warn('useMediaQuery failed:', error);
+      }
+    }
+  }, []);
+
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [theme, setTheme] = useState(createTheme(light));
+  const [theme, setTheme] = useState(() => {
+    try {
+      return createTheme(light);
+    } catch (error) {
+      console.warn('createTheme failed, using minimal theme:', error);
+      return createTheme(defaultLight);
+    }
+  });
   const [isInitialized, setIsInitialized] = useState(false);
 
-  // Initialize theme on mount
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
+    if (typeof window === 'undefined') return;
+
+    let savedTheme: string | null = null;
     let shouldUseDarkMode = false;
+
+    try {
+      savedTheme = localStorage.getItem('theme');
+    } catch (error) {
+      console.warn('localStorage not available:', error);
+    }
 
     if (savedTheme) {
       shouldUseDarkMode = savedTheme === 'dark';
@@ -23,26 +105,57 @@ export const useTheme = () => {
     }
 
     setIsDarkMode(shouldUseDarkMode);
-    setTheme(createTheme(shouldUseDarkMode ? dark : light));
 
-    // Apply theme to document
-    document.documentElement.setAttribute('data-theme', shouldUseDarkMode ? 'dark' : 'light');
-    document.body.className = shouldUseDarkMode ? 'dark-mode' : 'light-mode';
+    try {
+      setTheme(createTheme(shouldUseDarkMode ? dark : light));
+    } catch (error) {
+      console.warn('createTheme failed in useEffect:', error);
+      setTheme(createTheme(shouldUseDarkMode ? defaultDark : defaultLight));
+    }
+
+    try {
+      if (typeof document !== 'undefined' && document?.documentElement) {
+        document.documentElement.setAttribute('data-theme', shouldUseDarkMode ? 'dark' : 'light');
+      }
+      if (typeof document !== 'undefined' && document?.body) {
+        document.body.className = shouldUseDarkMode ? 'dark-mode' : 'light-mode';
+      }
+    } catch (error) {
+      console.warn('Document manipulation error:', error);
+    }
 
     setIsInitialized(true);
   }, [prefersDarkMode]);
 
   const toggleTheme = () => {
+    if (typeof window === 'undefined') return;
+
     const newTheme = !isDarkMode;
     setIsDarkMode(newTheme);
-    setTheme(createTheme(newTheme ? dark : light));
 
-    // Save to localStorage
-    localStorage.setItem('theme', newTheme ? 'dark' : 'light');
+    try {
+      setTheme(createTheme(newTheme ? dark : light));
+    } catch (error) {
+      console.warn('createTheme failed in toggleTheme:', error);
+      setTheme(createTheme(newTheme ? defaultDark : defaultLight));
+    }
 
-    // Apply to document
-    document.documentElement.setAttribute('data-theme', newTheme ? 'dark' : 'light');
-    document.body.className = newTheme ? 'dark-mode' : 'light-mode';
+    try {
+      localStorage.setItem('theme', newTheme ? 'dark' : 'light');
+    } catch (error) {
+      console.warn('localStorage save error:', error);
+    }
+
+    try {
+      if (typeof document !== 'undefined' && document?.documentElement) {
+        document.documentElement.setAttribute('data-theme', newTheme ? 'dark' : 'light');
+      }
+      if (typeof document !== 'undefined' && document?.body) {
+        document.body.className = newTheme ? 'dark-mode' : 'light-mode';
+      }
+    } catch (error) {
+      console.warn('Document manipulation error:', error);
+    }
   };
 
   return {

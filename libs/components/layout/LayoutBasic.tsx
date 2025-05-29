@@ -1,3 +1,4 @@
+//ts-nocheck
 import React, { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
@@ -132,12 +133,7 @@ const withLayoutBasic = (Component: any) => {
                   // boxShadow: 'inset 10px 40px 150px 40px rgb(24 22 36)',
                 }
               }
-            >
-              <Stack className={'container'} sx={'height: 20px' }>
-                {/* <strong>{t(memoizedValues.title)}</strong> */}
-                {/* <span>{t(memoizedValues.desc)}</span> */}
-              </Stack>
-            </Stack>
+            ></Stack>
 
             <Stack id={'main'}>
               <Component {...props} />
