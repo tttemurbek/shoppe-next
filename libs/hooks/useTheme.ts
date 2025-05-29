@@ -44,37 +44,6 @@ try {
 }
 
 export const useTheme = () => {
-  // Add fallback for useMediaQuery in case it fails
-  let initialPrefersDarkMode = false;
-  if (typeof window !== 'undefined') {
-    try {
-      initialPrefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    } catch (e) {
-      console.warn('window.matchMedia failed:', e);
-    }
-  }
-
-  const [prefersDarkMode, setPrefersDarkMode] = useState(initialPrefersDarkMode);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      try {
-        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-        const handleChange = (event: MediaQueryListEvent) => {
-          setPrefersDarkMode(event.matches);
-        };
-
-        mediaQuery.addEventListener('change', handleChange);
-
-        return () => {
-          mediaQuery.removeEventListener('change', handleChange);
-        };
-      } catch (error) {
-        console.warn('useMediaQuery failed:', error);
-      }
-    }
-  }, []);
-
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [theme, setTheme] = useState(() => {
     try {
@@ -98,10 +67,11 @@ export const useTheme = () => {
       console.warn('localStorage not available:', error);
     }
 
+    // Only use saved theme if it exists, otherwise default to light
     if (savedTheme) {
       shouldUseDarkMode = savedTheme === 'dark';
     } else {
-      shouldUseDarkMode = prefersDarkMode;
+      shouldUseDarkMode = false; // Always default to light theme
     }
 
     setIsDarkMode(shouldUseDarkMode);
@@ -125,7 +95,7 @@ export const useTheme = () => {
     }
 
     setIsInitialized(true);
-  }, [prefersDarkMode]);
+  }, []); // Removed prefersDarkMode dependency since we're not using system preference
 
   const toggleTheme = () => {
     if (typeof window === 'undefined') return;
