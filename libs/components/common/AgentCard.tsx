@@ -34,7 +34,7 @@ const AgentCard = (props: AgentCardProps) => {
             backgroundImage: `url(${imagePath})`,
           }}
         >
-          <div className="property-badge">{agent?.memberJewelleries} jewelleries</div>
+          <div className="jewellery-badge">{agent?.memberJewelleries} jewelleries</div>
         </Box>
         <Stack className={'agent-desc'}>
           <Box component={'div'} className={'agent-info'}>
@@ -75,7 +75,7 @@ const AgentCard = (props: AgentCardProps) => {
             backgroundImage: `url(${imagePath})`,
           }}
         >
-          <div className="property-badge">{agent?.memberJewelleries} jewelleries</div>
+          <div className="jewellery-badge">{agent?.memberJewelleries} jewelleries</div>
           <div className="hover-overlay">
             <span>View Profile</span>
           </div>

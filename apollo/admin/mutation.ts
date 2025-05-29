@@ -34,12 +34,12 @@ export const UPDATE_MEMBER_BY_ADMIN = gql`
 `;
 
 /**************************
- *        PROPERTY        *
+ *        JEWELLERY        *
  *************************/
 
-export const UPDATE_PROPERTY_BY_ADMIN = gql`
-  mutation UpdatePropertyByAdmin($input: JewelleryUpdate!) {
-    updatePropertyByAdmin(input: $input) {
+export const UPDATE_JEWELLERY_BY_ADMIN = gql`
+  mutation UpdateJewelleryByAdmin($input: JewelleryUpdate!) {
+    updateJewelleryByAdmin(input: $input) {
       _id
       jewelleryType
       jewelleryStatus
@@ -47,8 +47,6 @@ export const UPDATE_PROPERTY_BY_ADMIN = gql`
       jewelleryAddress
       jewelleryTitle
       jewelleryPrice
-      propertyBeds
-      propertyRooms
       jewelleryViews
       jewelleryLikes
       jewelleryImages
@@ -65,9 +63,9 @@ export const UPDATE_PROPERTY_BY_ADMIN = gql`
   }
 `;
 
-export const REMOVE_PROPERTY_BY_ADMIN = gql`
-  mutation RemovePropertyByAdmin($input: String!) {
-    removePropertyByAdmin(jewelleryId: $input) {
+export const REMOVE_JEWELLERY_BY_ADMIN = gql`
+  mutation RemoveJewelleryByAdmin($input: String!) {
+    removeJewelleryByAdmin(jewelleryId: $input) {
       _id
       jewelleryType
       jewelleryStatus
@@ -75,8 +73,6 @@ export const REMOVE_PROPERTY_BY_ADMIN = gql`
       jewelleryAddress
       jewelleryTitle
       jewelleryPrice
-      propertyBeds
-      propertyRooms
       jewelleryViews
       jewelleryLikes
       jewelleryImages

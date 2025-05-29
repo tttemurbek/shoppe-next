@@ -53,8 +53,8 @@ const Footer = () => {
             <Box component={'div'} className={'bottom'}>
               <div>
                 <strong>Popular Search</strong>
-                <span>Property for Rent</span>
-                <span>Property Low to hide</span>
+                {/* <span>Property for Rent</span>
+                <span>Property Low to hide</span> */}
               </div>
               <div>
                 <strong>Quick Links</strong>

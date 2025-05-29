@@ -39,12 +39,12 @@ export const GET_ALL_MEMBERS_BY_ADMIN = gql`
 `;
 
 /**************************
- *        PROPERTY        *
+ *        JEWELLERY        *
  *************************/
 
-export const GET_ALL_PROPERTIES_BY_ADMIN = gql`
-  query GetAllPropertiesByAdmin($input: AllJewelleriesInquiry!) {
-    getAllPropertiesByAdmin(input: $input) {
+export const GET_ALL_JEWELLERIES_BY_ADMIN = gql`
+  query GetAllJewelleriesByAdmin($input: AllJewelleriesInquiry!) {
+    getAllJewelleriesByAdmin(input: $input) {
       list {
         _id
         jewelleryType
@@ -53,8 +53,6 @@ export const GET_ALL_PROPERTIES_BY_ADMIN = gql`
         jewelleryAddress
         jewelleryTitle
         jewelleryPrice
-        propertyBeds
-        propertyRooms
         jewelleryViews
         jewelleryLikes
         jewelleryImages

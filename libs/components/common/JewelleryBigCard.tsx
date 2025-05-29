@@ -33,7 +33,7 @@ const JewelleryBigCard = (props: JewelleryBigCardProps) => {
     return <div>APARTMEND BIG CARD</div>;
   } else {
     return (
-      <Stack className="property-big-card-box" onClick={() => goJewelleryDetatilPage(jewellery?._id)}>
+      <Stack className="jewellery-big-card-box" onClick={() => goJewelleryDetatilPage(jewellery?._id)}>
         <Box
           component={'div'}
           className={'card-img'}

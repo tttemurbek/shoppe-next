@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation, Pagination } from 'swiper';
 import WestIcon from '@mui/icons-material/West';
 import EastIcon from '@mui/icons-material/East';
-import PopularPropertyCard from './PopularJewelleryCard';
+import PopularJewelleryCard from './PopularJewelleryCard';
 import { Jewellery } from '../../types/jewellery/jewellery';
 import Link from 'next/link';
 import { JewelleriesInquiry } from '../../types/jewellery/jewellery.input';
@@ -60,7 +60,7 @@ const PopularProperties = (props: PopularPropertiesProps) => {
               {popularProperties.map((jewellery: Jewellery) => {
                 return (
                   <SwiperSlide key={jewellery._id} className={'popular-property-slide'}>
-                    <PopularPropertyCard jewellery={jewellery} />
+                    <PopularJewelleryCard jewellery={jewellery} />
                   </SwiperSlide>
                 );
               })}
@@ -104,7 +104,7 @@ const PopularProperties = (props: PopularPropertiesProps) => {
               {popularProperties.map((jewellery: Jewellery) => {
                 return (
                   <SwiperSlide key={jewellery._id} className={'popular-property-slide'}>
-                    <PopularPropertyCard jewellery={jewellery} />
+                    <PopularJewelleryCard jewellery={jewellery} />
                   </SwiperSlide>
                 );
               })}

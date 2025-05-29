@@ -8,63 +8,63 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { TabContext } from '@mui/lab';
 import TablePagination from '@mui/material/TablePagination';
-import { JewelleryPanelList } from '../../../libs/components/admin/properties/PropertyList';
+import { JewelleryPanelList } from '../../../libs/components/admin/jewelleries/JewelleryList';
 import { AllJewelleriesInquiry } from '../../../libs/types/jewellery/jewellery.input';
 import { Jewellery } from '../../../libs/types/jewellery/jewellery';
 import { JewelleryLocation, JewelleryStatus } from '../../../libs/enums/jewellery.enum';
 import { sweetConfirmAlert, sweetErrorHandling } from '../../../libs/sweetAlert';
 import { JewelleryUpdate } from '../../../libs/types/jewellery/jewellery.update';
 import { useMutation, useQuery } from '@apollo/client';
-import { GET_ALL_PROPERTIES_BY_ADMIN } from '../../../apollo/admin/query';
-import { REMOVE_PROPERTY_BY_ADMIN, UPDATE_PROPERTY_BY_ADMIN } from '../../../apollo/admin/mutation';
+import { GET_ALL_JEWELLERIES_BY_ADMIN } from '../../../apollo/admin/query';
+import { REMOVE_JEWELLERY_BY_ADMIN, UPDATE_JEWELLERY_BY_ADMIN } from '../../../apollo/admin/mutation';
 import { T } from '../../../libs/types/common';
 
-const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
+const AdminJewelleries: NextPage = ({ initialInquiry, ...props }: any) => {
   const [anchorEl, setAnchorEl] = useState<[] | HTMLElement[]>([]);
-  const [propertiesInquiry, setPropertiesInquiry] = useState<AllJewelleriesInquiry>(initialInquiry);
-  const [properties, setProperties] = useState<Jewellery[]>([]);
-  const [propertiesTotal, setPropertiesTotal] = useState<number>(0);
+  const [jewelleriesInquiry, setJewelleriesInquiry] = useState<AllJewelleriesInquiry>(initialInquiry);
+  const [jewelleries, setJewelleries] = useState<Jewellery[]>([]);
+  const [jewelleriesTotal, setJewelleriesTotal] = useState<number>(0);
   const [value, setValue] = useState(
-    propertiesInquiry?.search?.jewelleryStatus ? propertiesInquiry?.search?.jewelleryStatus : 'ALL',
+    jewelleriesInquiry?.search?.jewelleryStatus ? jewelleriesInquiry?.search?.jewelleryStatus : 'ALL',
   );
   const [searchType, setSearchType] = useState('ALL');
 
   /** APOLLO REQUESTS **/
-  const [updatePropertyByAdmin] = useMutation(UPDATE_PROPERTY_BY_ADMIN);
-  const [removePropertyByAdmin] = useMutation(REMOVE_PROPERTY_BY_ADMIN);
+  const [updateJewelleryByAdmin] = useMutation(UPDATE_JEWELLERY_BY_ADMIN);
+  const [removeJewelleryByAdmin] = useMutation(REMOVE_JEWELLERY_BY_ADMIN);
 
   const {
-    loading: getAllPropertiesByAdminLoading,
-    data: getAllPropertiesByAdminData,
-    error: getAllPropertiesByAdminError,
-    refetch: getAllPropertiesByAdminRefetch,
-  } = useQuery(GET_ALL_PROPERTIES_BY_ADMIN, {
+    loading: getAllJewelleriesByAdminLoading,
+    data: getAllJewelleriesByAdminData,
+    error: getAllJewelleriesByAdminError,
+    refetch: getAllJewelleriesByAdminRefetch,
+  } = useQuery(GET_ALL_JEWELLERIES_BY_ADMIN, {
     fetchPolicy: 'network-only',
-    variables: { input: propertiesInquiry },
+    variables: { input: jewelleriesInquiry },
     notifyOnNetworkStatusChange: true,
     onCompleted: (data: T) => {
-      setProperties(data?.getAllPropertiesByAdmin?.list);
-      setPropertiesTotal(data?.getAllPropertiesByAdmin?.metaCounter[0]?.total ?? 0);
+      setJewelleries(data?.getAllJewelleriesByAdmin?.list);
+      setJewelleriesTotal(data?.getAllJewelleriesByAdmin?.metaCounter[0]?.total ?? 0);
     },
   });
 
   /** LIFECYCLES **/
   useEffect(() => {
-    getAllPropertiesByAdminRefetch({ input: propertiesInquiry }).then();
-  }, [propertiesInquiry]);
+    getAllJewelleriesByAdminRefetch({ input: jewelleriesInquiry }).then();
+  }, [jewelleriesInquiry]);
 
   /** HANDLERS **/
   const changePageHandler = async (event: unknown, newPage: number) => {
-    propertiesInquiry.page = newPage + 1;
-    await getAllPropertiesByAdminRefetch({ input: propertiesInquiry });
-    setPropertiesInquiry({ ...propertiesInquiry });
+    jewelleriesInquiry.page = newPage + 1;
+    await getAllJewelleriesByAdminRefetch({ input: jewelleriesInquiry });
+    setJewelleriesInquiry({ ...jewelleriesInquiry });
   };
 
   const changeRowsPerPageHandler = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    propertiesInquiry.limit = parseInt(event.target.value, 10);
-    propertiesInquiry.page = 1;
-    await getAllPropertiesByAdminRefetch({ input: propertiesInquiry });
-    setPropertiesInquiry({ ...propertiesInquiry });
+    jewelleriesInquiry.limit = parseInt(event.target.value, 10);
+    jewelleriesInquiry.page = 1;
+    await getAllJewelleriesByAdminRefetch({ input: jewelleriesInquiry });
+    setJewelleriesInquiry({ ...jewelleriesInquiry });
   };
 
   const menuIconClickHandler = (e: any, index: number) => {
@@ -80,35 +80,35 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
   const tabChangeHandler = async (event: any, newValue: string) => {
     setValue(newValue);
 
-    setPropertiesInquiry({ ...propertiesInquiry, page: 1, sort: 'createdAt' });
+    setJewelleriesInquiry({ ...jewelleriesInquiry, page: 1, sort: 'createdAt' });
 
     switch (newValue) {
       case 'AVAILABLE':
-        setPropertiesInquiry({ ...propertiesInquiry, search: { jewelleryStatus: JewelleryStatus.AVAILABLE } });
+        setJewelleriesInquiry({ ...jewelleriesInquiry, search: { jewelleryStatus: JewelleryStatus.AVAILABLE } });
         break;
       case 'RESERVED':
-        setPropertiesInquiry({ ...propertiesInquiry, search: { jewelleryStatus: JewelleryStatus.RESERVED } });
+        setJewelleriesInquiry({ ...jewelleriesInquiry, search: { jewelleryStatus: JewelleryStatus.RESERVED } });
         break;
       case 'OUT_OF_STOCK':
-        setPropertiesInquiry({ ...propertiesInquiry, search: { jewelleryStatus: JewelleryStatus.OUT_OF_STOCK } });
+        setJewelleriesInquiry({ ...jewelleriesInquiry, search: { jewelleryStatus: JewelleryStatus.OUT_OF_STOCK } });
         break;
       default:
-        delete propertiesInquiry?.search?.jewelleryStatus;
-        setPropertiesInquiry({ ...propertiesInquiry });
+        delete jewelleriesInquiry?.search?.jewelleryStatus;
+        setJewelleriesInquiry({ ...jewelleriesInquiry });
         break;
     }
   };
 
-  const removePropertyHandler = async (id: string) => {
+  const removeJewelleryHandler = async (id: string) => {
     try {
       if (await sweetConfirmAlert('Are you sure to remove?')) {
-        await removePropertyByAdmin({
+        await removeJewelleryByAdmin({
           variables: {
             input: id,
           },
         });
 
-        await getAllPropertiesByAdminRefetch({ input: propertiesInquiry });
+        await getAllJewelleriesByAdminRefetch({ input: jewelleriesInquiry });
       }
       menuIconCloseHandler();
     } catch (err: any) {
@@ -121,18 +121,18 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
       setSearchType(newValue);
 
       if (newValue !== 'ALL') {
-        setPropertiesInquiry({
-          ...propertiesInquiry,
+        setJewelleriesInquiry({
+          ...jewelleriesInquiry,
           page: 1,
           sort: 'createdAt',
           search: {
-            ...propertiesInquiry.search,
+            ...jewelleriesInquiry.search,
             jewelleryLocationList: [newValue as JewelleryLocation],
           },
         });
       } else {
-        delete propertiesInquiry?.search?.jewelleryLocationList;
-        setPropertiesInquiry({ ...propertiesInquiry });
+        delete jewelleriesInquiry?.search?.jewelleryLocationList;
+        setJewelleriesInquiry({ ...jewelleriesInquiry });
       }
     } catch (err: any) {
       console.log('searchTypeHandler: ', err.message);
@@ -142,13 +142,13 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
   const updateJewelleryHandler = async (updateData: JewelleryUpdate) => {
     try {
       console.log('+updateData: ', updateData);
-      await updatePropertyByAdmin({
+      await updateJewelleryByAdmin({
         variables: {
           input: updateData,
         },
       });
       menuIconCloseHandler();
-      getAllPropertiesByAdminRefetch({ input: propertiesInquiry });
+      getAllJewelleriesByAdminRefetch({ input: jewelleriesInquiry });
     } catch (err: any) {
       menuIconCloseHandler();
       sweetErrorHandling(err).then();
@@ -215,15 +215,15 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
               menuIconClickHandler={menuIconClickHandler}
               menuIconCloseHandler={menuIconCloseHandler}
               updateJewelleryHandler={updateJewelleryHandler}
-              removePropertyHandler={removePropertyHandler}
+              removeJewelleryHandler={removeJewelleryHandler}
             />
 
             <TablePagination
               rowsPerPageOptions={[10, 20, 40, 60]}
               component="div"
-              count={propertiesTotal}
-              rowsPerPage={propertiesInquiry?.limit}
-              page={propertiesInquiry?.page - 1}
+              count={jewelleriesTotal}
+              rowsPerPage={jewelleriesInquiry?.limit}
+              page={jewelleriesInquiry?.page - 1}
               onPageChange={changePageHandler}
               onRowsPerPageChange={changeRowsPerPageHandler}
             />
@@ -234,7 +234,7 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
   );
 };
 
-AdminProperties.defaultProps = {
+AdminJewelleries.defaultProps = {
   initialInquiry: {
     page: 1,
     limit: 10,
@@ -244,4 +244,4 @@ AdminProperties.defaultProps = {
   },
 };
 
-export default withAdminLayout(AdminProperties);
+export default withAdminLayout(AdminJewelleries);

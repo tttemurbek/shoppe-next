@@ -72,15 +72,15 @@ const PopularJewelleryCard = (props: PopularJewelleryCardProps) => {
           <div className={'options'}>
             <div>
               <img src="/img/icons/bed.svg" alt="" />
-              <span style={{ color: theme.palette.text.primary }}>{jewellery?.propertyBeds} bed</span>
+              {/* <span style={{ color: theme.palette.text.primary }}>{jewellery?.propertyBeds} bed</span> */}
             </div>
             <div>
               <img src="/img/icons/room.svg" alt="" />
-              <span style={{ color: theme.palette.text.primary }}>{jewellery?.propertyRooms} rooms</span>
+              {/* <span style={{ color: theme.palette.text.primary }}>{jewellery?.propertyRooms} rooms</span> */}
             </div>
             <div>
               <img src="/img/icons/expand.svg" alt="" />
-              <span style={{ color: theme.palette.text.primary }}>{jewellery?.propertySquare} m2</span>
+              {/* <span style={{ color: theme.palette.text.primary }}>{jewellery?.propertySquare} m2</span> */}
             </div>
           </div>
           <Divider sx={{ mt: '15px', mb: '17px', borderColor: theme.palette.divider }} />
