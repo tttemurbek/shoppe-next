@@ -11,6 +11,7 @@ import { useTheme } from '../libs/hooks/useTheme';
 import ThemeToggle from '../libs/components/ThemeToggle';
 import '../scss/app.scss';
 import '../scss/pc/main.scss';
+import '../scss/mobile/main.scss';
 
 const App = ({ Component, pageProps }: AppProps) => {
   const { theme, isInitialized } = useTheme();

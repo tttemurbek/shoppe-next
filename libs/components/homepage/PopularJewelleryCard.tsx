@@ -8,6 +8,7 @@ import { REACT_APP_API_URL, topJewelleryRank } from '../../config';
 import { useRouter } from 'next/router';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 interface PopularJewelleryCardProps {
   jewellery: Jewellery;
@@ -69,23 +70,9 @@ const PopularJewelleryCard = (props: PopularJewelleryCardProps) => {
           <p className={'desc'} style={{ color: theme.palette.text.secondary }}>
             {jewellery.jewelleryAddress}
           </p>
-          <div className={'options'}>
-            <div>
-              <img src="/img/icons/bed.svg" alt="" />
-              {/* <span style={{ color: theme.palette.text.primary }}>{jewellery?.propertyBeds} bed</span> */}
-            </div>
-            <div>
-              <img src="/img/icons/room.svg" alt="" />
-              {/* <span style={{ color: theme.palette.text.primary }}>{jewellery?.propertyRooms} rooms</span> */}
-            </div>
-            <div>
-              <img src="/img/icons/expand.svg" alt="" />
-              {/* <span style={{ color: theme.palette.text.primary }}>{jewellery?.propertySquare} m2</span> */}
-            </div>
-          </div>
+
           <Divider sx={{ mt: '15px', mb: '17px', borderColor: theme.palette.divider }} />
           <div className={'bott'}>
-            <p style={{ color: theme.palette.text.secondary }}>{jewellery?.jewelleryRent ? 'rent' : 'sale'}</p>
             <div className="view-like-box">
               <IconButton color={'default'} sx={{ color: theme.palette.text.secondary }}>
                 <RemoveRedEyeIcon />
@@ -93,6 +80,9 @@ const PopularJewelleryCard = (props: PopularJewelleryCardProps) => {
               <Typography className="view-cnt" sx={{ color: theme.palette.text.secondary }}>
                 {jewellery?.jewelleryViews}
               </Typography>
+              <p className="grams" style={{ color: theme.palette.error.main }}>
+                {jewellery.jewelleryGram} grams
+              </p>
             </div>
           </div>
         </Box>
@@ -145,7 +135,6 @@ const PopularJewelleryCard = (props: PopularJewelleryCardProps) => {
           </p>
           <Divider sx={{ mt: '15px', mb: '17px', borderColor: theme.palette.divider }} />
           <div className={'bott'}>
-            <p style={{ color: theme.palette.text.secondary }}>{jewellery?.jewelleryRent ? 'rent' : 'sale'}</p>
             <div className="view-like-box">
               <IconButton color={'default'} sx={{ color: theme.palette.text.secondary }}>
                 <RemoveRedEyeIcon />

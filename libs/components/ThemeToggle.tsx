@@ -27,6 +27,7 @@ const ThemeToggle: React.FC = () => {
             transform: 'scale(1.05)',
           },
           transition: 'all 0.3s ease',
+          display: { xs: 'none', md: 'inline-flex' },
         }}
         onClick={toggleTheme}
         aria-label="toggle dark mode"

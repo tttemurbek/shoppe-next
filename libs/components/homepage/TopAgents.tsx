@@ -88,7 +88,14 @@ const TopAgents = (props: TopAgentsProps) => {
             <Box component={'div'} className={'switch-btn swiper-agents-prev'}>
               <ArrowBackIosNewIcon />
             </Box>
-            <Box component={'div'} className={'card-wrapper'}>
+            <Box
+              component={'div'}
+              className={'card-wrapper'}
+              sx={{
+                px: { xs: 1, md: 0 }, // Reduce horizontal padding on mobile
+                py: { xs: 1, md: 0 }, // Reduce vertical padding on mobile
+              }}
+            >
               <Swiper
                 className={'top-agents-swiper'}
                 slidesPerView={'auto'}

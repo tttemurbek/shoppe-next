@@ -53,26 +53,14 @@ const TrendJewelleryCard = (props: TrendJewelleryCardProps) => {
             {jewellery.jewelleryTitle}
           </strong>
           <p className={'desc'}>{jewellery.jewelleryDesc ?? 'no description'}</p>
-          {/* <div className={'options'}>
-            <div>
-              <img src="/img/icons/bed.svg" alt="" />
-              <span>{jewellery.propertyBeds} bed</span>
-            </div>
-            <div>
-              <img src="/img/icons/room.svg" alt="" />
-              <span>{jewellery.propertyRooms} rooms</span>
-            </div>
+          <div className={'options'}>
             <div>
               <img src="/img/icons/expand.svg" alt="" />
-              <span>{jewellery.propertySquare} m2</span>
+              <span>{jewellery.jewelleryGram} grams</span>
             </div>
-          </div> */}
+          </div>
           <Divider sx={{ mt: '15px', mb: '17px' }} />
           <div className={'bott'}>
-            <p>
-              {jewellery.jewelleryRent ? 'Rent' : ''} {jewellery.jewelleryRent && jewellery.jewelleryBarter && '/'}{' '}
-              {jewellery.jewelleryBarter ? 'Barter' : ''}
-            </p>
             <div className="view-like-box">
               <IconButton color={'default'}>
                 <RemoveRedEyeIcon />
